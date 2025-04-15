@@ -10,9 +10,12 @@ import br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNoti
 import br.org.coletivojava.erp.notificacao.padrao.model.transporte.TransporteNotificacao;
 import com.super_bits.modulos.SBAcessosModel.controller.resposta.RespostaComGestaoEMRegraDeNegocioPadrao;
 import com.super_bits.modulosSB.Persistencia.dao.ControllerAbstratoSBPersistencia;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 
 /**
@@ -25,8 +28,10 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pNotificacao), pNotificacao) {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
+                ItfComunicacao comunicacao = SBCore.getServicoComunicacao()
+                        .iniciarComunicacaoSistema_Usuairo(FabTipoComunicacao.NOTIFICAR,
+                                pUsuario, mensagem, ERPTransporteComunicacao.EMAIL);
 
-                ERPTransporteComunicacao.EMAIL.getImplementacaoDoContexto().dispararInicioComunicacao(pComunicacao);
                 TransporteNotificacao transporte = new TransporteNotificacao();
                 transporte.setTipoTransporte(ERPTransporteComunicacao.EMAIL);
                 transporte.setFoiEnviado(true);
