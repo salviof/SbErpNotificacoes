@@ -4,9 +4,10 @@
  */
 package br.org.coletivojava.erp.notificacao.padrao.model.recibos.entrega;
 
-import br.org.coletivojava.erp.notificacao.padrao.model.transporte.TransporteNotificacao;
+import br.org.coletivojava.erp.notificacao.padrao.model.transporte.LogDisparoNotificacao;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,9 +26,26 @@ public class ReciboEntrega extends EntidadeSimples {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(targetEntity = TransporteNotificacao.class)
-    private TransporteNotificacao transporte;
+    @ManyToOne(targetEntity = LogDisparoNotificacao.class)
+    private LogDisparoNotificacao disparo;
 
+    @Column(length = 512)
     private String codigoEntrega;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCodigoEntrega() {
+        return codigoEntrega;
+    }
+
+    public void setCodigoEntrega(String codigoEntrega) {
+        this.codigoEntrega = codigoEntrega;
+    }
 
 }

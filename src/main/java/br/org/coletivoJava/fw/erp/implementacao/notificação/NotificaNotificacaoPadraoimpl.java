@@ -1,6 +1,6 @@
 package br.org.coletivoJava.fw.erp.implementacao.notificação;
 
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTransporteComunicacao;
+import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
 import br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNotificacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.repositorioLinkEntidades.RepositorioLinkEntidadesGenerico;
@@ -20,19 +20,19 @@ public class NotificaNotificacaoPadraoimpl
 
     @Override
     public String getReciboEntrega(
-            ERPTransporteComunicacao erpTransporteComunicacao, Long l) {
+            ERPTipoCanalComunicacao erpTransporteComunicacao, Long l) {
         return null;
     }
 
     @Override
     public String registrarReciboEntrega(
-            br.org.coletivojava.erp.comunicacao.transporte.ERPTransporteComunicacao erpTransporteComunicacao,
+            br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao erpTransporteComunicacao,
             Long l, String s) {
         return null;
     }
 
     @Override
-    public String registrarReciboLeitura(ERPTransporteComunicacao erpTransporteComunicacao,
+    public String registrarReciboLeitura(ERPTipoCanalComunicacao erpTransporteComunicacao,
             Long l, String s) {
         return null;
     }
@@ -45,7 +45,7 @@ public class NotificaNotificacaoPadraoimpl
 
     @Override
     public String getReciboLeitura(
-            ERPTransporteComunicacao erpTransporteComunicacao,
+            ERPTipoCanalComunicacao erpTransporteComunicacao,
             java.lang.Long l) {
         return null;
     }
@@ -55,8 +55,8 @@ public class NotificaNotificacaoPadraoimpl
 
         NotificacaoSB notificacao = new NotificacaoSB();
         notificacao.setTipoNotificacao(pNotificcao);
-        //   notificacao.setUsuario((UsuarioSB) pUsuario);
-        // notificacao.setStatus(FabStatusNotificacao.REGISTRADA.getRegistro());
+        notificacao.setUsuario((UsuarioSB) pUsuario);
+        notificacao.setStatus(FabStatusNotificacao.REGISTRADA.getRegistro());
 
         notificacao = UtilSBPersistencia.mergeRegistro(notificacao);
 

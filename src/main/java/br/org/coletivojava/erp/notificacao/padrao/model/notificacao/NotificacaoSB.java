@@ -6,11 +6,12 @@ package br.org.coletivojava.erp.notificacao.padrao.model.notificacao;
 
 import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.StatusNotificacao;
 import br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNotificacao;
-import br.org.coletivojava.erp.notificacao.padrao.model.transporte.TransporteNotificacao;
+import br.org.coletivojava.erp.notificacao.padrao.model.transporte.LogDisparoNotificacao;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import java.util.Date;
@@ -27,6 +28,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -46,8 +48,25 @@ public class NotificacaoSB extends EntidadeSimples {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
+    private String nome;
+
     @Column(nullable = false, updatable = false, insertable = false)
     private String tipoEntidade;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
+    @InfoCampoValorLogico(nomeCalculo = "Assunto")
+    private String assunto;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.DESCRITIVO)
+    @Column(length = 1500)
+    @InfoCampoValorLogico(nomeCalculo = "Conteúdo")
+    private String conteudo;
+
+    @Column(length = 8000)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.HTML)
+    @InfoCampoValorLogico(nomeCalculo = "Conteúdo Html")
+    private String conteudoHtml;
 
     @ManyToOne(targetEntity = UsuarioSB.class)
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
@@ -63,22 +82,15 @@ public class NotificacaoSB extends EntidadeSimples {
 
     @Temporal(TemporalType.TIMESTAMP)
     @InfoCampo(tipo = FabTipoAtributoObjeto.DATAHORA)
-    private Date dataEnvioNotificacao;
+    private Date dataRegistroNotificacao;
 
     @Temporal(TemporalType.TIMESTAMP)
     @InfoCampo(tipo = FabTipoAtributoObjeto.DATAHORA)
     private Date dataExpiraNotificacao;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @InfoCampo(tipo = FabTipoAtributoObjeto.DATAHORA)
-    private Date dataEntregaNotificacao;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @InfoCampo(tipo = FabTipoAtributoObjeto.DATAHORA)
-    private Date dataConfirmacaoLeitura;
-
-    @OneToMany(mappedBy = "notificacao", targetEntity = TransporteNotificacao.class, orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<TransporteNotificacao> disparos;
+    @OneToMany(mappedBy = "notificacao", targetEntity = LogDisparoNotificacao.class, orphanRemoval = true, cascade = CascadeType.ALL)
+    @OrderBy("dataHoraDisparo DESC")
+    private List<LogDisparoNotificacao> disparos;
 
     public Long getId() {
         return id;
@@ -120,12 +132,12 @@ public class NotificacaoSB extends EntidadeSimples {
         this.status = status;
     }
 
-    public Date getDataEnvioNotificacao() {
-        return dataEnvioNotificacao;
+    public Date getDataRegistroNotificacao() {
+        return dataRegistroNotificacao;
     }
 
-    public void setDataEnvioNotificacao(Date dataEnvioNotificacao) {
-        this.dataEnvioNotificacao = dataEnvioNotificacao;
+    public void setDataRegistroNotificacao(Date dataRegistroNotificacao) {
+        this.dataRegistroNotificacao = dataRegistroNotificacao;
     }
 
     public Date getDataExpiraNotificacao() {
@@ -136,20 +148,44 @@ public class NotificacaoSB extends EntidadeSimples {
         this.dataExpiraNotificacao = dataExpiraNotificacao;
     }
 
-    public Date getDataEntregaNotificacao() {
-        return dataEntregaNotificacao;
+    public String getConteudo() {
+        return conteudo;
     }
 
-    public void setDataEntregaNotificacao(Date dataEntregaNotificacao) {
-        this.dataEntregaNotificacao = dataEntregaNotificacao;
+    public void setConteudo(String conteudo) {
+        this.conteudo = conteudo;
     }
 
-    public Date getDataConfirmacaoLeitura() {
-        return dataConfirmacaoLeitura;
+    public String getConteudoHtml() {
+        return conteudoHtml;
     }
 
-    public void setDataConfirmacaoLeitura(Date dataConfirmacaoLeitura) {
-        this.dataConfirmacaoLeitura = dataConfirmacaoLeitura;
+    public void setConteudoHtml(String conteudoHtml) {
+        this.conteudoHtml = conteudoHtml;
+    }
+
+    public List<LogDisparoNotificacao> getDisparos() {
+        return disparos;
+    }
+
+    public void setDisparos(List<LogDisparoNotificacao> disparos) {
+        this.disparos = disparos;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getAssunto() {
+        return assunto;
+    }
+
+    public void setAssunto(String assunto) {
+        this.assunto = assunto;
     }
 
 }
