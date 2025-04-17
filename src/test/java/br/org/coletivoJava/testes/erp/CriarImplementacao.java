@@ -13,7 +13,7 @@ import testes.geradorCodigo.erp.GeradorERPImplementacaoContexto;
 import testes.geradorCodigo.erp.dto.GeradorDTOInterface;
 import testes.geradorCodigo.erp.dto.GeradorDTOPojo;
 import testes.geradorCodigo.erp.dto.GeradorDTOProcessador;
-import testesFW.ConfigCoreJunitPadraoDesenvolvedor;
+import testesFW.ConfigCoreJunitPadraoDevAcaoPermissao;
 
 /**
  *
@@ -24,7 +24,7 @@ public class CriarImplementacao {
     @Test
     public void inicio() {
         try {
-            SBCore.configurar(new ConfigCoreJunitPadraoDesenvolvedor(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
+            SBCore.configurar(new ConfigCoreJunitPadraoDevAcaoPermissao(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
             new GeradorERPImplementacaoContexto(ERPNotificacoes.NOTIFICACAO_PADRAO).salvarEmDiretorioPadraCASO_NAO_EXISTA();
 
             for (Class entidade : ERPNotificacoes.NOTIFICACAO_PADRAO.getInterfacesDeEntidade()) {

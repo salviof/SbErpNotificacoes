@@ -4,7 +4,9 @@
  */
 package br.org.coletivojava.erp.notificacao.padrao.controller;
 
+import br.org.coletivoJava.fw.erp.implementacao.notificação.NotificaNotificacaoPadraoimpl;
 import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
+import br.org.coletivojava.erp.notificacao.api.ERPNotificacoes;
 import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.NotificacaoSB;
 import br.org.coletivojava.erp.notificacao.padrao.model.recibos.entrega.ReciboEntrega;
 import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.FabStatusNotificacao;
@@ -26,12 +28,16 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabStatusComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import java.util.Date;
 import java.util.List;
 import org.coletivoJava.fw.projetos.erpColetivoJava.api.model.notificacaosb.CPNotificacaoSB;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroAcessandoCanalComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroSelandoDialogo;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -55,11 +61,18 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
 
-                ItfComunicacao comunicacao = SBCore.getServicoComunicacao()
-                        .iniciarComunicacaoSistema_Usuairo(FabTipoComunicacao.NOTIFICAR,
-                                pNotificacao.getUsuario(), pNotificacao.getConteudoHtml(), ERPTipoCanalComunicacao.EMAIL);
-                pNotificacao.setStatus(FabStatusNotificacao.REGISTRADA.getRegistro());
-                atualizarEntidade(pNotificacao, true);
+                if (pNotificacao.getUsuario() == null) {
+                    throw new ErroRegraDeNegocio("O usuário para notificação não foi definido");
+                }
+
+                NotificacaoSB notificacaoAtualizada = atualizarEntidade(pNotificacao, true);
+
+                if (notificacaoAtualizada.getDialogo() == null) {
+                    throw new ErroRegraDeNegocio("Falha gerando dialogo da notificação");
+                }
+                notificacaoAtualizada.setStatus(FabStatusNotificacao.REGISTRADA.getRegistro());
+                notificacaoAtualizada.setCodigoSeloComunicacao(notificacaoAtualizada.getDialogo().getCodigoSelo());
+                atualizarEntidade(notificacaoAtualizada, false);
 
             }
         };
@@ -84,20 +97,26 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                         UtilSBPersistencia.mergeRegistro(notificacao);
                         continue;
                     }
+                    ItfDialogo dialogo = SBCore.getServicoComunicacao().getComnunicacaoRegistrada(notificacao.getCodigoSeloComunicacao());
 
                     for (FabLogDisparoComunicacao tipoLogComunicacao : FabLogDisparoComunicacao.values()) {
                         if (!tipoLogComunicacao.isMarcadoParaNotificar(notificacao.getTipoNotificacao())
-                                || !tipoLogComunicacao.getTRansporte().isTipoTransporteImplementado()) {
+                                || !tipoLogComunicacao.getCanal().isTipoTransporteImplementado()) {
                             continue;
                         }
 
                         LogDisparoNotificacao disparo = tipoLogComunicacao.getRegistro(notificacao);
                         try {
 
-                            ItfComunicacao comunicacao = SBCore.getServicoComunicacao().iniciarComunicacaoSistema_Usuairo(FabTipoComunicacao.NOTIFICAR, notificacao.getUsuario(),
-                                    notificacao.getAssunto(), notificacao.getConteudoHtml(), disparo.getTipoTransporte());
-                            disparo.setCodigoRegistroEnvio(comunicacao.getCodigoSelo());
+                            if (dialogo == null) {
+                                SBCore.getServicoComunicacao().registrarDialogo(disparo.getNotificacao().getCodigoSeloComunicacao(), disparo.getNotificacao().getDialogo());
+                            }
+                            String codigoEnvio = SBCore.getServicoComunicacao().dispararComunicacao(dialogo, tipoLogComunicacao.getCanal());
+                            if (codigoEnvio != null) {
+                                disparo.setCodigoRegistroEnvio(codigoEnvio);
+                                notificacao.getDisparos().add(disparo);
 
+                            }
                         } catch (Throwable t) {
                             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha enviando notificacção v ia" + tipoLogComunicacao, t);
                         }
@@ -152,16 +171,26 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                         if (diferencaUltimaNotificacao > notificacao.getTipoNotificacao().getMinutosRenotificacao()) {
 
                             List<FabLogDisparoComunicacao> medias = FabTipoEstrategiaMidiaNotificacao.PROGRESSIVA.getMedias(notificacao);
+                            ItfDialogo dialogo = SBCore.getServicoComunicacao().getComnunicacaoRegistrada(notificacao.getCodigoSeloComunicacao());
+                            for (FabLogDisparoComunicacao logCOmunicacao : medias) {
+                                String codigoDisparo;
+                                try {
+                                    codigoDisparo = SBCore.getServicoComunicacao().dispararComunicacao(dialogo, logCOmunicacao.getCanal());
+                                    if (codigoDisparo != null) {
+                                        LogDisparoNotificacao disparo = logCOmunicacao.getRegistro(notificacao);
+                                        disparo.setFoiEnviado(true);
+                                        disparo.setCodigoRegistroEnvio(codigoDisparo);
+                                        notificacao.getDisparos().add(disparo);
 
-                            for (FabLogDisparoComunicacao midia : medias) {
-                                ItfComunicacao comunicacao = SBCore.getServicoComunicacao().iniciarComunicacaoSistema_Usuairo(FabTipoComunicacao.NOTIFICAR, notificacao.getUsuario(),
-                                        notificacao.getAssunto(), notificacao.getConteudoHtml(), ERPTipoCanalComunicacao.MATRIX);
-
-                                LogDisparoNotificacao disparo = midia.getRegistro(notificacao);
-                                if (comunicacao.getCodigoSelo() != null) {
-                                    disparo.setCodigoRegistroEnvio(comunicacao.getCodigoSelo());
+                                    } else {
+                                        LogDisparoNotificacao disparo = logCOmunicacao.getRegistro(notificacao);
+                                        disparo.setFoiEnviado(false);
+                                        disparo.setCodigoRegistroEnvio(null);
+                                        notificacao.getDisparos().add(disparo);
+                                    }
+                                } catch (ErroAcessandoCanalComunicacao ex) {
+                                    //throw new ErroRegraDeNegocio("");
                                 }
-                                notificacao.getDisparos().add(disparo);
 
                             }
 

@@ -100,7 +100,7 @@ public class TipoNotificacao extends EntidadeNormal {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
     @InfoCampoVerdadeiroOuFalso
-    private boolean notificarViaEmail;
+    private boolean notificarViaEmail = true;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.QUANTIDADE)
     private int minutosRenotificacao;

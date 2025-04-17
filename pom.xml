@@ -39,6 +39,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>br.org.coletivoJava.fw.api.erp.comunicacao.canais</groupId>
+            <artifactId>SbErpTipoCanalEmail</artifactId>
+
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
 
 
         <dependency>

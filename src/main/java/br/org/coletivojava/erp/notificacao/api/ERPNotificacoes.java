@@ -5,14 +5,14 @@
 package br.org.coletivojava.erp.notificacao.api;
 
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDisparoComunicacao;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfTipoTransporteComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.TipoTransporteSBNativo;
 
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.erp.ApiERPColetivoJavaFW;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItffabricaTrasporteComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.erp.ItfApiErpSuperBits;
 import org.coletivojava.fw.utilCoreBase.UtilSBCoreReflexaoAPIERP;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItffabricaCanalComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfTipoCanalComunicacao;
 
 /**
  *

@@ -6,6 +6,7 @@ package br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao;
 
 import com.super_bits.modulosSB.Persistencia.fabrica.ItfFabricaStatusComPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ItfAcaoDoSistema;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabStatusComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +17,17 @@ import java.util.List;
  */
 public enum FabStatusNotificacao implements ItfFabricaStatusComPersistencia {
 
-    @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 1l, nomeObjeto = "Registrado")
+    @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 1l, nomeObjeto = "Rascunho")
+    RASCUNHO,
+    @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 2l, nomeObjeto = "Registrado")
     REGISTRADA,
-    @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 1l, nomeObjeto = "Registrado")
+    @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 3l, nomeObjeto = "Registrado")
     ENVIADA,
-    @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 2l, nomeObjeto = "Entregue")
+    @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 4l, nomeObjeto = "Entregue")
     ENTREGUE,
-    @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 3l, nomeObjeto = "Lida")
+    @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 5l, nomeObjeto = "Lida")
     LIDA,
-    @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 3l, nomeObjeto = "Encerrada sem confirmacao")
+    @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 6l, nomeObjeto = "Encerrada sem confirmacao")
     ENCERRADA_SEM_CONFIRMACAO,;
 
     @Override
@@ -46,6 +49,8 @@ public enum FabStatusNotificacao implements ItfFabricaStatusComPersistencia {
                 break;
             case ENCERRADA_SEM_CONFIRMACAO:
                 break;
+            case RASCUNHO:
+                break;
             default:
                 throw new AssertionError();
         }
@@ -57,4 +62,28 @@ public enum FabStatusNotificacao implements ItfFabricaStatusComPersistencia {
         return new ArrayList<>();
     }
 
+    public FabStatusComunicacao statusCOmunicacao() {
+        switch (this) {
+
+            case REGISTRADA:
+                return FabStatusComunicacao.SELADO;
+
+            case ENVIADA:
+                return FabStatusComunicacao.ENVIADO;
+
+            case ENTREGUE:
+
+                return FabStatusComunicacao.RECEBIDO;
+
+            case LIDA:
+                return FabStatusComunicacao.RESPONDIDO;
+            case ENCERRADA_SEM_CONFIRMACAO:
+                return FabStatusComunicacao.RECEBIDO;
+            case RASCUNHO:
+                return null;
+
+            default:
+                throw new AssertionError();
+        }
+    }
 }

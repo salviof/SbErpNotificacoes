@@ -8,7 +8,7 @@ import br.org.coletivoJava.testes.erp.ConfigPersistenciaTestesNotificacao;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import org.junit.Test;
-import testesFW.ConfigCoreJunitPadraoDesenvolvedor;
+import testesFW.ConfigCoreJunitPadraoDevAcaoPermissao;
 import testesFW.TesteJunitSBPersistencia;
 
 /**
@@ -19,7 +19,7 @@ public class TesteConformidade extends TesteJunitSBPersistencia {
 
     @Override
     protected void configAmbienteDesevolvimento() {
-        SBCore.configurar(new ConfigCoreJunitPadraoDesenvolvedor(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
+        SBCore.configurar(new ConfigCoreJunitPadraoDevAcaoPermissao(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
         SBPersistencia.configuraJPA(new ConfigPersistenciaTestesNotificacao(), true, true);
 
     }

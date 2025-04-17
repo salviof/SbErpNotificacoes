@@ -4,6 +4,8 @@
  */
 package br.org.coletivojava.erp.notificacao.padrao.model.notificacao;
 
+import br.org.coletivojava.erp.notificacao.api.ERPNotificacoes;
+import br.org.coletivojava.erp.notificacao.api.ErroGerandoDialogo;
 import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.StatusNotificacao;
 import br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNotificacao;
 import br.org.coletivojava.erp.notificacao.padrao.model.transporte.LogDisparoNotificacao;
@@ -16,6 +18,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -31,6 +35,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -42,10 +48,13 @@ import javax.persistence.TemporalType;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoEntidade")
 @EntityListeners(ListenerEntidadePadrao.class)
+@GenericGenerator(name = "geradorIdNotificacao",
+        strategy = "br.org.coletivojava.erp.notificacao.padrao.model.notificacao.GeradorIdentificacadorNotificacao")
 public class NotificacaoSB extends EntidadeSimples {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @GeneratedValue(generator = "geradorIdNotificacao")
     private Long id;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
@@ -91,6 +100,25 @@ public class NotificacaoSB extends EntidadeSimples {
     @OneToMany(mappedBy = "notificacao", targetEntity = LogDisparoNotificacao.class, orphanRemoval = true, cascade = CascadeType.ALL)
     @OrderBy("dataHoraDisparo DESC")
     private List<LogDisparoNotificacao> disparos;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
+    private String codigoSeloComunicacao;
+
+    @Transient
+    private DialogoNotificacao dialogo;
+
+    public DialogoNotificacao getDialogo() {
+
+        if (id == null) {
+            return null;
+        }
+        try {
+
+            return (DialogoNotificacao) ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().getDialogoByNotificacao(this);
+        } catch (ErroGerandoDialogo ex) {
+            return null;
+        }
+    }
 
     public Long getId() {
         return id;
@@ -186,6 +214,14 @@ public class NotificacaoSB extends EntidadeSimples {
 
     public void setAssunto(String assunto) {
         this.assunto = assunto;
+    }
+
+    public String getCodigoSeloComunicacao() {
+        return codigoSeloComunicacao;
+    }
+
+    public void setCodigoSeloComunicacao(String codigoSeloComunicacao) {
+        this.codigoSeloComunicacao = codigoSeloComunicacao;
     }
 
 }

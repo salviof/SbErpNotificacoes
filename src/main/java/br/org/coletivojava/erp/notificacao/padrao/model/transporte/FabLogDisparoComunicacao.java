@@ -26,12 +26,12 @@ public enum FabLogDisparoComunicacao {
     public LogDisparoNotificacao getRegistro(NotificacaoSB pNotificacao) {
         LogDisparoNotificacao logDisparo = new LogDisparoNotificacao();
         logDisparo.setNotificacao(pNotificacao);
-        logDisparo.setTipoTransporte(getTRansporte());
+        logDisparo.setTipoTransporte(getCanal());
         logDisparo.setFoiEnviado(false);
         return logDisparo;
     }
 
-    public ERPTipoCanalComunicacao getTRansporte() {
+    public ERPTipoCanalComunicacao getCanal() {
         switch (this) {
 
             case EMAIL:
@@ -41,7 +41,7 @@ public enum FabLogDisparoComunicacao {
             case INTRANET_MENU:
                 return ERPTipoCanalComunicacao.INTRANET_MENU;
             case INTRANET_MODAL:
-                return ERPTipoCanalComunicacao.INTRANET_MODAL;
+                return ERPTipoCanalComunicacao.INTRANET_BLOQUEIO_TELA;
             case API_PERSONALIZADA:
                 return ERPTipoCanalComunicacao.API_PERSONALIZADA;
             case WHATZAUP:
