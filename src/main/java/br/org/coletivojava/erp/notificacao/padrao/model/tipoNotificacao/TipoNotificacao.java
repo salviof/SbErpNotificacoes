@@ -47,9 +47,11 @@ public class TipoNotificacao extends EntidadeNormal {
     private String assunto;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.DESCRITIVO)
-    private String conteudo;
+    @Column(length = 2000)
+    private String conteudoTexto;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.HTML_TEMPLATE)
+    @Column(length = 8000)
     private String conteudoHTML;
 
     @ManyToOne(targetEntity = AcaoDoSistema.class)
@@ -146,12 +148,12 @@ public class TipoNotificacao extends EntidadeNormal {
         this.assunto = assunto;
     }
 
-    public String getConteudo() {
-        return conteudo;
+    public String getConteudoTexto() {
+        return conteudoTexto;
     }
 
-    public void setConteudo(String conteudo) {
-        this.conteudo = conteudo;
+    public void setConteudoTexto(String conteudoTexto) {
+        this.conteudoTexto = conteudoTexto;
     }
 
     public String getConteudoHTML() {
