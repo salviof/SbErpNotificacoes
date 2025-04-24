@@ -58,10 +58,10 @@ public class LogDisparoNotificacao extends EntidadeSimples {
 
     private String codigoRegistroEnvio;
 
-    @OneToOne(mappedBy = "disparo", cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(targetEntity = ReciboEntrega.class, cascade = CascadeType.ALL, optional = false)
     private ReciboEntrega reciboEntrega;
 
-    @OneToOne(mappedBy = "disparo", cascade = CascadeType.ALL, optional = true)
+    @OneToOne(targetEntity = ReciboLeitura.class, mappedBy = "disparo", cascade = CascadeType.ALL, optional = true)
     private ReciboLeitura reciboLeitura;
 
     public Long getId() {

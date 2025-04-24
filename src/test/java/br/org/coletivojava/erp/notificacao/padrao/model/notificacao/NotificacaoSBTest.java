@@ -21,16 +21,17 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
-import testesFW.ConfigCoreJunitPadraoDevAcaoPermissao;
+import static org.junit.Assert.*;
 import testesFW.TesteJunitSBPersistencia;
+import static testesFW.TesteJunitSBPersistencia.getEM;
 
 /**
  *
  * @author salvio
  */
-public class NotificacaoTest extends TesteJunitSBPersistencia {
+public class NotificacaoSBTest extends TesteJunitSBPersistencia {
 
-    public NotificacaoTest() {
+    public NotificacaoSBTest() {
     }
 
     @Test
@@ -51,8 +52,10 @@ public class NotificacaoTest extends TesteJunitSBPersistencia {
             notificacao.getCPinst("conteudo").getValor();
             ModuloNotificacao.notificacaoRegistrar(notificacao);
         } catch (ErroGerandoNotificacao ex) {
-            Logger.getLogger(NotificacaoTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NotificacaoSBTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        ModuloNotificacao.notificacaoEnviar();
 
         ModuloNotificacao.notificacaoEnviar();
         //      notificacao.getReciboEntrega(ERPTransporteComunicacao.INTRANET_MENU, Long.MIN_VALUE);

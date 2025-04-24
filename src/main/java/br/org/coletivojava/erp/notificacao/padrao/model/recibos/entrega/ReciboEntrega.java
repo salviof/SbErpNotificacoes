@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -46,6 +47,14 @@ public class ReciboEntrega extends EntidadeSimples {
 
     public void setCodigoEntrega(String codigoEntrega) {
         this.codigoEntrega = codigoEntrega;
+    }
+
+    public LogDisparoNotificacao getDisparo() {
+        return disparo;
+    }
+
+    public void setDisparo(LogDisparoNotificacao disparo) {
+        this.disparo = disparo;
     }
 
 }

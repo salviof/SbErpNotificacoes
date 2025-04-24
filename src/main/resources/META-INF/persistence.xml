@@ -43,6 +43,9 @@
         <class>notibr.org.coletivojava.erp.notificacao.padrao.model.notificacao.NotificacaoSB</class>
         <class>br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNotificacao</class>
         <class>br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.StatusNotificacao</class>
+        <class>br.org.coletivojava.erp.notificacao.padrao.model.recibos.entrega.ReciboEntrega</class>
+        <class>br.org.coletivojava.erp.notificacao.padrao.model.recibos.leitura.ReciboLeitura</class>
+        <class>com.super_bits.modulos.SBAcessosModel.model.logsRegraDeNegocio.LogRegraDeNegocio</class>
 
 
 

@@ -4,13 +4,9 @@
  */
 package br.org.coletivojava.erp.notificacao.padrao.controller;
 
-import br.org.coletivoJava.fw.erp.implementacao.notificação.NotificaNotificacaoPadraoimpl;
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
-import br.org.coletivojava.erp.notificacao.api.ERPNotificacoes;
 import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.NotificacaoSB;
 import br.org.coletivojava.erp.notificacao.padrao.model.recibos.entrega.ReciboEntrega;
 import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.FabStatusNotificacao;
-import br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNotificacao;
 import br.org.coletivojava.erp.notificacao.padrao.model.estrategiaNotificacao.FabTipoEstrategiaMidiaNotificacao;
 import br.org.coletivojava.erp.notificacao.padrao.model.transporte.FabLogDisparoComunicacao;
 import br.org.coletivojava.erp.notificacao.padrao.model.transporte.LogDisparoNotificacao;
@@ -21,23 +17,14 @@ import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreListasObjeto;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreObjetoSB;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabStatusComunicacao;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import java.util.Date;
 import java.util.List;
 import org.coletivoJava.fw.projetos.erpColetivoJava.api.model.notificacaosb.CPNotificacaoSB;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroAcessandoCanalComunicacao;
-import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroSelandoDialogo;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -105,15 +92,19 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                             continue;
                         }
 
-                        LogDisparoNotificacao disparo = tipoLogComunicacao.getRegistro(notificacao);
                         try {
-
+                            LogDisparoNotificacao disparo = tipoLogComunicacao.getRegistro(notificacao);
                             if (dialogo == null) {
                                 SBCore.getServicoComunicacao().registrarDialogo(disparo.getNotificacao().getCodigoSeloComunicacao(), disparo.getNotificacao().getDialogo());
                             }
                             String codigoEnvio = SBCore.getServicoComunicacao().dispararComunicacao(dialogo, tipoLogComunicacao.getCanal());
                             if (codigoEnvio != null) {
+
                                 disparo.setCodigoRegistroEnvio(codigoEnvio);
+                                disparo.setReciboEntrega(new ReciboEntrega());
+                                disparo.getReciboEntrega().setDisparo(disparo);
+                                disparo.getReciboEntrega().setCodigoEntrega(codigoEnvio);
+
                                 notificacao.getDisparos().add(disparo);
 
                             }

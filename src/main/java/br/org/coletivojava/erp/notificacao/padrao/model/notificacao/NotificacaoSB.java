@@ -57,7 +57,7 @@ public class NotificacaoSB extends EntidadeSimples {
     @GeneratedValue(generator = "geradorIdNotificacao")
     private Long id;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
     private String nome;
 
     @Column(nullable = false, updatable = false, insertable = false)
