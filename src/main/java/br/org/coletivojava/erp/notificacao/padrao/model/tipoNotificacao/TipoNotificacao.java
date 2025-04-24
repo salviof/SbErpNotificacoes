@@ -53,10 +53,16 @@ public class TipoNotificacao extends EntidadeNormal {
     private String conteudoHTML;
 
     @ManyToOne(targetEntity = AcaoDoSistema.class)
-    private AcaoDoSistema acaoNotificacao;
+    private AcaoDoSistema acaoGatilhoNotificacao;
 
     @ManyToOne(targetEntity = AcaoDoSistema.class)
-    private AcaoDoSistema acaoAutoExecucao;
+    private AcaoDoSistema acaoAutoExecucaoEnvio;
+
+    @ManyToOne(targetEntity = AcaoDoSistema.class)
+    private AcaoDoSistema acaoAutoExecucaoEntrega;
+
+    @ManyToOne(targetEntity = AcaoDoSistema.class)
+    private AcaoDoSistema acaoAutoExecucaoLeitura;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
     @InfoCampoVerdadeiroOuFalso
@@ -156,12 +162,12 @@ public class TipoNotificacao extends EntidadeNormal {
         this.conteudoHTML = conteudoHTML;
     }
 
-    public AcaoDoSistema getAcaoNotificacao() {
-        return acaoNotificacao;
+    public AcaoDoSistema getAcaoGatilhoNotificacao() {
+        return acaoGatilhoNotificacao;
     }
 
-    public void setAcaoNotificacao(AcaoDoSistema acaoNotificacao) {
-        this.acaoNotificacao = acaoNotificacao;
+    public void setAcaoGatilhoNotificacao(AcaoDoSistema acaoGatilhoNotificacao) {
+        this.acaoGatilhoNotificacao = acaoGatilhoNotificacao;
     }
 
     public boolean isNotificacaoUnica() {
@@ -253,12 +259,12 @@ public class TipoNotificacao extends EntidadeNormal {
         this.notificarViaApiPersonalizada = notificarViaApiPersonalizada;
     }
 
-    public AcaoDoSistema getAcaoAutoExecucao() {
-        return acaoAutoExecucao;
+    public AcaoDoSistema getAcaoAutoExecucaoEnvio() {
+        return acaoAutoExecucaoEnvio;
     }
 
-    public void setAcaoAutoExecucao(AcaoDoSistema acaoAutoExecucao) {
-        this.acaoAutoExecucao = acaoAutoExecucao;
+    public void setAcaoAutoExecucaoEnvio(AcaoDoSistema acaoAutoExecucaoEnvio) {
+        this.acaoAutoExecucaoEnvio = acaoAutoExecucaoEnvio;
     }
 
     public boolean isExigirReciboDeEntrega() {
@@ -275,6 +281,22 @@ public class TipoNotificacao extends EntidadeNormal {
 
     public void setExigirReciboLeitura(boolean exigirReciboLeitura) {
         this.exigirReciboLeitura = exigirReciboLeitura;
+    }
+
+    public AcaoDoSistema getAcaoAutoExecucaoEntrega() {
+        return acaoAutoExecucaoEntrega;
+    }
+
+    public void setAcaoAutoExecucaoEntrega(AcaoDoSistema acaoAutoExecucaoEntrega) {
+        this.acaoAutoExecucaoEntrega = acaoAutoExecucaoEntrega;
+    }
+
+    public AcaoDoSistema getAcaoAutoExecucaoLeitura() {
+        return acaoAutoExecucaoLeitura;
+    }
+
+    public void setAcaoAutoExecucaoLeitura(AcaoDoSistema acaoAutoExecucaoLeitura) {
+        this.acaoAutoExecucaoLeitura = acaoAutoExecucaoLeitura;
     }
 
 }
