@@ -55,9 +55,9 @@ public class NotificacaoSBTest extends TesteJunitSBPersistencia {
             Logger.getLogger(NotificacaoSBTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        ModuloNotificacao.notificacaoEnviar();
+        ModuloNotificacao.notificacoesEnviar();
 
-        ModuloNotificacao.notificacaoEnviar();
+        ModuloNotificacao.notificacoesEnviar();
         //      notificacao.getReciboEntrega(ERPTransporteComunicacao.INTRANET_MENU, Long.MIN_VALUE);
 
     }

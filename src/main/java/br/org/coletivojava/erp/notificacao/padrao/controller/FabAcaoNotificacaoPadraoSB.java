@@ -15,12 +15,14 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.anotacoes.InfoTipoAcao
 @InfoModuloMktNotificacao(modulo = FabModulosSistemaSB.COMUNICACAO)
 public enum FabAcaoNotificacaoPadraoSB implements ItfFabricaDeAcoesPersistencia {
 
-    @InfoTipoAcaoGestaoEntidade(entidade = NotificacaoSB.class)
+    @InfoTipoAcaoGestaoEntidade(entidade = NotificacaoSB.class, icone = "fa fa-bullhorn")
     NOTIFICACAO_MB_GESTAO,
     @InfoTipoAcaoFormulario()
     NOTIFICACAO_FRM_LISTAR,
     @InfoTipoAcaoController
     NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO,
+    @InfoTipoAcaoController
+    NOTIFICACAO_CTR_ENVIAR_NOTIFICACAO_REGISTRADA,
     @InfoTipoAcaoController(autoExecucao = FabTipoAutoExecucaoAcao.MINUTOS_A_CADA_1)
     NOTIFICACAO_CTR_PROCESSAR_NOTIFICACOES_AGUARDANDO_ENVIO_AUTO_EXEC,
     @InfoTipoAcaoController(autoExecucao = FabTipoAutoExecucaoAcao.MINUTOS_A_CADA_5)

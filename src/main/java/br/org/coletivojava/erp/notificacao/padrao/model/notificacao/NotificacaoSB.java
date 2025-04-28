@@ -18,15 +18,12 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -43,7 +40,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author salvio
  */
 @Entity
-@InfoObjetoSB(tags = "Notificação", plural = "Notifcações ", icone = "fa fa-fa-bullhorn")
+@InfoObjetoSB(tags = "Notificação", plural = "Notifcações ", icone = "fa fa-bullhorn")
 
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoEntidade")
@@ -63,18 +60,13 @@ public class NotificacaoSB extends EntidadeSimples {
     @Column(nullable = false, updatable = false, insertable = false)
     private String tipoEntidade;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, valorMaximo = 300)
     @InfoCampoValorLogico(nomeCalculo = "Assunto")
+    @Column(columnDefinition = "VARCHAR(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String assunto;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.DESCRITIVO)
-    @Column(length = 1500)
-    @InfoCampoValorLogico(nomeCalculo = "Conteúdo")
-    private String conteudo;
-
-    @Column(length = 8000)
     @InfoCampo(tipo = FabTipoAtributoObjeto.HTML)
-    @InfoCampoValorLogico(nomeCalculo = "Conteúdo Html")
+    @Column(columnDefinition = "VARCHAR(8000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String conteudoHtml;
 
     @ManyToOne(targetEntity = UsuarioSB.class)
@@ -174,14 +166,6 @@ public class NotificacaoSB extends EntidadeSimples {
 
     public void setDataExpiraNotificacao(Date dataExpiraNotificacao) {
         this.dataExpiraNotificacao = dataExpiraNotificacao;
-    }
-
-    public String getConteudo() {
-        return conteudo;
-    }
-
-    public void setConteudo(String conteudo) {
-        this.conteudo = conteudo;
     }
 
     public String getConteudoHtml() {

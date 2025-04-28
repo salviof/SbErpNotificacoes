@@ -6,6 +6,7 @@ package br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao;
 
 import com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoDoSistema;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeNormal;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.ItfEntidadeExtensivel;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
@@ -21,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -31,10 +33,14 @@ import javax.persistence.ManyToOne;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoEntidade")
 @EntityListeners(ListenerEntidadePadrao.class)
-public class TipoNotificacao extends EntidadeNormal {
+public class TipoNotificacao extends EntidadeNormal implements ItfEntidadeExtensivel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(
+            name = "geradorIdDuploControle",
+            strategy = "com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdDuploControleIncremental"
+    )
+    @GeneratedValue(generator = "geradorIdDuploControle")
     private Long id;
 
     @Column(nullable = false, updatable = false, insertable = false)
@@ -44,14 +50,11 @@ public class TipoNotificacao extends EntidadeNormal {
     private String nome;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
+    @Column(columnDefinition = "VARCHAR(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String assunto;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.DESCRITIVO)
-    @Column(length = 2000)
-    private String conteudoTexto;
-
     @InfoCampo(tipo = FabTipoAtributoObjeto.HTML_TEMPLATE)
-    @Column(length = 8000)
+    @Column(columnDefinition = "VARCHAR(8000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String conteudoHTML;
 
     @ManyToOne(targetEntity = AcaoDoSistema.class)
@@ -116,6 +119,10 @@ public class TipoNotificacao extends EntidadeNormal {
     @InfoCampo(tipo = FabTipoAtributoObjeto.QUANTIDADE)
     private int diasLog;
 
+    @InfoCampo(tipo = FabTipoAtributoObjeto.REG_ATIVO_INATIVO)
+    @InfoCampoVerdadeiroOuFalso
+    private boolean ativo;
+
     public Long getId() {
         return id;
     }
@@ -146,14 +153,6 @@ public class TipoNotificacao extends EntidadeNormal {
 
     public void setAssunto(String assunto) {
         this.assunto = assunto;
-    }
-
-    public String getConteudoTexto() {
-        return conteudoTexto;
-    }
-
-    public void setConteudoTexto(String conteudoTexto) {
-        this.conteudoTexto = conteudoTexto;
     }
 
     public String getConteudoHTML() {
@@ -299,6 +298,19 @@ public class TipoNotificacao extends EntidadeNormal {
 
     public void setAcaoAutoExecucaoLeitura(AcaoDoSistema acaoAutoExecucaoLeitura) {
         this.acaoAutoExecucaoLeitura = acaoAutoExecucaoLeitura;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    @Override
+    public boolean isEntidadeExtendida() {
+        return false;
     }
 
 }

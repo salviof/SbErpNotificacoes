@@ -40,7 +40,7 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                 super.executarAcoesFinais();
                 if (isSucesso()) {
                     if (!SBCore.isEmModoDesenvolvimento()) {
-                        notificacaoEnviar();
+                        notificacaoEnviar((NotificacaoSB) getRetorno());
                     }
                 }
             }
@@ -65,8 +65,59 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
         };
     }
 
+    @InfoAcaoNotificacao(acao = FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_ENVIAR_NOTIFICACAO_REGISTRADA)
+    public static synchronized ItfRespostaAcaoDoSistema notificacaoEnviar(NotificacaoSB pNotificacao) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pNotificacao), pNotificacao) {
+            @Override
+            public void executarAcoesFinais() throws ErroEmBancoDeDados {
+
+            }
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                NotificacaoSB notificacao = loadEntidade(pNotificacao);
+                if (notificacao.getStatus().equals(FabStatusNotificacao.REGISTRADA.getRegistro())) {
+                    throw new ErroRegraDeNegocio("A notificação precisa estar no status Registrada");
+                }
+                ItfDialogo dialogo = SBCore.getServicoComunicacao().getComnunicacaoRegistrada(notificacao.getCodigoSeloComunicacao());
+
+                for (FabLogDisparoComunicacao tipoLogComunicacao : FabLogDisparoComunicacao.values()) {
+                    if (!tipoLogComunicacao.isMarcadoParaNotificar(notificacao.getTipoNotificacao())
+                            || !tipoLogComunicacao.getCanal().isTipoTransporteImplementado()) {
+                        continue;
+                    }
+
+                    try {
+                        LogDisparoNotificacao disparo = tipoLogComunicacao.getRegistro(notificacao);
+                        if (dialogo == null) {
+                            SBCore.getServicoComunicacao().registrarDialogo(disparo.getNotificacao().getCodigoSeloComunicacao(), disparo.getNotificacao().getDialogo());
+                        }
+                        String codigoEnvio = SBCore.getServicoComunicacao().dispararComunicacao(dialogo, tipoLogComunicacao.getCanal());
+                        if (codigoEnvio != null) {
+
+                            disparo.setCodigoRegistroEnvio(codigoEnvio);
+                            disparo.setReciboEntrega(new ReciboEntrega());
+                            disparo.getReciboEntrega().setDisparo(disparo);
+                            disparo.getReciboEntrega().setCodigoEntrega(codigoEnvio);
+                            notificacao.getDisparos().add(disparo);
+
+                        }
+                    } catch (Throwable t) {
+                        SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha enviando notificacção v ia" + tipoLogComunicacao, t);
+                    }
+
+                }
+
+                if (!notificacao.getDisparos().isEmpty()) {
+                    notificacao.setStatus(FabStatusNotificacao.ENVIADA.getRegistro());
+                }
+                UtilSBPersistencia.mergeRegistro(notificacao);
+            }
+        };
+    }
+
     @InfoAcaoNotificacao(acao = FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_PROCESSAR_NOTIFICACOES_AGUARDANDO_ENVIO_AUTO_EXEC)
-    public static synchronized ItfRespostaAcaoDoSistema notificacaoEnviar() {
+    public static synchronized ItfRespostaAcaoDoSistema notificacoesEnviar() {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(new NotificacaoSB()), new NotificacaoSB()) {
 
             @Override
@@ -84,40 +135,7 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                         UtilSBPersistencia.mergeRegistro(notificacao);
                         continue;
                     }
-                    ItfDialogo dialogo = SBCore.getServicoComunicacao().getComnunicacaoRegistrada(notificacao.getCodigoSeloComunicacao());
-
-                    for (FabLogDisparoComunicacao tipoLogComunicacao : FabLogDisparoComunicacao.values()) {
-                        if (!tipoLogComunicacao.isMarcadoParaNotificar(notificacao.getTipoNotificacao())
-                                || !tipoLogComunicacao.getCanal().isTipoTransporteImplementado()) {
-                            continue;
-                        }
-
-                        try {
-                            LogDisparoNotificacao disparo = tipoLogComunicacao.getRegistro(notificacao);
-                            if (dialogo == null) {
-                                SBCore.getServicoComunicacao().registrarDialogo(disparo.getNotificacao().getCodigoSeloComunicacao(), disparo.getNotificacao().getDialogo());
-                            }
-                            String codigoEnvio = SBCore.getServicoComunicacao().dispararComunicacao(dialogo, tipoLogComunicacao.getCanal());
-                            if (codigoEnvio != null) {
-
-                                disparo.setCodigoRegistroEnvio(codigoEnvio);
-                                disparo.setReciboEntrega(new ReciboEntrega());
-                                disparo.getReciboEntrega().setDisparo(disparo);
-                                disparo.getReciboEntrega().setCodigoEntrega(codigoEnvio);
-
-                                notificacao.getDisparos().add(disparo);
-
-                            }
-                        } catch (Throwable t) {
-                            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha enviando notificacção v ia" + tipoLogComunicacao, t);
-                        }
-
-                    }
-
-                    if (!notificacao.getDisparos().isEmpty()) {
-                        notificacao.setStatus(FabStatusNotificacao.ENVIADA.getRegistro());
-                    }
-                    UtilSBPersistencia.mergeRegistro(notificacao);
+                    notificacaoEnviar(notificacao);
                 }
             }
 
