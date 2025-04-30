@@ -4,7 +4,7 @@
  */
 package br.org.coletivojava.erp.notificacao.padrao.model.notificacao;
 
-import br.org.coletivoJava.testes.erp.ConfigCoreApiComunicacaoTestes;
+import br.org.coletivoJava.testes.erp.ConfigCoreApiNotificacaoSBTestes;
 import br.org.coletivoJava.testes.erp.ConfigPersistenciaTestesNotificacao;
 import br.org.coletivoJava.testes.erp.FabTipoNotificacaoTeste;
 import br.org.coletivoJava.testes.erp.FabUsuariosTestesNotificacao;
@@ -64,7 +64,7 @@ public class NotificacaoSBTest extends TesteJunitSBPersistencia {
 
     @Override
     protected void configAmbienteDesevolvimento() {
-        SBCore.configurar(new ConfigCoreApiComunicacaoTestes(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
+        SBCore.configurar(new ConfigCoreApiNotificacaoSBTestes(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
         SBPersistencia.configuraJPA(new ConfigPersistenciaTestesNotificacao(), true, true);
         MapaObjetosProjetoAtual.adcionarObjeto(PessoaTeste.class);
     }

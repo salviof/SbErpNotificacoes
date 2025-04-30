@@ -8,20 +8,24 @@ import com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoDoSistema;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeNormal;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ItfEntidadeExtensivel;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
+import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -123,11 +127,23 @@ public class TipoNotificacao extends EntidadeNormal implements ItfEntidadeExtens
     @InfoCampoVerdadeiroOuFalso
     private boolean ativo;
 
+    private String nomeEntidadeReferencia;
+
+    @Transient
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, caminhoParaLista = "entidadesDisponiveis")
+    private EstruturaDeEntidade estruturaEntidade;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
+    @InfoCampoValorLogico(nomeCalculo = "EStruturas disponiveis")
+    @Transient
+    private List<EstruturaDeEntidade> entidadesDisponiveis;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
+
         this.id = id;
     }
 
@@ -311,6 +327,30 @@ public class TipoNotificacao extends EntidadeNormal implements ItfEntidadeExtens
     @Override
     public boolean isEntidadeExtendida() {
         return false;
+    }
+
+    public String getNomeEntidadeReferencia() {
+        return nomeEntidadeReferencia;
+    }
+
+    public void setNomeEntidadeReferencia(String nomeEntidadeReferencia) {
+        this.nomeEntidadeReferencia = nomeEntidadeReferencia;
+    }
+
+    public EstruturaDeEntidade getEstruturaEntidade() {
+        return estruturaEntidade;
+    }
+
+    public void setEstruturaEntidade(EstruturaDeEntidade estruturaEntidade) {
+        this.estruturaEntidade = estruturaEntidade;
+    }
+
+    public List<EstruturaDeEntidade> getEntidadesDisponiveis() {
+        return entidadesDisponiveis;
+    }
+
+    public void setEntidadesDisponiveis(List<EstruturaDeEntidade> entidadesDisponiveis) {
+        this.entidadesDisponiveis = entidadesDisponiveis;
     }
 
 }

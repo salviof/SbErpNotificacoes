@@ -66,6 +66,7 @@ public class NotificacaoSB extends EntidadeSimples {
     private String assunto;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.HTML)
+    @InfoCampoValorLogico(nomeCalculo = "conteudo")
     @Column(columnDefinition = "VARCHAR(8000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String conteudoHtml;
 
@@ -95,6 +96,9 @@ public class NotificacaoSB extends EntidadeSimples {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
     private String codigoSeloComunicacao;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
+    private String codigoEntidadeRelacionada;
 
     @Transient
     private DialogoNotificacao dialogo;
@@ -206,6 +210,14 @@ public class NotificacaoSB extends EntidadeSimples {
 
     public void setCodigoSeloComunicacao(String codigoSeloComunicacao) {
         this.codigoSeloComunicacao = codigoSeloComunicacao;
+    }
+
+    public String getCodigoEntidadeRelacionada() {
+        return codigoEntidadeRelacionada;
+    }
+
+    public void setCodigoEntidadeRelacionada(String codigoEntidadeRelacionada) {
+        this.codigoEntidadeRelacionada = codigoEntidadeRelacionada;
     }
 
 }

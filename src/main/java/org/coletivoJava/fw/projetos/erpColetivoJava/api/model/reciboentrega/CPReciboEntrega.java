@@ -5,9 +5,9 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = ReciboEntrega.class)
 public enum CPReciboEntrega {
-	_ID, _TRANSPORTE, _CODIGOENTREGA;
+	_ID, _DISPARO, _CODIGOENTREGA;
 
 	public static final String id = "id";
-	public static final String transporte = "transporte";
+	public static final String disparo = "disparo";
 	public static final String codigoentrega = "codigoEntrega";
 }

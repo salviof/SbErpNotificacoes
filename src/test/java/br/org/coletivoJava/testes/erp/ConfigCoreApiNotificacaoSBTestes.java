@@ -13,7 +13,7 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.ItfConfiguracaoCoreCustomizav
  *
  * @author desenvolvedor
  */
-public class ConfigCoreApiComunicacaoTestes extends ConfigCoreJunitPadraoDesenvolvedorComPersistencia {//extends ConfiguradorCoreDeProjetoJarAbstrato {
+public class ConfigCoreApiNotificacaoSBTestes extends ConfigCoreJunitPadraoDesenvolvedorComPersistencia {//extends ConfiguradorCoreDeProjetoJarAbstrato {
 
     @Override
     public void defineFabricasDeACao(ItfConfiguracaoCoreCustomizavel pConfig) {
