@@ -36,20 +36,28 @@ public enum FabStatusNotificacao implements ItfFabricaStatusComPersistencia {
         switch (this) {
 
             case REGISTRADA:
-                status.setIcone("fa fa-hand-paper-o");
+                status.setIcone("fa fa-archive");
+                status.setCor("#1976D2");
                 break;
             case ENTREGUE:
                 status.setIcone("fa fa-envelope-o");
+                status.setCor("#388E3C");
                 break;
             case LIDA:
                 status.setIcone("fa fa-envelope-open-o");
+                status.setCor("#0288D1");
                 break;
             case ENVIADA:
                 status.setIcone("fa fa-paper-plane-o");
+                status.setCor("#1E88E5");
                 break;
             case ENCERRADA_SEM_CONFIRMACAO:
+                status.setIcone("fa fa-chain-broken");
+                status.setCor("#E53935");
                 break;
             case RASCUNHO:
+                status.setIcone("fa fa-pencil");
+                status.setCor("#A0A0A0");
                 break;
             default:
                 throw new AssertionError();

@@ -25,7 +25,6 @@ import javax.persistence.Id;
 public class StatusNotificacao extends EntidadeStatus {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
     private String nome;

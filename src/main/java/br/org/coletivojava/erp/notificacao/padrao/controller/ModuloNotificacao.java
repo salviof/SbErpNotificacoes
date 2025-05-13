@@ -59,7 +59,7 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                 }
                 notificacaoAtualizada.setStatus(FabStatusNotificacao.REGISTRADA.getRegistro());
                 notificacaoAtualizada.setCodigoSeloComunicacao(notificacaoAtualizada.getDialogo().getCodigoSelo());
-                atualizarEntidade(notificacaoAtualizada, false);
+                setRetorno(atualizarEntidade(notificacaoAtualizada, false));
 
             }
         };

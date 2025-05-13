@@ -5,14 +5,11 @@ import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.FabSta
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.UtilGeral.stringSubstituicao.MapaSubstituicao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;
-import org.coletivoJava.fw.projetos.erpColetivoJava.api.model.notificacaosb.ValorLogicoNotificacaoSB;
-import org.coletivoJava.fw.projetos.erpColetivoJava.api.model.notificacaosb.ValoresLogicosNotificacaoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import javax.persistence.EntityManager;
 
-@ValorLogicoNotificacaoSB(calculo = ValoresLogicosNotificacaoSB.ASSUNTO)
 public class ValorLogicoNotificacaoPalavrasChave extends ValorLogicoCalculoGenerico {
 
     private final String mascaraValor;
