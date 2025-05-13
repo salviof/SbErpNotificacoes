@@ -32,11 +32,7 @@
             <version>1.0.0-RC-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.vladsch.flexmark</groupId>
-            <artifactId>flexmark-all</artifactId>
-            <version>0.64.0</version>
-        </dependency>
+  
 
         <dependency>
             <groupId>br.org.coletivoJava.fw</groupId>
