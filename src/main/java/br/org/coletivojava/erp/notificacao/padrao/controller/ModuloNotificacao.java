@@ -39,9 +39,9 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
             public void executarAcoesFinais() throws ErroEmBancoDeDados {
                 super.executarAcoesFinais();
                 if (isSucesso()) {
-                    if (!SBCore.isEmModoDesenvolvimento()) {
-                        notificacaoEnviar((NotificacaoSB) getRetorno());
-                    }
+
+                    notificacaoEnviar((NotificacaoSB) getRetorno());
+
                 }
             }
 

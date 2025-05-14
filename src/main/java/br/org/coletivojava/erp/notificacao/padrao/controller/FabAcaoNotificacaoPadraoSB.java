@@ -17,7 +17,7 @@ public enum FabAcaoNotificacaoPadraoSB implements ItfFabricaDeAcoesPersistencia 
 
     @InfoTipoAcaoGestaoEntidade(entidade = NotificacaoSB.class, icone = "fa fa-bullhorn")
     NOTIFICACAO_MB_GESTAO,
-    @InfoTipoAcaoFormulario()
+    @InfoTipoAcaoFormulario(nomeAcao = "Listar Tipos de Notificação", icone = "fa fa-bullhorn")
     NOTIFICACAO_FRM_LISTAR,
     @InfoTipoAcaoController
     NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO,
