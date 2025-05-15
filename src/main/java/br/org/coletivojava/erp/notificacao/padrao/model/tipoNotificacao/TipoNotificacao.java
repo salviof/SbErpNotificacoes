@@ -33,7 +33,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author salvio
  */
 @Entity
-@InfoObjetoSB(tags = {"Tipo de Notificação"}, plural = "Tipos de Notificação", icone = "fa fa-user")
+@InfoObjetoSB(tags = {"Tipo de Notificação"}, plural = "Tipos de Notificação", icone = "fa fa-bullhorn")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoEntidade")
 @EntityListeners(ListenerEntidadePadrao.class)
@@ -50,7 +50,7 @@ public class TipoNotificacao extends EntidadeNormal implements ItfEntidadeExtens
     @Column(nullable = false, updatable = false, insertable = false)
     private String tipoEntidade;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, somenteLeitura = true)
     private String nome;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
@@ -125,7 +125,7 @@ public class TipoNotificacao extends EntidadeNormal implements ItfEntidadeExtens
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.REG_ATIVO_INATIVO)
     @InfoCampoVerdadeiroOuFalso
-    private boolean ativo;
+    private boolean ativo = true;
 
     private String nomeEntidadeReferencia;
 

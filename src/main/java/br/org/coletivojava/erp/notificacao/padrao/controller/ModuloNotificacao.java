@@ -76,7 +76,7 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
                 NotificacaoSB notificacao = loadEntidade(pNotificacao);
-                if (notificacao.getStatus().equals(FabStatusNotificacao.REGISTRADA.getRegistro())) {
+                if (!notificacao.getStatus().equals(FabStatusNotificacao.REGISTRADA.getRegistro())) {
                     throw new ErroRegraDeNegocio("A notificação precisa estar no status Registrada");
                 }
                 ItfDialogo dialogo = SBCore.getServicoComunicacao().getComnunicacaoRegistrada(notificacao.getCodigoSeloComunicacao());
