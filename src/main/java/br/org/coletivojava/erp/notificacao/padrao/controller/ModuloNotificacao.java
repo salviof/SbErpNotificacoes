@@ -89,8 +89,10 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
 
                     try {
                         LogDisparoNotificacao disparo = tipoLogComunicacao.getRegistro(notificacao);
+                        // ItfDialogo dialogoJaRestistrado = SBCore.getServicoComunicacao().getArmazenamento().getDialogoByCodigoSelo(disparo.getNotificacao().getCodigoSeloComunicacao());
                         if (dialogo == null) {
-                            SBCore.getServicoComunicacao().registrarDialogo(disparo.getNotificacao().getCodigoSeloComunicacao(), disparo.getNotificacao().getDialogo());
+
+                            dialogo = SBCore.getServicoComunicacao().registrarDialogo(disparo.getNotificacao().getCodigoSeloComunicacao(), disparo.getNotificacao().getDialogo());
                         }
                         String codigoEnvio = SBCore.getServicoComunicacao().dispararComunicacao(dialogo, tipoLogComunicacao.getCanal());
                         if (codigoEnvio != null) {

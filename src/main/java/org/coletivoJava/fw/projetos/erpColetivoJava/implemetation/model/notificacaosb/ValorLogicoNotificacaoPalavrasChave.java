@@ -23,18 +23,19 @@ public class ValorLogicoNotificacaoPalavrasChave extends ValorLogicoCalculoGener
     public Object getValor(Object... pEntidade) {
 
         if (!getNotificacao().getStatus().equals(FabStatusNotificacao.REGISTRADA.getRegistro())) {
-            return getNotificacao().getTipoNotificacao().getAssunto();
+            return getNotificacao().getAssunto();
         }
         if (mascaraValor == null) {
             return null;
         }
         if (!mascaraValor.contains("[")) {
+            setValorPorReflexao(mascaraValor);
             return mascaraValor;
         } else {
 
             MapaSubstituicao mapaSub = new MapaSubstituicao();
             if (getNotificacao().getTipoNotificacao().getNomeEntidadeReferencia() != null) {
-                if (getNotificacao().getCodigoSeloComunicacao() != null) {
+                if (getNotificacao().getCodigoEntidadeRelacionada() != null && getNotificacao().getTipoNotificacao().getNomeEntidadeReferencia() != null) {
                     Class entidade = MapaObjetosProjetoAtual.getClasseDoObjetoByNome(getNotificacao().getTipoNotificacao().getNomeEntidadeReferencia());
                     EntityManager em = UtilSBPersistencia.getEntyManagerPadraoNovo();
                     try {
@@ -47,9 +48,9 @@ public class ValorLogicoNotificacaoPalavrasChave extends ValorLogicoCalculoGener
 
                 }
             }
-            String assuntoProcessado = mapaSub.substituirEmString(mascaraValor);
-            setValorPorReflexao(assuntoProcessado);
-            return assuntoProcessado;
+            String conteudoProcessado = mapaSub.substituirEmString(mascaraValor);
+            setValorPorReflexao(conteudoProcessado);
+            return conteudoProcessado;
 
         }
 

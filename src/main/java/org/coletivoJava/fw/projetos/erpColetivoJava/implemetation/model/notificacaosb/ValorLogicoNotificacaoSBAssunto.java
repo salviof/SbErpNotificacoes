@@ -14,9 +14,8 @@ public class ValorLogicoNotificacaoSBAssunto extends ValorLogicoNotificacaoPalav
 
     @Override
     public Object getValor(Object... pEntidade) {
-        String valor = (String) super.getValor(pEntidade);
-        getNotificacao().setAssunto(valor);
-        return getNotificacao().getAssunto();
+
+        return super.getValor(pEntidade);
     }
 
     public NotificacaoSB getNotificacao() {
