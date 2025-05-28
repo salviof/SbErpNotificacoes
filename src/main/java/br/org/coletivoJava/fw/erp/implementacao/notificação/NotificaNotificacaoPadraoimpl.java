@@ -102,10 +102,16 @@ public class NotificaNotificacaoPadraoimpl
     }
 
     @Override
-    public NotificacaoSB getNotificacao(TipoNotificacao pNotificcao, ItfUsuario pUsuario, ItfBeanSimples pObjeto) throws ErroGerandoNotificacao {
+    public NotificacaoSB getNotificacao(TipoNotificacao pTipoNoticacao, ItfUsuario pUsuario, ItfBeanSimples pObjeto) throws ErroGerandoNotificacao {
+        if (pTipoNoticacao == null) {
+            throw new ErroGerandoNotificacao("Tipo de notifcação não pode ser nula");
+        }
+        if (pUsuario == null) {
+            throw new ErroGerandoNotificacao("usuário não é validado");
+        }
 
         NotificacaoSB notificacao = new NotificacaoSB();
-        notificacao.setTipoNotificacao(pNotificcao);
+        notificacao.setTipoNotificacao(pTipoNoticacao);
         notificacao.setUsuario((UsuarioSB) pUsuario);
         notificacao.setStatus(FabStatusNotificacao.REGISTRADA.getRegistro());
 

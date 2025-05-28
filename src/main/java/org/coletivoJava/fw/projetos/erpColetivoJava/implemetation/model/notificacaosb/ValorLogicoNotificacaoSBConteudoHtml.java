@@ -16,9 +16,12 @@ public class ValorLogicoNotificacaoSBConteudoHtml
 
     @Override
     public Object getValor(Object... pEntidade) {
-        String valor = (String) super.getValor(pEntidade);
-        getNotificacao().setAssunto(valor);
-        return getNotificacao().getAssunto();
+        if (getNotificacao().getConteudoHtml() == null) {
+            String valor = (String) super.getValor(pEntidade);
+            getNotificacao().setConteudoHtml(valor);
+        }
+
+        return getNotificacao().getConteudoHtml();
     }
 
     public NotificacaoSB getNotificacao() {
