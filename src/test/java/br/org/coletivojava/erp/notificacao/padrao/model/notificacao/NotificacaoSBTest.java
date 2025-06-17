@@ -20,6 +20,7 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.coletivoJava.fw.projetos.erpColetivoJava.api.model.notificacaosb.CPNotificacaoSB;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import testesFW.TesteJunitSBPersistencia;
@@ -49,7 +50,7 @@ public class NotificacaoSBTest extends TesteJunitSBPersistencia {
             notificacao = notificacaoSrv.
                     getNotificacao(FabTipoNotificacaoTeste.NOTIFICACAO_TESTE.getRegistro(),
                             usuarioTeste, itemPessoaTeste);
-            notificacao.getCPinst("conteudo").getValor();
+            notificacao.getCPinst(CPNotificacaoSB.conteudohtml).getValor();
             ModuloNotificacao.notificacaoRegistrar(notificacao);
         } catch (ErroGerandoNotificacao ex) {
             Logger.getLogger(NotificacaoSBTest.class.getName()).log(Level.SEVERE, null, ex);
@@ -57,9 +58,8 @@ public class NotificacaoSBTest extends TesteJunitSBPersistencia {
 
         ModuloNotificacao.notificacoesEnviar();
 
-        ModuloNotificacao.notificacoesEnviar();
+        //ModuloNotificacao.notificacoesEnviar();
         //      notificacao.getReciboEntrega(ERPTransporteComunicacao.INTRANET_MENU, Long.MIN_VALUE);
-
     }
 
     @Override

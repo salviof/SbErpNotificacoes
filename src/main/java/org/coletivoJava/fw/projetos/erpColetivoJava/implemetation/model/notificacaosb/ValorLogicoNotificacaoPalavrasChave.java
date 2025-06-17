@@ -8,6 +8,9 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalcu
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 public class ValorLogicoNotificacaoPalavrasChave extends ValorLogicoCalculoGenerico {
@@ -23,7 +26,12 @@ public class ValorLogicoNotificacaoPalavrasChave extends ValorLogicoCalculoGener
     public Object getValor(Object... pEntidade) {
 
         if (!getNotificacao().getStatus().equals(FabStatusNotificacao.REGISTRADA.getRegistro())) {
-            return getNotificacao().getAssunto();
+            try {
+                return getCampoInst().getMetodoGet().invoke(getCampoInst().getObjetoRaizDoAtributo());
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException ex) {
+                Logger.getLogger(ValorLogicoNotificacaoPalavrasChave.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         if (mascaraValor == null) {
             return null;
