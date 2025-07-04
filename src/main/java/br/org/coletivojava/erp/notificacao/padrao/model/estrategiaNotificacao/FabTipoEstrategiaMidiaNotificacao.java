@@ -29,6 +29,7 @@ public enum FabTipoEstrategiaMidiaNotificacao implements ItfFabricaComPersistenc
     INSISTIR_VIA_EMAIL_E_WHATSAPP,
     @InfoObjetoDaFabrica(classeObjeto = EstrategiaNotificacao.class, id = 1l, nomeObjeto = "Insistir no mobile")
     INSISTIR_VIA_MOBILE;
+    public static String _ESTRATEGIA_DESTINATARIO = "USUARIO_LOGADO";
 
     public List<FabLogDisparoComunicacao> getMedias(NotificacaoSB pNotificacao) {
 

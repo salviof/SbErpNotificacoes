@@ -4,6 +4,7 @@
  */
 package br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao;
 
+import br.org.coletivojava.erp.notificacao.padrao.model.estrategiaNotificacao.FabTipoEstrategiaMidiaNotificacao;
 import com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoDoSistema;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeNormal;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ItfEntidadeExtensivel;
@@ -128,6 +129,8 @@ public class TipoNotificacao extends EntidadeNormal implements ItfEntidadeExtens
     private boolean ativo = true;
 
     private String nomeEntidadeReferencia;
+
+    private String destinatarios = FabTipoEstrategiaMidiaNotificacao._ESTRATEGIA_DESTINATARIO;
 
     @Transient
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, caminhoParaLista = "entidadesDisponiveis")
@@ -351,6 +354,26 @@ public class TipoNotificacao extends EntidadeNormal implements ItfEntidadeExtens
 
     public void setEntidadesDisponiveis(List<EstruturaDeEntidade> entidadesDisponiveis) {
         this.entidadesDisponiveis = entidadesDisponiveis;
+    }
+
+    /**
+     *
+     * Especificica o usuário, ou lista de usuários que devem ser notificados, a
+     * partir do caminho relativo à entidade relacionada: exemplo:
+     * [responsaveis] ou [equipeRelacionada.responsaveis] ou [usuarioCriou]
+     *
+     * *Obrigatório para definição ação de gatilho, nos casos de cadastro de
+     * notificações personalizadadas
+     *
+     * @return USUARIO_LOGADO ou
+     * CAMINHO_RELATIVO_ENTIDADE_RELACIONADO_PARA_USUARIO_OU_LISTA DE USUÁRIOS
+     */
+    public String getDestinatarios() {
+        return destinatarios;
+    }
+
+    public void setDestinatarios(String destinatarios) {
+        this.destinatarios = destinatarios;
     }
 
 }
