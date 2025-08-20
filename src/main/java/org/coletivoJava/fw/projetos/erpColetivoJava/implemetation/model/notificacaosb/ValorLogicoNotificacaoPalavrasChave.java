@@ -3,12 +3,16 @@ package org.coletivoJava.fw.projetos.erpColetivoJava.implemetation.model.notific
 import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.NotificacaoSB;
 import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.FabStatusNotificacao;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringVariaveisEntreCaracteres;
 import com.super_bits.modulosSB.SBCore.UtilGeral.stringSubstituicao.MapaSubstituicao;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -48,6 +52,19 @@ public class ValorLogicoNotificacaoPalavrasChave extends ValorLogicoCalculoGener
                     EntityManager em = UtilSBPersistencia.getEntyManagerPadraoNovo();
                     try {
                         ItfBeanSimples item = (ItfBeanSimples) UtilSBPersistencia.getRegistroByID(entidade, Long.valueOf(getNotificacao().getCodigoEntidadeRelacionada()), em);
+                        List<String> valoresEncontradas = UtilSBCoreStringVariaveisEntreCaracteres.extrairVariaveisEntreColchete(mascaraValor);
+
+                        List<String> subitens = new ArrayList<>();
+                        valoresEncontradas.stream().filter(v -> v != null && v.contains(".") && !v.contains("link:")).map(v -> v.replace("[", "").replace("]", "")).forEach(subitens::add);
+                        for (String subatributo : subitens) {
+                            String atributoDeEntidade = subatributo.substring(0, subatributo.indexOf("."));
+                            if (item.getCampoInstanciadoByNomeOuAnotacao(atributoDeEntidade).getPropriedadesRefexao().getFabTipoAtributo().equals(FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)) {
+                                ItfBeanSimples subitem = (ItfBeanSimples) item.getCampoInstanciadoByNomeOuAnotacao(atributoDeEntidade).getValor();
+                                if (subitem != null) {
+                                    mapaSub.adicionarPalavrasChaveDoObjeto(atributoDeEntidade, subitem);
+                                }
+                            }
+                        }
                         mapaSub.adicionarPalavrasChaveDoObjeto(item);
 
                     } finally {
