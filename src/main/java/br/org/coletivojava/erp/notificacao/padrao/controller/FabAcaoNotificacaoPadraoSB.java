@@ -19,7 +19,7 @@ public enum FabAcaoNotificacaoPadraoSB implements ItfFabricaDeAcoesPersistencia 
 
     @InfoTipoAcaoGestaoEntidade(entidade = NotificacaoSB.class, icone = "fa fa-paper-o")
     NOTIFICACAO_MB_GESTAO,
-    @InfoTipoAcaoFormulario(nomeAcao = "Listar notificações", icone = "fa ffa-paper-o")
+    @InfoTipoAcaoFormulario(nomeAcao = "Listar notificações", icone = "fa fa-paper-o")
     NOTIFICACAO_FRM_LISTAR,
     @InfoTipoAcaoController
     NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO,
@@ -33,7 +33,7 @@ public enum FabAcaoNotificacaoPadraoSB implements ItfFabricaDeAcoesPersistencia 
     NOTIFICACAO_CTR_PROCESSAR_NOTIFICACOES_AGUARDANDO_LIMPEZA_AUTO_EXEC,
     @InfoTipoAcaoGestaoEntidade(nomeAcao = "Tipos de Notificação", icone = "fa fa-bullhorn", entidade = TipoNotificacao.class)
     TIPO_NOTIFICACAO_MB_GESTAO,
-    @InfoTipoAcaoFormulario(nomeAcao = "Listar Tipos de Notificação", icone = "fa ffa-paper-plane-o")
+    @InfoTipoAcaoFormulario(nomeAcao = "Listar Tipos de Notificação", icone = "fa fa-paper-plane-o")
     TIPO_NOTIFICACAO_FRM_LISTAR,
     @InfoTipoAcaoFormulario(campos = {"[separador: Identificação]", CPTipoNotificacao.nome, "[separador: Conteúdo]",
         CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml,
