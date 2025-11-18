@@ -10,7 +10,7 @@ import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.Status
 import br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNotificacao;
 import br.org.coletivojava.erp.notificacao.padrao.model.transporte.LogDisparoNotificacao;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
@@ -47,7 +47,7 @@ import org.hibernate.annotations.GenericGenerator;
 @EntityListeners(ListenerEntidadePadrao.class)
 @GenericGenerator(name = "geradorIdNotificacao",
         strategy = "br.org.coletivojava.erp.notificacao.padrao.model.notificacao.GeradorIdentificacadorNotificacao")
-public class NotificacaoSB extends EntidadeSimples {
+public class NotificacaoSB extends EntidadeSimplesORM {
 
     @Id
 

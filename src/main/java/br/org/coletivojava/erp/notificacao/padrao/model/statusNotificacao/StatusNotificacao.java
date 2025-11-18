@@ -4,7 +4,7 @@
  */
 package br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao;
 
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeStatus;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -22,7 +22,7 @@ import javax.persistence.Id;
  */
 @InfoObjetoSB(tags = "Status Notificacao", plural = "Status de notificacação")
 @Entity
-public class StatusNotificacao extends EntidadeStatus {
+public class StatusNotificacao extends EntidadeORMStatus {
 
     @Id
     private Long id;

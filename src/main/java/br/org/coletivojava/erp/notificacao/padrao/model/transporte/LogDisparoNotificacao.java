@@ -8,7 +8,7 @@ import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
 import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.NotificacaoSB;
 import br.org.coletivojava.erp.notificacao.padrao.model.recibos.entrega.ReciboEntrega;
 import br.org.coletivojava.erp.notificacao.padrao.model.recibos.leitura.ReciboLeitura;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
@@ -32,7 +32,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @InfoObjetoSB(tags = "Disparo de Notificação", plural = "Disparos")
-public class LogDisparoNotificacao extends EntidadeSimples {
+public class LogDisparoNotificacao extends EntidadeSimplesORM {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

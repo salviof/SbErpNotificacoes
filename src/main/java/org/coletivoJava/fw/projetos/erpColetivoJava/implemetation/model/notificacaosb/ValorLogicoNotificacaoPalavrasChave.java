@@ -9,7 +9,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoA
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,7 @@ public class ValorLogicoNotificacaoPalavrasChave extends ValorLogicoCalculoGener
                     Class entidade = MapaObjetosProjetoAtual.getClasseDoObjetoByNome(getNotificacao().getTipoNotificacao().getNomeEntidadeReferencia());
                     EntityManager em = UtilSBPersistencia.getEntyManagerPadraoNovo();
                     try {
-                        ItfBeanSimples item = (ItfBeanSimples) UtilSBPersistencia.getRegistroByID(entidade, Long.valueOf(getNotificacao().getCodigoEntidadeRelacionada()), em);
+                        ComoEntidadeSimples item = (ComoEntidadeSimples) UtilSBPersistencia.getRegistroByID(entidade, Long.valueOf(getNotificacao().getCodigoEntidadeRelacionada()), em);
                         List<String> valoresEncontradas = UtilSBCoreStringVariaveisEntreCaracteres.extrairVariaveisEntreColchete(mascaraValor);
 
                         List<String> subitens = new ArrayList<>();
@@ -59,7 +59,7 @@ public class ValorLogicoNotificacaoPalavrasChave extends ValorLogicoCalculoGener
                         for (String subatributo : subitens) {
                             String atributoDeEntidade = subatributo.substring(0, subatributo.indexOf("."));
                             if (item.getCampoInstanciadoByNomeOuAnotacao(atributoDeEntidade).getPropriedadesRefexao().getFabTipoAtributo().equals(FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)) {
-                                ItfBeanSimples subitem = (ItfBeanSimples) item.getCampoInstanciadoByNomeOuAnotacao(atributoDeEntidade).getValor();
+                                ComoEntidadeSimples subitem = (ComoEntidadeSimples) item.getCampoInstanciadoByNomeOuAnotacao(atributoDeEntidade).getValor();
                                 if (subitem != null) {
                                     mapaSub.adicionarPalavrasChaveDoObjeto(atributoDeEntidade, subitem);
                                 }

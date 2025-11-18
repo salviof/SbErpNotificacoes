@@ -3,7 +3,7 @@ package br.org.coletivojava.erp.notificacao.padrao.controller;
 import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.NotificacaoSB;
 import br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNotificacao;
 import com.super_bits.modulos.SBAcessosModel.controller.FabModulosSistemaSB;
-import com.super_bits.modulos.SBAcessosModel.fabricas.ItfFabricaDeAcoesPersistencia;
+import com.super_bits.modulos.SBAcessosModel.fabricas.ComoFabricaDeAcoesPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.acoesAutomatizadas.FabTipoAutoExecucaoAcao;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.anotacoes.InfoTipoAcaoController;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.anotacoes.InfoTipoAcaoFormulario;
@@ -15,7 +15,7 @@ import org.coletivoJava.fw.projetos.erpColetivoJava.api.model.tiponotificacao.CP
  * @author salvio
  */
 @InfoModuloMktNotificacao(modulo = FabModulosSistemaSB.COMUNICACAO)
-public enum FabAcaoNotificacaoPadraoSB implements ItfFabricaDeAcoesPersistencia {
+public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia {
 
     @InfoTipoAcaoGestaoEntidade(entidade = NotificacaoSB.class, icone = "fa fa-paper-o")
     NOTIFICACAO_MB_GESTAO,

@@ -6,7 +6,7 @@ package br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao;
 
 import br.org.coletivojava.erp.notificacao.padrao.model.estrategiaNotificacao.FabTipoEstrategiaMidiaNotificacao;
 import com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoDoSistema;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeNormal;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMNormal;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ItfEntidadeExtensivel;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
@@ -38,7 +38,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoEntidade")
 @EntityListeners(ListenerEntidadePadrao.class)
-public class TipoNotificacao extends EntidadeNormal implements ItfEntidadeExtensivel {
+public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExtensivel {
 
     @Id
     @GenericGenerator(

@@ -4,12 +4,12 @@
  */
 package br.org.coletivojava.erp.notificacao.api;
 
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanVinculadoAEnum;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeVinculadoAEnum;
 
 /**
  *
  * @author salvio
  */
-public interface ItfTipoNotificacao extends ItfBeanVinculadoAEnum {
+public interface ItfTipoNotificacao extends ComoEntidadeVinculadoAEnum {
 
 }

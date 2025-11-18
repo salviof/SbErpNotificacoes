@@ -10,8 +10,8 @@ import br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNoti
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
 
 /**
  *
@@ -19,7 +19,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basic
  */
 public interface ItfERPNotificacao {
 
-    public boolean notificar(TipoNotificacao tipo, ItfBeanSimples pItem);
+    public boolean notificar(TipoNotificacao tipo, ComoEntidadeSimples pItem);
 
     public ItfDialogo getDialogoByNotificacao(NotificacaoSB pNotificacao) throws ErroGerandoDialogo;
 
@@ -29,6 +29,6 @@ public interface ItfERPNotificacao {
 
     public String registrarReciboLeitura(ERPTipoCanalComunicacao tipoTransporte, String codigoDisparo, String codigoLeitura);
 
-    public NotificacaoSB getNotificacao(TipoNotificacao pNotificcao, ItfUsuario pUsuario, ItfBeanSimples pObjeto) throws ErroGerandoNotificacao;
+    public NotificacaoSB getNotificacao(TipoNotificacao pNotificcao, ComoUsuario pUsuario, ComoEntidadeSimples pObjeto) throws ErroGerandoNotificacao;
 
 }

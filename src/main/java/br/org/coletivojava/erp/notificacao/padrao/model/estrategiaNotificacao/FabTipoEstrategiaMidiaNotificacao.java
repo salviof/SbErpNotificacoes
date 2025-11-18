@@ -8,7 +8,7 @@ import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
 import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.NotificacaoSB;
 import br.org.coletivojava.erp.notificacao.padrao.model.transporte.FabLogDisparoComunicacao;
 import com.google.common.collect.Lists;
-import com.super_bits.modulosSB.Persistencia.fabrica.ItfFabricaComPersistencia;
+import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author salvio
  */
-public enum FabTipoEstrategiaMidiaNotificacao implements ItfFabricaComPersistencia {
+public enum FabTipoEstrategiaMidiaNotificacao implements ComoFabricaComPersistencia {
 
     @InfoObjetoDaFabrica(classeObjeto = EstrategiaNotificacao.class, id = 1l, nomeObjeto = "Notificação progressiva")
     PROGRESSIVA,

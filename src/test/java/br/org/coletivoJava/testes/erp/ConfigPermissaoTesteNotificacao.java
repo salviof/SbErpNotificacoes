@@ -6,8 +6,12 @@ package br.org.coletivoJava.testes.erp;
 
 import br.org.coletivojava.erp.notificacao.padrao.controller.ModuloNotificacao;
 import com.super_bits.modulos.SBAcessosModel.ConfigPermissoesAcessoModelAbstrato;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfGrupoUsuario;
-import com.super_bits.modulosSB.SBCore.modulos.view.menu.ItfMenusDeSessao;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ErroDadosDeContatoUsuarioNaoEncontrado;
+import com.super_bits.modulosSB.SBCore.modulos.erp.FabTipoAgenteOrganizacao;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoGrupoUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.contato.ComoContatoHumano;
+import com.super_bits.modulosSB.SBCore.modulos.view.menu.ComoMenusDeSessao;
 import org.coletivojava.fw.api.objetoNativo.view.menu.MenusDaSessao;
 import org.coletivojava.fw.api.objetoNativo.view.menu.MenuSBFW;
 
@@ -22,8 +26,18 @@ public class ConfigPermissaoTesteNotificacao extends ConfigPermissoesAcessoModel
     }
 
     @Override
-    public ItfMenusDeSessao definirMenu(ItfGrupoUsuario pGrupo) {
+    public ComoMenusDeSessao definirMenu(ComoGrupoUsuario pGrupo) {
         return new MenusDaSessao(new MenuSBFW(), new MenuSBFW());
+    }
+
+    @Override
+    public FabTipoAgenteOrganizacao getTipoAgente(ComoUsuario pUsuario) {
+        return FabTipoAgenteOrganizacao.ATENDIMENTO;
+    }
+
+    @Override
+    public ComoContatoHumano getContatoDoUsuario(ComoUsuario pUsuairo) throws ErroDadosDeContatoUsuarioNaoEncontrado {
+        return null;
     }
 
 }

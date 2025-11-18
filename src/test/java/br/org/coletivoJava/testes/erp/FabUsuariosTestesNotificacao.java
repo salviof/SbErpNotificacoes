@@ -5,7 +5,7 @@
 package br.org.coletivoJava.testes.erp;
 
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
-import com.super_bits.modulosSB.Persistencia.fabrica.ItfFabricaComPersistencia;
+import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabGruposPadrao;
 import javax.persistence.EntityManager;
@@ -14,13 +14,13 @@ import javax.persistence.EntityManager;
  *
  * @author salvio
  */
-public enum FabUsuariosTestesNotificacao implements ItfFabricaComPersistencia {
+public enum FabUsuariosTestesNotificacao implements ComoFabricaComPersistencia {
     @InfoObjetoDaFabrica(classeObjeto = UsuarioSB.class, id = 1l, nomeObjeto = "Sálvio")
     SALVIO;
 
     @Override
     public UsuarioSB getRegistro() {
-        UsuarioSB usuario = (UsuarioSB) ItfFabricaComPersistencia.super.getRegistro();
+        UsuarioSB usuario = (UsuarioSB) ComoFabricaComPersistencia.super.getRegistro();
 
         usuario.setEmail("salvio@casanovadigital.com.br");
         usuario.setTelefone("31984178550");
@@ -30,7 +30,7 @@ public enum FabUsuariosTestesNotificacao implements ItfFabricaComPersistencia {
 
     @Override
     public UsuarioSB getRegistro(EntityManager pEm) {
-        return (UsuarioSB) ItfFabricaComPersistencia.super.getRegistro(pEm); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        return (UsuarioSB) ComoFabricaComPersistencia.super.getRegistro(pEm); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
 }

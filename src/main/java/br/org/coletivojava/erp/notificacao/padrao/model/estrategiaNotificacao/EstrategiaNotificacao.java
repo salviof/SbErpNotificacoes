@@ -4,7 +4,7 @@
  */
 package br.org.coletivojava.erp.notificacao.padrao.model.estrategiaNotificacao;
 
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -20,7 +20,7 @@ import javax.persistence.Id;
  */
 @Entity
 @InfoObjetoSB(plural = "Estratégias de divulgação", tags = {"Estrategia de notificação"}, generoFeminino = true)
-public class EstrategiaNotificacao extends EntidadeSimples {
+public class EstrategiaNotificacao extends EntidadeSimplesORM {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -5,7 +5,7 @@
 package br.org.coletivojava.erp.notificacao.padrao.model.recibos.leitura;
 
 import br.org.coletivojava.erp.notificacao.padrao.model.transporte.LogDisparoNotificacao;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
  */
 @InfoObjetoSB(tags = "Recibo Leitura", plural = "Recibos de Leitura")
 @Entity
-public class ReciboLeitura extends EntidadeSimples {
+public class ReciboLeitura extends EntidadeSimplesORM {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

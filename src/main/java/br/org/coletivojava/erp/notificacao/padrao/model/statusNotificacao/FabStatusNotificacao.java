@@ -4,8 +4,8 @@
  */
 package br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao;
 
-import com.super_bits.modulosSB.Persistencia.fabrica.ItfFabricaStatusComPersistencia;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ItfAcaoDoSistema;
+import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaStatusComPersistencia;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabStatusComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author salvio
  */
-public enum FabStatusNotificacao implements ItfFabricaStatusComPersistencia {
+public enum FabStatusNotificacao implements ComoFabricaStatusComPersistencia {
 
     @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 1l, nomeObjeto = "Rascunho")
     RASCUNHO,
@@ -32,7 +32,7 @@ public enum FabStatusNotificacao implements ItfFabricaStatusComPersistencia {
 
     @Override
     public StatusNotificacao getRegistro() {
-        StatusNotificacao status = (StatusNotificacao) ItfFabricaStatusComPersistencia.super.getRegistro();
+        StatusNotificacao status = (StatusNotificacao) ComoFabricaStatusComPersistencia.super.getRegistro();
         switch (this) {
 
             case REGISTRADA:
@@ -66,7 +66,7 @@ public enum FabStatusNotificacao implements ItfFabricaStatusComPersistencia {
     }
 
     @Override
-    public List<ItfAcaoDoSistema> opcoesPorStatus() {
+    public List<ComoAcaoDoSistema> opcoesPorStatus() {
         return new ArrayList<>();
     }
 

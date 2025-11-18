@@ -8,7 +8,7 @@ import br.org.coletivojava.erp.notificacao.padrao.model.estrategiaNotificacao.Fa
 import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.FabStatusNotificacao;
 import com.google.common.collect.Lists;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.ConfigPersistenciaPadrao;
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 
 /**
  *
@@ -22,7 +22,7 @@ public class ConfigPersistenciaTestesNotificacao extends ConfigPersistenciaPadra
     }
 
     @Override
-    public Class<? extends ItfFabrica>[] fabricasRegistrosIniciais() {
+    public Class<? extends ComoFabrica>[] fabricasRegistrosIniciais() {
         return new Class[]{
             FabGrupoTestesNotifcacao.class,
             FabUsuariosTestesNotificacao.class,

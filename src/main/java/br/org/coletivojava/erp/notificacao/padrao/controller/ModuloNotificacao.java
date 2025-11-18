@@ -69,10 +69,6 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
     @InfoAcaoNotificacao(acao = FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_ENVIAR_NOTIFICACAO_REGISTRADA)
     public static synchronized ItfRespostaAcaoDoSistema notificacaoEnviar(NotificacaoSB pNotificacao) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pNotificacao), pNotificacao) {
-            @Override
-            public void executarAcoesFinais() throws ErroEmBancoDeDados {
-
-            }
 
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {

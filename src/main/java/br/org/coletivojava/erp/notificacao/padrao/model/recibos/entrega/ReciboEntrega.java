@@ -5,7 +5,7 @@
 package br.org.coletivojava.erp.notificacao.padrao.model.recibos.entrega;
 
 import br.org.coletivojava.erp.notificacao.padrao.model.transporte.LogDisparoNotificacao;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -21,7 +20,7 @@ import javax.persistence.OneToOne;
  */
 @Entity
 @InfoObjetoSB(tags = "Recibo de entrega", plural = "Recibos de entrega")
-public class ReciboEntrega extends EntidadeSimples {
+public class ReciboEntrega extends EntidadeSimplesORM {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
