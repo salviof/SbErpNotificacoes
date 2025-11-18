@@ -8,7 +8,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ItemContatoCorporativo;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ItemNormal;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.EntidadeNormal;
 import javax.persistence.Id;
 
 /**
@@ -16,7 +16,7 @@ import javax.persistence.Id;
  * @author salvio
  */
 @InfoObjetoSB(tags = "Pessoa teste", plural = "Pessoas teste")
-public class PessoaTeste extends ItemNormal {
+public class PessoaTeste extends EntidadeNormal {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
     private Long id;
