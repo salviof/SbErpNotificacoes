@@ -16,7 +16,7 @@ import com.super_bits.modulosSB.Persistencia.dao.ErroEmBancoDeDados;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import java.util.Date;
@@ -170,8 +170,8 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                         }
 
                         Date dataHoraUltimoDisparo = notificacao.getDisparos().get(0).getDataHoraDisparo();
-                        long diferencaUltimaNotificacao = UtilSBCoreDataHora.intervaloTempoMinutos(dataHoraUltimoDisparo, new Date());
-                        long diasDisparo = UtilSBCoreDataHora.intervaloTempoDias(notificacao.getDataRegistroNotificacao(), new Date());
+                        long diferencaUltimaNotificacao = UtilCRCDataHora.intervaloTempoMinutos(dataHoraUltimoDisparo, new Date());
+                        long diasDisparo = UtilCRCDataHora.intervaloTempoDias(notificacao.getDataRegistroNotificacao(), new Date());
                         if (diasDisparo > notificacao.getTipoNotificacao().getDiasLog()) {
                             continue;
                         }

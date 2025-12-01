@@ -3,7 +3,7 @@ package org.coletivoJava.fw.projetos.erpColetivoJava.implemetation.model.notific
 import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.NotificacaoSB;
 import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.FabStatusNotificacao;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringVariaveisEntreCaracteres;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringVariaveisEntreCaracteres;
 import com.super_bits.modulosSB.SBCore.UtilGeral.stringSubstituicao.MapaSubstituicao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalculoGenerico;
@@ -52,7 +52,7 @@ public class ValorLogicoNotificacaoPalavrasChave extends ValorLogicoCalculoGener
                     EntityManager em = UtilSBPersistencia.getEntyManagerPadraoNovo();
                     try {
                         ComoEntidadeSimples item = (ComoEntidadeSimples) UtilSBPersistencia.getRegistroByID(entidade, Long.valueOf(getNotificacao().getCodigoEntidadeRelacionada()), em);
-                        List<String> valoresEncontradas = UtilSBCoreStringVariaveisEntreCaracteres.extrairVariaveisEntreColchete(mascaraValor);
+                        List<String> valoresEncontradas = UtilCRCStringVariaveisEntreCaracteres.extrairVariaveisEntreColchete(mascaraValor);
 
                         List<String> subitens = new ArrayList<>();
                         valoresEncontradas.stream().filter(v -> v != null && v.contains(".") && !v.contains("link:")).map(v -> v.replace("[", "").replace("]", "")).forEach(subitens::add);

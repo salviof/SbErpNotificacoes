@@ -6,7 +6,7 @@ package br.org.coletivojava.erp.notificacao.api;
 
 import com.super_bits.modulosSB.SBCore.modulos.erp.ApiERPColetivoJavaFW;
 import com.super_bits.modulosSB.SBCore.modulos.erp.ItfApiErpSuperBits;
-import org.coletivojava.fw.utilCoreBase.UtilSBCoreReflexaoAPIERP;
+import org.coletivojava.fw.utilCoreBase.UtilCRCReflexaoAPIERP;
 
 /**
  *
@@ -25,7 +25,7 @@ public enum ERPNotificacoes implements ItfApiErpSuperBits<ItfERPNotificacao> {
 
     @Override
     public ItfERPNotificacao getImplementacaoDoContexto() {
-        return (ItfERPNotificacao) UtilSBCoreReflexaoAPIERP.getImplementacaoDoContexto(this);
+        return (ItfERPNotificacao) UtilCRCReflexaoAPIERP.getImplementacaoDoContexto(this);
     }
 
     @Override

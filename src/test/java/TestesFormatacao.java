@@ -1,5 +1,5 @@
 
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreHtmlFormat;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCHtmlFormat;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,9 +19,9 @@ public class TestesFormatacao {
     @Test
     public void teste() {
 
-        System.out.println(UtilSBCoreHtmlFormat.gerarMarkdownDeWhatsapp("Texto com <b>negrito</b> e um <a href='https://exemplo.com'>link</a>."));
+        System.out.println(UtilCRCHtmlFormat.gerarMarkdownDeWhatsapp("Texto com <b>negrito</b> e um <a href='https://exemplo.com'>link</a>."));
 
-        System.out.println(UtilSBCoreHtmlFormat.retirarTagsDeHtml("Texto com <b>negrito</b> e um <a href='https://exemplo.com'>link</a>."));
+        System.out.println(UtilCRCHtmlFormat.retirarTagsDeHtml("Texto com <b>negrito</b> e um <a href='https://exemplo.com'>link</a>."));
 
     }
 
