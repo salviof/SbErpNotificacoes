@@ -4,7 +4,7 @@
  */
 package br.org.coletivojava.erp.notificacao.api;
 
-import com.super_bits.modulosSB.SBCore.modulos.erp.ApiERPColetivoJavaFW;
+import com.super_bits.modulosSB.SBCore.modulos.erp.InfoApiERPCarameloCode;
 import com.super_bits.modulosSB.SBCore.modulos.erp.ItfApiErpSuperBits;
 import org.coletivojava.fw.utilCoreBase.UtilCRCReflexaoAPIERP;
 
@@ -12,7 +12,7 @@ import org.coletivojava.fw.utilCoreBase.UtilCRCReflexaoAPIERP;
  *
  * @author desenvolvedor
  */
-@ApiERPColetivoJavaFW(descricaoApi = "Apis de notificacao", nomeApi = "Notificação", slugInicial = "Notifica")
+@InfoApiERPCarameloCode(descricaoApi = "Apis de notificacao", nomeApi = "Notificação", slugInicial = "Notifica")
 public enum ERPNotificacoes implements ItfApiErpSuperBits<ItfERPNotificacao> {
 
     NOTIFICACAO_PADRAO;

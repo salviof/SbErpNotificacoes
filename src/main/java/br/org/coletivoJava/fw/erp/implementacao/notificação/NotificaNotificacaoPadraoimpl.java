@@ -2,7 +2,7 @@ package br.org.coletivoJava.fw.erp.implementacao.notificação;
 
 import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
 import br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNotificacao;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.repositorioLinkEntidades.RepositorioLinkEntidadesGenerico;
 import br.org.coletivoJava.fw.api.erp.notificação.NotificaNotificacaoPadrao;
 import br.org.coletivojava.erp.notificacao.api.ErroGerandoDialogo;
@@ -18,7 +18,7 @@ import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinami
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroRegistrandoDialogo;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroSelandoDialogo;
