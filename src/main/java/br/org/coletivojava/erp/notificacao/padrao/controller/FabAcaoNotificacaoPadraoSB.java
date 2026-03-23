@@ -17,9 +17,9 @@ import org.coletivoJava.fw.projetos.erpColetivoJava.api.model.tiponotificacao.CP
 @InfoModuloMktNotificacao(modulo = FabModulosSistemaSB.COMUNICACAO)
 public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia {
 
-    @InfoTipoAcaoGestaoEntidade(entidade = NotificacaoSB.class, icone = "fa fa-paper-o")
+    @InfoTipoAcaoGestaoEntidade(entidade = NotificacaoSB.class, icone = "fa fa-paper-plane-o")
     NOTIFICACAO_MB_GESTAO,
-    @InfoTipoAcaoFormulario(nomeAcao = "Listar notificações", icone = "fa fa-paper-o")
+    @InfoTipoAcaoFormulario(nomeAcao = "Listar notificações", icone = "fa fa-paper-plane-o")
     NOTIFICACAO_FRM_LISTAR,
     @InfoTipoAcaoController
     NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO,
