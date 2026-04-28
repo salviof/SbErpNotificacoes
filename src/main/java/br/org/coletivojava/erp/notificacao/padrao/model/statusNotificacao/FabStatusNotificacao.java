@@ -28,7 +28,7 @@ public enum FabStatusNotificacao implements ComoFabricaStatusComPersistencia {
     @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 5l, nomeObjeto = "Lida")
     LIDA,
     @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 6l, nomeObjeto = "Encerrada sem confirmacao")
-    ENCERRADA_SEM_CONFIRMACAO,;
+    ENCERRADA_SEM_CONFIRMACAO;
 
     @Override
     public StatusNotificacao getRegistro() {

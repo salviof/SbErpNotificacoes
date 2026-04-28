@@ -58,6 +58,14 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                     throw new ErroRegraDeNegocio("Falha gerando dialogo da notificação");
                 }
                 notificacaoAtualizada.setStatus(FabStatusNotificacao.REGISTRADA.getRegistro());
+                notificacaoAtualizada.setDataRegistroNotificacao(new Date());
+
+                int diasNotificacaoValida = notificacaoAtualizada.getTipoNotificacao().getDiasLog();
+                if (diasNotificacaoValida < 7) {
+                    diasNotificacaoValida = 7;
+                }
+                notificacaoAtualizada.setDataExpiraNotificacao(UtilCRCDataHora.incrementaDias(new Date(), diasNotificacaoValida));
+
                 notificacaoAtualizada.setCodigoSeloComunicacao(notificacaoAtualizada.getDialogo().getCodigoSelo());
 
                 setRetorno(atualizarEntidade(notificacaoAtualizada));
@@ -72,6 +80,7 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
 
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
+
                 NotificacaoSB notificacao = loadEntidade(pNotificacao);
                 if (!notificacao.getStatus().equals(FabStatusNotificacao.REGISTRADA.getRegistro())) {
                     throw new ErroRegraDeNegocio("A notificação precisa estar no status Registrada");
@@ -91,18 +100,24 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
 
                             dialogo = SBCore.getServicoComunicacao().registrarDialogo(disparo.getNotificacao().getCodigoSeloComunicacao(), disparo.getNotificacao().getDialogo());
                         }
-                        String codigoEnvio = SBCore.getServicoComunicacao().dispararComunicacao(dialogo, tipoLogComunicacao.getCanal());
-                        if (codigoEnvio != null) {
+                        try {
+                            String codigoEnvio = SBCore.getServicoComunicacao().dispararComunicacao(dialogo, tipoLogComunicacao.getCanal());
+                            if (codigoEnvio != null) {
 
-                            disparo.setCodigoRegistroEnvio(codigoEnvio);
-                            disparo.setReciboEntrega(new ReciboEntrega());
-                            disparo.getReciboEntrega().setDisparo(disparo);
-                            disparo.getReciboEntrega().setCodigoEntrega(codigoEnvio);
-                            notificacao.getDisparos().add(disparo);
+                                disparo.setCodigoRegistroEnvio(codigoEnvio);
+                                disparo.setReciboEntrega(new ReciboEntrega());
+                                disparo.getReciboEntrega().setDisparo(disparo);
+                                disparo.getReciboEntrega().setCodigoEntrega(codigoEnvio);
+                                notificacao.getDisparos().add(disparo);
 
+                            }
+                        } catch (ErroAcessandoCanalComunicacao erro) {
+                            System.out.println();
+                            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "A notificação da mensagem " + notificacao.getId() + " não é compatível com " + tipoLogComunicacao, erro);
                         }
+
                     } catch (Throwable t) {
-                        SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha enviando notificacção v ia" + tipoLogComunicacao, t);
+                        SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha enviando notificacção " + notificacao.getId() + " via: " + tipoLogComunicacao, t);
                     }
 
                 }
@@ -124,17 +139,20 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
 
                 ConsultaDinamicaDeEntidade novaConsulta = new ConsultaDinamicaDeEntidade(NotificacaoSB.class, getEm());
                 novaConsulta.addCondicaoManyToOneIgualA(CPNotificacaoSB.status, FabStatusNotificacao.REGISTRADA.getRegistro());
-
                 List<NotificacaoSB> notiticacoes = novaConsulta.gerarResultados();
 
                 for (NotificacaoSB notificacao : notiticacoes) {
+                    if (notificacao.getDataExpiraNotificacao() == null || UtilCRCDataHora.isDiaIgualOuSuperior(new Date(), notificacao.getDataExpiraNotificacao())) {
+                        removerEntidade(notificacao);
+                    } else {
+                        if (notificacao.getDisparos().stream().filter(disp -> disp.getReciboEntrega() != null).findFirst().isPresent()) {
+                            notificacao.setStatus(FabStatusNotificacao.ENTREGUE.getRegistro());
+                            UtilSBPersistencia.mergeRegistro(notificacao);
+                            continue;
+                        }
 
-                    if (notificacao.getDisparos().stream().filter(disp -> disp.getReciboEntrega() != null).findFirst().isPresent()) {
-                        notificacao.setStatus(FabStatusNotificacao.ENTREGUE.getRegistro());
-                        UtilSBPersistencia.mergeRegistro(notificacao);
-                        continue;
+                        notificacaoEnviar(notificacao);
                     }
-                    notificacaoEnviar(notificacao);
                 }
             }
 

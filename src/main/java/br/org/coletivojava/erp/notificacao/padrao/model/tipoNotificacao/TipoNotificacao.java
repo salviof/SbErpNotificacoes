@@ -121,8 +121,8 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     @InfoCampo(tipo = FabTipoAtributoObjeto.QUANTIDADE)
     private int minutosRenotificacao;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.QUANTIDADE)
-    private int diasLog;
+    @InfoCampo(tipo = FabTipoAtributoObjeto.QUANTIDADE, valorMinimo = 1, valorMaximo = 30)
+    private int diasLog = 7;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.REG_ATIVO_INATIVO)
     @InfoCampoVerdadeiroOuFalso
