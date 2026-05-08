@@ -1,17 +1,17 @@
 package br.org.coletivoJava.fw.erp.implementacao.notificação;
 
 import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
-import br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.repositorioLinkEntidades.RepositorioLinkEntidadesGenerico;
 import br.org.coletivoJava.fw.api.erp.notificação.NotificaNotificacaoPadrao;
-import br.org.coletivojava.erp.notificacao.api.ErroGerandoDialogo;
-import br.org.coletivojava.erp.notificacao.api.ErroGerandoNotificacao;
-import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.DialogoNotificacao;
-import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.NotificacaoSB;
-import br.org.coletivojava.erp.notificacao.padrao.model.recibos.leitura.ReciboLeitura;
-import br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.FabStatusNotificacao;
-import br.org.coletivojava.erp.notificacao.padrao.model.transporte.LogDisparoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.api.ErroGerandoDialogo;
+import br.org.carameloCode.erp.modulo.notificacao.api.ErroGerandoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.DialogoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.FabStatusNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
@@ -33,7 +33,7 @@ public class NotificaNotificacaoPadraoimpl
         extends
         RepositorioLinkEntidadesGenerico
         implements
-        br.org.coletivojava.erp.notificacao.api.ItfERPNotificacao {
+        br.org.carameloCode.erp.modulo.notificacao.api.ItfERPNotificacao {
 
     @Override
     public String registrarReciboEntrega(

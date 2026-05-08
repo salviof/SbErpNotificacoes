@@ -4,7 +4,7 @@
  */
 package br.org.coletivoJava.testes.erp;
 
-import br.org.coletivojava.erp.notificacao.padrao.controller.ModuloNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.controller.ModuloNotificacao;
 import com.super_bits.modulos.SBAcessosModel.ConfigPermissoesAcessoModelAbstrato;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ErroDadosDeContatoUsuarioNaoEncontrado;
 import com.super_bits.modulosSB.SBCore.modulos.erp.FabTipoAgenteOrganizacao;

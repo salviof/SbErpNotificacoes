@@ -5,7 +5,7 @@
 package br.org.coletivoJava.testes.erp;
 
 import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.model.PessoaTeste;
-import br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 

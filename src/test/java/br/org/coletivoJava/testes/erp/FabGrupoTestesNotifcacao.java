@@ -4,7 +4,7 @@
  */
 package br.org.coletivoJava.testes.erp;
 
-import br.org.coletivojava.erp.notificacao.padrao.controller.FabAcaoNotificacaoPadraoSB;
+import br.org.carameloCode.erp.modulo.notificacao.controller.FabAcaoNotificacaoPadraoSB;
 import com.super_bits.modulos.SBAcessosModel.model.GrupoUsuarioSB;
 import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;

@@ -4,7 +4,7 @@
  */
 package br.org.coletivoJava.testes.erp;
 
-import br.org.coletivojava.erp.notificacao.api.ERPNotificacoes;
+import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import org.apache.logging.log4j.LogManager;
 import org.coletivojava.fw.api.objetoNativo.log.LogPadraoSB;

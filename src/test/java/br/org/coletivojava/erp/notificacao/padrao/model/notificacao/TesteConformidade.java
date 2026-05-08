@@ -4,20 +4,21 @@
  */
 package br.org.coletivojava.erp.notificacao.padrao.model.notificacao;
 
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.coletivoJava.testes.erp.ConfigCoreApiNotificacaoSBTestes;
 import br.org.coletivoJava.testes.erp.ConfigPersistenciaTestesNotificacao;
-import com.super_bits.modulosSB.Persistencia.ConfigGeral.ConfigCoreJunitPadraoDesenvolvedorComPersistencia;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import org.junit.Test;
-import testesFW.ConfigCoreJunitPadraoDevAcaoPermissao;
-import testesFW.TesteJunitSBPersistencia;
+import testesFW.TesteJunitJPAModuloERP;
 
 /**
  *
  * @author salvio
  */
-public class TesteConformidade extends TesteJunitSBPersistencia {
+public class TesteConformidade extends TesteJunitJPAModuloERP {
 
     @Override
     protected void configAmbienteDesevolvimento() {
@@ -28,6 +29,10 @@ public class TesteConformidade extends TesteJunitSBPersistencia {
 
     @Test
     public void teste() {
+        EstruturaDeEntidade esttrutura = MapaObjetosProjetoAtual.getEstruturaObjeto(NotificacaoSB.class, true);
+        if (esttrutura.isUmaEntidadeModuloERP()) {
+            System.out.println("teste");
+        }
         gerarCodigoModelProjeto();
 
     }

@@ -21,13 +21,14 @@
         <class>com.super_bits.modulos.SBAcessosModel.model.acoes.acaoDeEntidade.AcaoGestaoEntidade</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoSecundaria</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.ModuloAcaoSistema</class>
-
+        <class>com.super_bits.modulos.SBAcessosModel.model.ConfiguracaoDePermissao</class>
+        <class>com.super_bits.modulos.SBAcessosModel.model.logsRegraDeNegocio.LogRegraDeNegocio</class>
 
         <class>br.org.coletivojava.fw.utils.servico.ServicoRepositorioDeArquivos.model.HashsDeArquivoDeEntidade</class>
         <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.arquivos.arquivoAnexado.ArquivoAnexado</class>
         <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.arquivos.arquivoCliente.ArquivoCliente</class>
         <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.arquivos.arquivoCliente.CategoriaArquivoCliente</class>
-        <class>com.super_bits.modulos.SBAcessosModel.model.ConfiguracaoDePermissao</class>
+
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.LocalizacaoPostavel</class>
         <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.prospecto.contatoProspecto.LocalizacaoDeContato</class>
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Bairro</class>
@@ -37,19 +38,15 @@
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Localidade</class>
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Localizacao</class>
 
+        <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB</class>
+        <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.entrega.ReciboEntrega</class>
+        <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura</class>
+        <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao</class>
+        <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.StatusNotificacao</class>
+        <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao</class>
 
 
-
-        <class>notibr.org.coletivojava.erp.notificacao.padrao.model.notificacao.NotificacaoSB</class>
-        <class>br.org.coletivojava.erp.notificacao.padrao.model.tipoNotificacao.TipoNotificacao</class>
-        <class>br.org.coletivojava.erp.notificacao.padrao.model.statusNotificacao.StatusNotificacao</class>
-        <class>br.org.coletivojava.erp.notificacao.padrao.model.recibos.entrega.ReciboEntrega</class>
-        <class>br.org.coletivojava.erp.notificacao.padrao.model.recibos.leitura.ReciboLeitura</class>
-        <class>com.super_bits.modulos.SBAcessosModel.model.logsRegraDeNegocio.LogRegraDeNegocio</class>
-
-
-
-
+        
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>

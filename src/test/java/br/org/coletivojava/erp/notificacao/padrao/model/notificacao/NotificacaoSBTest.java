@@ -4,15 +4,17 @@
  */
 package br.org.coletivojava.erp.notificacao.padrao.model.notificacao;
 
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.coletivoJava.testes.erp.ConfigCoreApiNotificacaoSBTestes;
 import br.org.coletivoJava.testes.erp.ConfigPersistenciaTestesNotificacao;
 import br.org.coletivoJava.testes.erp.FabTipoNotificacaoTeste;
 import br.org.coletivoJava.testes.erp.FabUsuariosTestesNotificacao;
 import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
-import br.org.coletivojava.erp.notificacao.api.ERPNotificacoes;
-import br.org.coletivojava.erp.notificacao.api.ErroGerandoNotificacao;
-import br.org.coletivojava.erp.notificacao.api.ItfERPNotificacao;
-import br.org.coletivojava.erp.notificacao.padrao.controller.ModuloNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
+import br.org.carameloCode.erp.modulo.notificacao.api.ErroGerandoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.api.ItfERPNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.api.model.notificacaosb.CPNotificacaoSB;
+import br.org.carameloCode.erp.modulo.notificacao.controller.ModuloNotificacao;
 import br.org.coletivojava.erp.notificacao.padrao.model.notificacao.model.PessoaTeste;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
@@ -20,7 +22,6 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.coletivoJava.fw.projetos.erpColetivoJava.api.model.notificacaosb.CPNotificacaoSB;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import testesFW.TesteJunitSBPersistencia;

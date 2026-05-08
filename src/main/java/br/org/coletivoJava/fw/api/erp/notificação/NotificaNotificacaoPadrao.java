@@ -1,9 +1,9 @@
 package br.org.coletivoJava.fw.api.erp.notificação;
 
 import javax.inject.Qualifier;
-import br.org.coletivojava.erp.notificacao.api.ItfERPNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.api.ItfERPNotificacao;
 import com.super_bits.modulosSB.SBCore.modulos.erp.InfoReferenciaApiErp;
-import br.org.coletivojava.erp.notificacao.api.ERPNotificacoes;
+import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
