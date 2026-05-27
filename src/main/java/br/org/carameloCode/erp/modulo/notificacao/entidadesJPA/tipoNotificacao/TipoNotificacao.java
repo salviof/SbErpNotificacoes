@@ -16,6 +16,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.modeloDocumento.ComoModeloDocumento;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -38,13 +39,12 @@ import org.hibernate.annotations.GenericGenerator;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoEntidade")
 @EntityListeners(ListenerEntidadePadrao.class)
-public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExtensivel {
+public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExtensivel, ComoModeloDocumento {
 
     @Id
     @GenericGenerator(
             name = "geradorIdDuploControle",
-            strategy = "com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdDuploControleIncremental"
-    )
+            strategy = "com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdDuploControleIncremental")
     @GeneratedValue(generator = "geradorIdDuploControle")
     private Long id;
 
@@ -63,15 +63,18 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     private String conteudoHTML;
 
     @ManyToOne(targetEntity = AcaoDoSistema.class)
+    @InfoCampo(label = "Gatilho de Notificação", descricao = "Solicita que o sistema ative a notificação, toda vez que a ação escolhida seja executada com sucesso. Ex: Ao salvar um novo cliente, notifique o gerente")
     private AcaoDoSistema acaoGatilhoNotificacao;
 
     @ManyToOne(targetEntity = AcaoDoSistema.class)
     private AcaoDoSistema acaoAutoExecucaoEnvio;
 
     @ManyToOne(targetEntity = AcaoDoSistema.class)
+    @InfoCampo(label = "Ação após Entrega")
     private AcaoDoSistema acaoAutoExecucaoEntrega;
 
     @ManyToOne(targetEntity = AcaoDoSistema.class)
+    @InfoCampo(label = "Ação após Leitura")
     private AcaoDoSistema acaoAutoExecucaoLeitura;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
@@ -86,23 +89,23 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     @InfoCampoVerdadeiroOuFalso
     private boolean notificacaoUnica = true;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via Matrix")
     @InfoCampoVerdadeiroOuFalso
     private boolean notifificarViaMatrix;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via Intranet")
     @InfoCampoVerdadeiroOuFalso
     private boolean notificarViaIntranet;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via Tela Bloqueio")
     @InfoCampoVerdadeiroOuFalso
     private boolean notificarViaTelaDeBLoqueio;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via APP")
     @InfoCampoVerdadeiroOuFalso
     private boolean notificarViaMobile;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via Msg Whatsapp")
     @InfoCampoVerdadeiroOuFalso
     private boolean notificarViaWhatsapp;
 
@@ -374,6 +377,11 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
 
     public void setDestinatarios(String destinatarios) {
         this.destinatarios = destinatarios;
+    }
+
+    @Override
+    public String getEntidadePrincipalPalavraChave() {
+        return nomeEntidadeReferencia;
     }
 
 }

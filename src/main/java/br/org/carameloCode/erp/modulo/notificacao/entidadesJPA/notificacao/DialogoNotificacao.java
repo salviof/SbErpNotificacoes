@@ -23,4 +23,9 @@ public class DialogoNotificacao extends ComunicacaoTransient {
 
     }
 
+    @Override
+    public void setCodigoSelo(String codigoSelo) {
+        super.setCodigoSelo(codigoSelo); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
 }

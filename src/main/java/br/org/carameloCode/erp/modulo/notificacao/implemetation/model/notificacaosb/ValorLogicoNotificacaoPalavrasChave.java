@@ -3,6 +3,7 @@ package br.org.carameloCode.erp.modulo.notificacao.implemetation.model.notificac
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.FabStatusNotificacao;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexao;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringVariaveisEntreCaracteres;
 import com.super_bits.modulosSB.SBCore.UtilGeral.stringSubstituicao.MapaSubstituicao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -52,7 +53,10 @@ public class ValorLogicoNotificacaoPalavrasChave extends ValorLogicoCalculoGener
                     EntityManager em = UtilSBPersistencia.getEntyManagerPadraoNovo();
                     try {
                         ComoEntidadeSimples item = (ComoEntidadeSimples) UtilSBPersistencia.getRegistroByID(entidade, Long.valueOf(getNotificacao().getCodigoEntidadeRelacionada()), em);
-                        List<String> valoresEncontradas = UtilCRCStringVariaveisEntreCaracteres.extrairVariaveisEntreColchete(mascaraValor);
+                        List<Class> classes = UtilCRCReflexao.getClasseESubclassesAteClasseBaseDeEntidade(entidade);
+
+                        List<String> valoresEncontradas = new ArrayList<>();
+                        UtilCRCStringVariaveisEntreCaracteres.extrairVariaveisEntreColchete(mascaraValor);
 
                         List<String> subitens = new ArrayList<>();
                         valoresEncontradas.stream().filter(v -> v != null && v.contains(".") && !v.contains("link:")).map(v -> v.replace("[", "").replace("]", "")).forEach(subitens::add);

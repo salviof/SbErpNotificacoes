@@ -1,7 +1,5 @@
 package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao;
 
-import com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoDoSistema;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.UtilSBController;
 import java.io.Serializable;
 import java.util.UUID;
 import org.hibernate.HibernateException;

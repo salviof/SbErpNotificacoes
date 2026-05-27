@@ -6,7 +6,6 @@ package br.org.coletivoJava.testes.erp;
 
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.estrategiaNotificacao.FabTipoEstrategiaMidiaNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.FabStatusNotificacao;
-import com.google.common.collect.Lists;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.ConfigPersistenciaPadrao;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 

@@ -51,7 +51,9 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                 if (pNotificacao.getUsuario() == null) {
                     throw new ErroRegraDeNegocio("O usuário para notificação não foi definido");
                 }
-
+                if (pNotificacao.getStatus() == null) {
+                    pNotificacao.setStatus(FabStatusNotificacao.REGISTRADA.getRegistro());
+                }
                 NotificacaoSB notificacaoAtualizada = atualizarEntidade(pNotificacao, true);
 
                 if (notificacaoAtualizada.getDialogo() == null) {

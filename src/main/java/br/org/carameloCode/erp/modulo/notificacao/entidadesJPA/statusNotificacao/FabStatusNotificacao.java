@@ -21,7 +21,7 @@ public enum FabStatusNotificacao implements ComoFabricaStatusComPersistencia {
     RASCUNHO,
     @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 2l, nomeObjeto = "Registrado")
     REGISTRADA,
-    @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 3l, nomeObjeto = "Registrado")
+    @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 3l, nomeObjeto = "Enviado")
     ENVIADA,
     @InfoObjetoDaFabrica(classeObjeto = StatusNotificacao.class, id = 4l, nomeObjeto = "Entregue")
     ENTREGUE,

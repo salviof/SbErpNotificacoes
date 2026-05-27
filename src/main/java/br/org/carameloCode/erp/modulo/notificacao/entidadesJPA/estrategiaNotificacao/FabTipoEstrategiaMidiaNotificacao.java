@@ -21,13 +21,13 @@ public enum FabTipoEstrategiaMidiaNotificacao implements ComoFabricaComPersisten
 
     @InfoObjetoDaFabrica(classeObjeto = EstrategiaNotificacao.class, id = 1l, nomeObjeto = "Notificação progressiva")
     PROGRESSIVA,
-    @InfoObjetoDaFabrica(classeObjeto = EstrategiaNotificacao.class, id = 1l, nomeObjeto = "Alerta pânico")
+    @InfoObjetoDaFabrica(classeObjeto = EstrategiaNotificacao.class, id = 2l, nomeObjeto = "Alerta pânico")
     ALERTA_PANICO,
-    @InfoObjetoDaFabrica(classeObjeto = EstrategiaNotificacao.class, id = 1l, nomeObjeto = "Insistir no Whatsapp")
+    @InfoObjetoDaFabrica(classeObjeto = EstrategiaNotificacao.class, id = 3l, nomeObjeto = "Insistir no Whatsapp")
     INSISTIR_VIA_WHATSAPP,
-    @InfoObjetoDaFabrica(classeObjeto = EstrategiaNotificacao.class, id = 1l, nomeObjeto = "Insistir whatsapp e Emails")
+    @InfoObjetoDaFabrica(classeObjeto = EstrategiaNotificacao.class, id = 4l, nomeObjeto = "Insistir whatsapp e Emails")
     INSISTIR_VIA_EMAIL_E_WHATSAPP,
-    @InfoObjetoDaFabrica(classeObjeto = EstrategiaNotificacao.class, id = 1l, nomeObjeto = "Insistir no mobile")
+    @InfoObjetoDaFabrica(classeObjeto = EstrategiaNotificacao.class, id = 5l, nomeObjeto = "Insistir no mobile")
     INSISTIR_VIA_MOBILE;
     public static String _ESTRATEGIA_DESTINATARIO = "USUARIO_LOGADO";
 

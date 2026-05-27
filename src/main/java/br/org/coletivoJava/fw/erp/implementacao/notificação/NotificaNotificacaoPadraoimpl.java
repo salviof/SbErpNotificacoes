@@ -16,17 +16,11 @@ import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroRegistrandoDialogo;
-import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroSelandoDialogo;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 
 @NotificaNotificacaoPadrao
 public class NotificaNotificacaoPadraoimpl
@@ -48,6 +42,7 @@ public class NotificaNotificacaoPadraoimpl
                 log.setFoiLido(true);
                 UtilSBPersistencia.mergeRegistro(log);
             }
+
             ItfDialogo dialog = SBCore.getServicoComunicacao().getComnunicacaoRegistrada(log.getNotificacao().getCodigoSeloComunicacao());
             SBCore.getServicoComunicacao().responderComunicacao(log.getCodigoRegistroEnvio(), dialog.getRepostasPossiveis().get(0));
             ReciboLeitura recibo = new ReciboLeitura();

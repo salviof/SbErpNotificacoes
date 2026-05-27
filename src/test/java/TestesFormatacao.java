@@ -1,10 +1,7 @@
 
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCHtmlFormat;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.junit.Test;
+import testes.geradorCodigo.erp.GeradorERPImplementacaoContexto;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -18,7 +15,7 @@ public class TestesFormatacao {
 
     @Test
     public void teste() {
-
+        GeradorERPImplementacaoContexto teste;
         System.out.println(UtilCRCHtmlFormat.gerarMarkdownDeWhatsapp("Texto com <b>negrito</b> e um <a href='https://exemplo.com'>link</a>."));
 
         System.out.println(UtilCRCHtmlFormat.retirarTagsDeHtml("Texto com <b>negrito</b> e um <a href='https://exemplo.com'>link</a>."));
