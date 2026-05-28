@@ -21,7 +21,7 @@ import org.coletivojava.fw.api.objetoNativo.view.menu.MenuSBFW;
  */
 public class ConfigPermissaoTesteNotificacao extends ConfigPermissoesAcessoModelAbstrato {
 
-    public ConfigPermissaoTesteNotificacao(Class[] pClassesControllers) {
+    public ConfigPermissaoTesteNotificacao() {
         super(new Class[]{ModuloNotificacao.class});
     }
 

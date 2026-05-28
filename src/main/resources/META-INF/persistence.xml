@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-    <persistence-unit name="SbErpNotificacoesModel" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="carameloCodeNotificacoesDemo" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
         <class>com.super_bits.modulos.SBAcessosModel.model.AcessoSBWebPaginas</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.UsuarioSB</class>
         <class>com.super_bits.modulos.SBAcessosModel.model.PermissaoSB</class>
@@ -25,6 +26,15 @@
         <class>com.super_bits.modulos.SBAcessosModel.model.logsRegraDeNegocio.LogRegraDeNegocio</class>
 
         <class>br.org.coletivojava.fw.utils.servico.ServicoRepositorioDeArquivos.model.HashsDeArquivoDeEntidade</class>
+        <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.LocalizacaoPostavel</class>
+        <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Bairro</class>
+        <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Regiao</class>
+        <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Cidade</class>
+        <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.UnidadeFederativa</class>
+        <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Localidade</class>
+        <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Localizacao</class>
+
+        <class>br.org.coletivojava.fw.utils.servico.ServicoRepositorioDeArquivos.model.HashsDeArquivoDeEntidade</class>
         <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.arquivos.arquivoAnexado.ArquivoAnexado</class>
         <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.arquivos.arquivoCliente.ArquivoCliente</class>
         <class>com.super_bits.Casa_Nova.Intranet_Marketing_Digital.model.dados.crm.arquivos.arquivoCliente.CategoriaArquivoCliente</class>
@@ -46,7 +56,7 @@
         <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao</class>
 
 
-        
+
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>

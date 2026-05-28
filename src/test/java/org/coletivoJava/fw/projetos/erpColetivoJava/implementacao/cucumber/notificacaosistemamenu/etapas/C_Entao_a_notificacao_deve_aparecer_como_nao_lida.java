@@ -1,14 +1,14 @@
 package org.coletivoJava.fw.projetos.erpColetivoJava.implementacao.cucumber.notificacaosistemamenu.etapas;
 
 import org.coletivoJava.fw.projetos.erpColetivoJava.api.cucumber.notificacaosistemamenu.EtapasNotificacaoSistemaMenu;
-import cucumber.api.java.pt.Dado;
+import cucumber.api.java.pt.Entao;
 import java.lang.UnsupportedOperationException;
 
-public class Dado_que_um_usuario_esta_logado_no_sistema {
+public class C_Entao_a_notificacao_deve_aparecer_como_nao_lida {
 
-	@Dado(EtapasNotificacaoSistemaMenu.DADO_QUE_UM_USUARIO_ESTA_LOGADO_NO_SISTEMA)
+	@Entao(EtapasNotificacaoSistemaMenu.ENTAO_A_NOTIFICACAO_DEVE_APARECER_COMO_NAO_LIDA)
 	public void implementacaoEtapa() {
 		throw new UnsupportedOperationException(
-				"Etapa 'que um usuário está logado no sistema' não implementadas");
+				"Etapa 'a notificação deve aparecer como não lida' não implementadas");
 	}
 }

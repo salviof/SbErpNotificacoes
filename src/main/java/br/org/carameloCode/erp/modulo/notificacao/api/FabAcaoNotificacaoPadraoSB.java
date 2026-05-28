@@ -1,4 +1,4 @@
-package br.org.carameloCode.erp.modulo.notificacao.controller;
+package br.org.carameloCode.erp.modulo.notificacao.api;
 
 import br.org.carameloCode.erp.modulo.notificacao.api.model.tiponotificacao.CPTipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;

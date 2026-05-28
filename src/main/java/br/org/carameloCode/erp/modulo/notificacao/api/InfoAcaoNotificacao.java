@@ -2,7 +2,7 @@
  *  Desenvolvido pela equipe Super-Bits.com CNPJ 20.019.971/0001-90
 
  */
-package br.org.carameloCode.erp.modulo.notificacao.controller;
+package br.org.carameloCode.erp.modulo.notificacao.api;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

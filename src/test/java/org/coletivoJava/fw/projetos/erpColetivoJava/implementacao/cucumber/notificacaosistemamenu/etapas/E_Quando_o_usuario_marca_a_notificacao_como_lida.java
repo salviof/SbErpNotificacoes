@@ -1,14 +1,14 @@
 package org.coletivoJava.fw.projetos.erpColetivoJava.implementacao.cucumber.notificacaosistemamenu.etapas;
 
 import org.coletivoJava.fw.projetos.erpColetivoJava.api.cucumber.notificacaosistemamenu.EtapasNotificacaoSistemaMenu;
-import cucumber.api.java.pt.Entao;
+import cucumber.api.java.pt.Quando;
 import java.lang.UnsupportedOperationException;
 
-public class Entao_a_notificacao_deve_aparecer_como_nao_lida {
+public class E_Quando_o_usuario_marca_a_notificacao_como_lida {
 
-	@Entao(EtapasNotificacaoSistemaMenu.ENTAO_A_NOTIFICACAO_DEVE_APARECER_COMO_NAO_LIDA)
+	@Quando(EtapasNotificacaoSistemaMenu.QUANDO_O_USUARIO_MARCA_A_NOTIFICACAO_COMO_LIDA)
 	public void implementacaoEtapa() {
 		throw new UnsupportedOperationException(
-				"Etapa 'a notificação deve aparecer como não lida' não implementadas");
+				"Etapa 'o usuário marca a notificação como lida' não implementadas");
 	}
 }

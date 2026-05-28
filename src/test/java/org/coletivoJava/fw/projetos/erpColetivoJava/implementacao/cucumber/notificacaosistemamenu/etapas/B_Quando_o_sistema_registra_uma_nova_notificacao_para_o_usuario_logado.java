@@ -4,11 +4,11 @@ import org.coletivoJava.fw.projetos.erpColetivoJava.api.cucumber.notificacaosist
 import cucumber.api.java.pt.Quando;
 import java.lang.UnsupportedOperationException;
 
-public class Quando_o_usuario_marca_a_notificacao_como_lida {
+public class B_Quando_o_sistema_registra_uma_nova_notificacao_para_o_usuario_logado {
 
-	@Quando(EtapasNotificacaoSistemaMenu.QUANDO_O_USUARIO_MARCA_A_NOTIFICACAO_COMO_LIDA)
+	@Quando(EtapasNotificacaoSistemaMenu.QUANDO_O_SISTEMA_REGISTRA_UMA_NOVA_NOTIFICACAO_PARA_O_USUARIO_LOGADO)
 	public void implementacaoEtapa() {
 		throw new UnsupportedOperationException(
-				"Etapa 'o usuário marca a notificação como lida' não implementadas");
+				"Etapa 'o sistema registra uma nova notificação para o usuário logado' não implementadas");
 	}
 }
