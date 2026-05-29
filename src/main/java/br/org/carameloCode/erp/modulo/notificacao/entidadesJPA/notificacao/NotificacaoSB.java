@@ -109,7 +109,7 @@ public class NotificacaoSB extends EntidadeSimplesORM {
         }
         try {
 
-            return (DialogoNotificacao) ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().getDialogoByNotificacao(this);
+            return (DialogoNotificacao) ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().gerarDialogoByNotificacao(this);
         } catch (ErroGerandoDialogo ex) {
             return null;
         }

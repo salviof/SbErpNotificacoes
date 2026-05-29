@@ -3,6 +3,7 @@ package org.coletivoJava.fw.projetos.erpColetivoJava.implementacao.cucumber.noti
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.projetos.notificacoes.config.ConfigPersistenciaCarameloNotficacaoDemo;
 import br.org.coletivoJava.testes.erp.ConfigCoreApiNotificacaoSBTestes;
+import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import cucumber.api.CucumberOptions;
@@ -21,9 +22,9 @@ import testesFW.cucumber.TesteIntegracaoFuncionalidadeCucumber;
         monochrome = false, dryRun = false)
 public class FluxoNotificaoSistemaMenu extends TesteIntegracaoFuncionalidadeCucumber {
 
-    public static final String EMAIL_USUARIO_NOTIFICACAO = "atendimento@casanovadigital.com.br";
-    public static final String SENHA_USUARIO_NOTIFICACAO = "123";
     public static NotificacaoSB notificacao;
+    public static UsuarioSB USUARIO1;
+    public static UsuarioSB USUARIO2;
 
     @Override
     protected void configAmbienteDesevolvimento() {

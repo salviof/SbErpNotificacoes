@@ -4,52 +4,46 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.controller;
 
-import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicacaoDesktop;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoRespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfRespostaComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
-import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoArmazenamentoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoServicoComunicacao;
-import java.util.List;
-import javax.persistence.EntityManager;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author salvio
  */
 public class ServicoNotificacaoPadraoDev extends
-        CentralComunicacaoDesktop implements ComoServicoComunicacao {
+        ServicoNotificacaoComPersistencia implements ComoServicoComunicacao {
 
     public ServicoNotificacaoPadraoDev() {
-        aramazenamento = new RepositorioComunicacao();
-
+        super();
     }
 
     @Override
-    public List<ItfDialogo> getComunicacoesAguardandoRespostaDoDestinatario(ComoUsuario pDestinatario) {
-        List<ItfDialogo> comunicacoes = super.getComunicacoesAguardandoRespostaDoDestinatario(pDestinatario);
-        return comunicacoes;
-    }
+    public FabTipoRespostaComunicacao aguardarRespostaComunicacao(ItfTipoCanalComunicacao pTransporte,
+            ItfDialogo pComunicacao, int tempoAguardar, FabTipoRespostaComunicacao pTipoRespostaTempoFinal) {
+        FabTipoComunicacao tipocomunicacao = pComunicacao.getTipoComunicacao().getFabTipoComunicacao();
 
-    @Override
-    public ComoArmazenamentoComunicacao getArmazenamento() {
-        return super.getArmazenamento();
-    }
-
-    @Override
-    public boolean responderComunicacao(String codigoSeloComunicacao, ItfRespostaComunicacao pResposta) {
-
-        EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
-        try {
-            ItfDialogo pComunicacao = SBCore.getServicoComunicacao().getArmazenamento().getDialogoByCodigoSelo(codigoSeloComunicacao);
-
-            return super.responderComunicacao(pComunicacao.getCodigoSelo(), pResposta);
-        } finally {
-            UtilSBPersistencia.fecharEM(em);
+        int dialogResult
+                = JOptionPane.showConfirmDialog(null, pComunicacao.getMensagem(),
+                        "Deseja continuar?", JOptionPane.YES_OPTION);
+        if (dialogResult
+                == JOptionPane.YES_OPTION) {
+            return FabTipoRespostaComunicacao.SIM;
+        } else {
+            System.out.println("não");
+            return FabTipoRespostaComunicacao.NAO;
         }
 
+    }
+
+    @Override
+    public String getTokenDispositivoNotificacao(ComoUsuario pUsuario) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

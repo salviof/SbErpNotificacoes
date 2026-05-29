@@ -15,11 +15,15 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDis
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroRegistrandoDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroSelandoDialogo;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 @NotificaNotificacaoPadrao
@@ -114,21 +118,18 @@ public class NotificaNotificacaoPadraoimpl
     }
 
     @Override
-    public ItfDialogo getDialogoByNotificacao(NotificacaoSB pNotificacao) throws ErroGerandoDialogo {
-        if (pNotificacao.getId() == null) {
-            throw new ErroGerandoDialogo("O Id da notificação não foi definido");
-        }
-
-        ItfDialogo dialogo = SBCore.getServicoComunicacao().getComnunicacaoRegistrada(Long.toString(pNotificacao.getId()));
-        if (dialogo == null) {
-            dialogo = new DialogoNotificacao(pNotificacao);
-            try {
-                SBCore.getServicoComunicacao().registrarDialogo(Long.toString(pNotificacao.getId()), dialogo);
-            } catch (ErroRegistrandoDialogo ex) {
-                throw new ErroGerandoDialogo("FAlha registrando dialogo");
+    public ItfDialogo gerarDialogoByNotificacao(NotificacaoSB pNotificacao) throws ErroGerandoDialogo {
+        try {
+            if (pNotificacao.getId() == null) {
+                throw new ErroGerandoDialogo("O Id da notificação não foi definido");
             }
+            DialogoNotificacao dialogo = new DialogoNotificacao(pNotificacao);
+            dialogo.setCodigoSelo(String.valueOf(pNotificacao.getId()));
+
+            return dialogo;
+        } catch (Throwable ex) {
+            throw new ErroGerandoDialogo("Erro Selando Comunicação");
         }
-        return dialogo;
 
     }
 }

@@ -1,14 +1,18 @@
 package org.coletivoJava.fw.projetos.erpColetivoJava.implementacao.cucumber.notificacaosistemamenu.etapas;
 
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
 import org.coletivoJava.fw.projetos.erpColetivoJava.api.cucumber.notificacaosistemamenu.EtapasNotificacaoSistemaMenu;
 import cucumber.api.java.pt.Entao;
 import java.lang.UnsupportedOperationException;
+import java.util.List;
+import org.junit.Assert;
 
 public class G_Entao_a_notificacao_nao_deve_mais_aparecer_na_lista_de_notificacoes_pendentes {
 
     @Entao(EtapasNotificacaoSistemaMenu.E_A_NOTIFICACAO_NAO_DEVE_MAIS_APARECER_NA_LISTA_DE_NOTIFICACOES_PENDENTES)
     public void implementacaoEtapa() {
-        throw new UnsupportedOperationException(
-                "Etapa 'a notificação não deve mais aparecer na lista de notificações pendentes' não implementadas");
+        List<ItfDialogo> dialogos = CarameloCode.getServicoComunicacao().getArmazenamento().getComunicacoesAguardandoRespostaDoDestinatario(CarameloCode.getUsuarioLogado());
+        Assert.assertTrue("Sem dialogos registrados", dialogos.isEmpty());
     }
 }

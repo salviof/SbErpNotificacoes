@@ -89,7 +89,12 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                 if (!notificacao.getStatus().equals(FabStatusNotificacao.REGISTRADA.getRegistro())) {
                     throw new ErroRegraDeNegocio("A notificação precisa estar no status Registrada");
                 }
-                ItfDialogo dialogo = SBCore.getServicoComunicacao().getComnunicacaoRegistrada(notificacao.getCodigoSeloComunicacao());
+                String codigoSelo = notificacao.getCodigoSeloComunicacao();
+                if (codigoSelo == null) {
+                    codigoSelo = String.valueOf(notificacao.getId());
+
+                }
+                ItfDialogo dialogo = SBCore.getServicoComunicacao().getComnunicacaoRegistrada(codigoSelo);
 
                 for (FabLogDisparoComunicacao tipoLogComunicacao : FabLogDisparoComunicacao.values()) {
                     if (!tipoLogComunicacao.isMarcadoParaNotificar(notificacao.getTipoNotificacao())
@@ -100,10 +105,7 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                     try {
                         LogDisparoNotificacao disparo = tipoLogComunicacao.getRegistro(notificacao);
                         // ItfDialogo dialogoJaRestistrado = SBCore.getServicoComunicacao().getArmazenamento().getDialogoByCodigoSelo(disparo.getNotificacao().getCodigoSeloComunicacao());
-                        if (dialogo == null) {
 
-                            dialogo = SBCore.getServicoComunicacao().registrarDialogo(disparo.getNotificacao().getCodigoSeloComunicacao(), disparo.getNotificacao().getDialogo());
-                        }
                         try {
                             String codigoEnvio = SBCore.getServicoComunicacao().dispararComunicacao(dialogo, tipoLogComunicacao.getCanal());
                             if (codigoEnvio != null) {
@@ -112,6 +114,7 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                                 disparo.setReciboEntrega(new ReciboEntrega());
                                 disparo.getReciboEntrega().setDisparo(disparo);
                                 disparo.getReciboEntrega().setCodigoEntrega(codigoEnvio);
+                                //Ao adicionar em um persistencebag, com transação ativa, o disparo será persistido no banco de dados
                                 notificacao.getDisparos().add(disparo);
 
                             }
@@ -129,7 +132,7 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                 if (!notificacao.getDisparos().isEmpty()) {
                     notificacao.setStatus(FabStatusNotificacao.ENVIADA.getRegistro());
                 }
-                UtilSBPersistencia.mergeRegistro(notificacao);
+
             }
         };
     }

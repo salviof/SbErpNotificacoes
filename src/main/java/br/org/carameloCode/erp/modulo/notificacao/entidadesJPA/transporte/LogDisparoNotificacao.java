@@ -64,6 +64,10 @@ public class LogDisparoNotificacao extends EntidadeSimplesORM {
     @OneToOne(targetEntity = ReciboLeitura.class, mappedBy = "disparo", cascade = CascadeType.ALL, optional = true)
     private ReciboLeitura reciboLeitura;
 
+    public LogDisparoNotificacao() {
+        System.out.println("");
+    }
+
     public Long getId() {
         return id;
     }

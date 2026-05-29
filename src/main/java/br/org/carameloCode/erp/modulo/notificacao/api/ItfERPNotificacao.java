@@ -21,7 +21,7 @@ public interface ItfERPNotificacao {
 
     public boolean notificar(TipoNotificacao tipo, ComoEntidadeSimples pItem);
 
-    public ItfDialogo getDialogoByNotificacao(NotificacaoSB pNotificacao) throws ErroGerandoDialogo;
+    public ItfDialogo gerarDialogoByNotificacao(NotificacaoSB pNotificacao) throws ErroGerandoDialogo;
 
     public String getReciboLeitura(ERPTipoCanalComunicacao tipoTransporte, Long pCodigoNotificacao);
 

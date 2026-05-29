@@ -4,6 +4,7 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.controller;
 
+import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
 import br.org.carameloCode.erp.modulo.notificacao.api.model.notificacaosb.CPNotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.DialogoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
@@ -64,9 +65,9 @@ public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
             NotificacaoSB nt = consulta.getPrimeiroRegistro();
             if (nt != null) {
 
-                dialogo = new DialogoNotificacao(nt);
-                dialogo.setCodigoSelo(String.valueOf(nt.getId()));
-                getComunicacoesAtivas().put(pCodigoSelo, dialogo);
+                dialogo = ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().gerarDialogoByNotificacao(nt);
+
+                //  getComunicacoesAtivas().put(pCodigoSelo, dialogo);
                 /// PROBLEMA NO GETdIALOGO CHAMA  getDialogoByCodigoSelo NOVAMENTE, GERANDO LOOP
                 /// nt.getDialogo();
                 ///
@@ -95,24 +96,28 @@ public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
             consulta.getPrimeiroRegistro();
 
             NotificacaoSB nt = consulta.getPrimeiroRegistro();
+            if (nt != null) {
+                if (nt.getDisparos() != null) {
+                    Optional<LogDisparoNotificacao> disparoMenu = nt.getDisparos().stream().filter(dp -> dp.getTipoTransporte().equals(ERPTipoCanalComunicacao.INTRANET_MENU.getRegistro())).findFirst();
 
-            Optional<LogDisparoNotificacao> disparoMenu = nt.getDisparos().stream().filter(dp -> dp.getTipoTransporte().equals(ERPTipoCanalComunicacao.INTRANET_MENU.getRegistro())).findFirst();
+                    if (disparoMenu.isPresent()) {
 
-            if (disparoMenu.isPresent()) {
+                    } else {
 
-            } else {
-
+                    }
+                }
             }
         } finally {
 
         }
-        return super.registrarDialogo(pComunicacao); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        return super.registrarDialogo(pComunicacao);
     }
 
     @Override
 
     public List<ItfDialogo> getComunicacoesAguardandoRespostaDoDestinatario(ComoUsuario pDestinatario
     ) {
+
         return super.getComunicacoesAguardandoRespostaDoDestinatario(pDestinatario); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
