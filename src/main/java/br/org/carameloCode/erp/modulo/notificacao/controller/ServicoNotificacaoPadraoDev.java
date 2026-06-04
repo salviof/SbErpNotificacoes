@@ -4,13 +4,18 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.controller;
 
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringGerador;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoRespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfTipoCanalComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItffabricaCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoServicoComunicacao;
 import javax.swing.JOptionPane;
+import org.coletivojava.fw.api.objetoNativo.comunicacao.RespostaComunicacao;
 
 /**
  *
@@ -43,7 +48,31 @@ public class ServicoNotificacaoPadraoDev extends
 
     @Override
     public String getTokenDispositivoNotificacao(ComoUsuario pUsuario) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return null;
+    }
+
+    @Override
+    public ItffabricaCanalComunicacao getCanalPadrao() {
+        return ERPTipoCanalComunicacao.INTRANET_MENU;
+    }
+
+    @Override
+    public boolean notificarViaMenu(ItfDialogo pDialogo) {
+
+        System.out.println("Aicionado notificacao no menu");
+        System.out.println(pDialogo.getMensagem());
+        System.out.println(pDialogo.getAssunto());
+        return true;
+    }
+
+    @Override
+    public boolean notificarViaBloqueioTEla(ItfDialogo pDialogo) {
+        if (JOptionPane.showConfirmDialog(null, pDialogo.getMensagem(),
+                "Deseja continuar?", JOptionPane.YES_OPTION) == 0) {
+
+            return responderComunicacao(pDialogo.getCodigoSelo(), new RespostaComunicacao(pDialogo, FabTipoRespostaComunicacao.ENTENDIDO.getRegistro()), ERPTipoCanalComunicacao.INTRANET_BLOQUEIO_TELA);
+        }
+        return false;
     }
 
 }

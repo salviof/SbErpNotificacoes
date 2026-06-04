@@ -1,13 +1,10 @@
-package org.coletivoJava.fw.projetos.erpColetivoJava.implementacao.cucumber.notificacaosistemamenu;
+package org.coletivoJava.fw.projetos.erpColetivoJava.implementacao.cucumber.notificacaosistemabloqueio;
 
-import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.projetos.notificacoes.config.ConfigPersistenciaCarameloNotficacaoDemo;
-import br.org.coletivoJava.fw.erp.implementacao.notificação.NotificaNotificacaoPadraoimpl;
 import br.org.coletivoJava.testes.erp.ConfigCoreApiNotificacaoSBTestes;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import cucumber.api.CucumberOptions;
 
@@ -20,12 +17,10 @@ import testesFW.cucumber.TesteIntegracaoFuncionalidadeCucumber;
  * @author sfurbino
  */
 @RunWith(CucumberSBTestes.class)
-@CucumberOptions(features = "classpath:caracteristicas/notificacaoSistemaMenu", tags = "@NotificacaoSistemaMenu",
-        glue = "org.coletivoJava.fw.projetos.erpColetivoJava.implementacao.cucumber.notificacaosistemamenu.etapas",
+@CucumberOptions(features = "classpath:caracteristicas/notificacaoBloqueioTela", tags = "@NotificacaoSistemaBloqueio",
+        glue = "org.coletivoJava.fw.projetos.erpColetivoJava.implementacao.cucumber.notificacaosistemabloqueio.etapas",
         monochrome = false, dryRun = false)
-public class FluxoNotificaoSistemaMenu extends TesteIntegracaoFuncionalidadeCucumber {
-
-    public static final NotificaNotificacaoPadraoimpl GESTAO_NOTIFICACAO = CarameloCode.getServicoERP(ERPNotificacoes.NOTIFICACAO_PADRAO);
+public class FluxoNotificaoSistemaBloqueio extends TesteIntegracaoFuncionalidadeCucumber {
 
     public static NotificacaoSB notificacao;
     public static UsuarioSB USUARIO1;

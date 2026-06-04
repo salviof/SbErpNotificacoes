@@ -1,16 +1,21 @@
 package org.coletivoJava.fw.projetos.erpColetivoJava.implementacao.cucumber.notificacaosistemamenu.etapas;
 
-import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringGerador;
 import org.coletivoJava.fw.projetos.erpColetivoJava.api.cucumber.notificacaosistemamenu.EtapasNotificacaoSistemaMenu;
 import cucumber.api.java.pt.Quando;
-import java.util.List;
+import org.coletivoJava.fw.projetos.erpColetivoJava.implementacao.cucumber.notificacaosistemamenu.FluxoNotificaoSistemaMenu;
 
 public class E_Quando_o_usuario_marca_a_notificacao_como_lida {
 
     @Quando(EtapasNotificacaoSistemaMenu.QUANDO_O_USUARIO_MARCA_A_NOTIFICACAO_COMO_LIDA)
     public void implementacaoEtapa() {
-        List<ItfDialogo> dialogos = CarameloCode.getServicoComunicacao().getArmazenamento().getComunicacoesAguardandoRespostaDoDestinatario(CarameloCode.getUsuarioLogado());
-        CarameloCode.getServicoComunicacao().responderComunicacao(dialogos.get(0).getCodigoSelo(), dialogos.get(0).getRepostasPossiveis().get(0));
+
+        FluxoNotificaoSistemaMenu.atualizarEntidadesDeclaradas();
+        NotificacaoSB ntf = FluxoNotificaoSistemaMenu.notificacao;
+        LogDisparoNotificacao disparo = ntf.getDisparos().get(0);
+        FluxoNotificaoSistemaMenu.GESTAO_NOTIFICACAO.registrarReciboLeitura(disparo.getCodigoRegistroEnvio(), UtilCRCStringGerador.getStringRandomicaUUID());
+
     }
 }

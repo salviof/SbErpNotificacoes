@@ -4,14 +4,14 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.api;
 
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.erp.FabTipoAgenteOrganizacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
+import java.util.List;
 
 /**
  *
@@ -19,16 +19,18 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuar
  */
 public interface ItfERPNotificacao {
 
-    public boolean notificar(TipoNotificacao tipo, ComoEntidadeSimples pItem);
+    public NotificacaoSB gerarNotificacao(TipoNotificacao pNotificcao, ComoUsuario pUsuario, ComoEntidadeSimples pObjeto) throws ErroGerandoNotificacao;
+
+    public List<NotificacaoSB> gerarNotificacoes(TipoNotificacao tipo, ComoEntidadeSimples pItem, FabTipoAgenteOrganizacao... pTipoAgentes) throws ErroGerandoNotificacao;
+
+    public default NotificacaoSB gerarNotificacao(TipoNotificacao pNotificcao, ComoUsuario pUsuario) throws ErroGerandoNotificacao {
+        return gerarNotificacao(pNotificcao, pUsuario, (ComoEntidadeSimples) null);
+    }
 
     public ItfDialogo gerarDialogoByNotificacao(NotificacaoSB pNotificacao) throws ErroGerandoDialogo;
 
-    public String getReciboLeitura(ERPTipoCanalComunicacao tipoTransporte, Long pCodigoNotificacao);
+    public boolean registrarReciboLeitura(String codigoDisparo, String codigoLeitura);
 
-    public String registrarReciboEntrega(ERPTipoCanalComunicacao tipoTransporte, String codigoDisparo, String codigoEntrega);
-
-    public String registrarReciboLeitura(ERPTipoCanalComunicacao tipoTransporte, String codigoDisparo, String codigoLeitura);
-
-    public NotificacaoSB getNotificacao(TipoNotificacao pNotificcao, ComoUsuario pUsuario, ComoEntidadeSimples pObjeto) throws ErroGerandoNotificacao;
+    public boolean registrarReciboLeitura(ERPTipoCanalComunicacao pTipoCanal, String pCodigoNotificacao, String codigoLeitura);
 
 }

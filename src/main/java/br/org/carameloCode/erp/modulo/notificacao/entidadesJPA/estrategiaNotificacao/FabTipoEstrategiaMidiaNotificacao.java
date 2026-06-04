@@ -4,13 +4,12 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.estrategiaNotificacao;
 
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.FabLogDisparoComunicacao;
 import com.google.common.collect.Lists;
 import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import java.util.List;
 
 /**
@@ -29,13 +28,13 @@ public enum FabTipoEstrategiaMidiaNotificacao implements ComoFabricaComPersisten
     INSISTIR_VIA_EMAIL_E_WHATSAPP,
     @InfoObjetoDaFabrica(classeObjeto = EstrategiaNotificacao.class, id = 5l, nomeObjeto = "Insistir no mobile")
     INSISTIR_VIA_MOBILE;
-    public static String _ESTRATEGIA_DESTINATARIO = "USUARIO_LOGADO";
 
     public List<FabLogDisparoComunicacao> getMedias(NotificacaoSB pNotificacao) {
 
         switch (this) {
 
             case PROGRESSIVA:
+
                 long notificacoesMatrix = pNotificacao.getDisparos().stream().filter(dsp -> dsp.getTipoTransporte().equals(ERPTipoCanalComunicacao.MATRIX)).count();
                 long notificacoesSMS = pNotificacao.getDisparos().stream().filter(dsp -> dsp.getTipoTransporte().equals(ERPTipoCanalComunicacao.MATRIX)).count();
                 long notificacoesViaEMail = pNotificacao.getDisparos().stream().filter(dsp -> dsp.getTipoTransporte().equals(ERPTipoCanalComunicacao.MATRIX)).count();

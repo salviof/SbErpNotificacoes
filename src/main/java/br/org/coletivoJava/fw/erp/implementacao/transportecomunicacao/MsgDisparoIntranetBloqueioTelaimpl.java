@@ -1,21 +1,22 @@
 package br.org.coletivoJava.fw.erp.implementacao.transportecomunicacao;
 
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.repositorioLinkEntidades.RepositorioLinkEntidadesGenerico;
-import br.org.coletivoJava.fw.api.erp.transportecomunicacao.MsgDisparoIntranetMenu;
+import br.org.coletivoJava.fw.api.erp.transportecomunicacao.MsgDisparoIntranetBloqueioTela;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDisparoComunicacao;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
-@MsgDisparoIntranetMenu
-public class MsgDisparoIntranetMenuimpl
+@MsgDisparoIntranetBloqueioTela
+public class MsgDisparoIntranetBloqueioTelaimpl
         extends
         RepositorioLinkEntidadesGenerico
         implements
-        com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDisparoComunicacao {
+        ItfDisparoComunicacao {
 
     @Override
-    public boolean validarDadosDisparo(
-            com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo pDialogo) {
+    public boolean validarDadosDisparo(ItfDialogo pDialogo) {
         if (pDialogo.getAssunto() == null) {
             return false;
         }
@@ -30,7 +31,7 @@ public class MsgDisparoIntranetMenuimpl
             String recibo = pDialogo.getCodigoSelo();
             if (CarameloCode.getServicoComunicacao().getArmazenamento().registrarDialogoAtivo(pDialogo)) {
 
-                CarameloCode.getServicoComunicacao().notificarViaMenu(pDialogo);
+//                CarameloCode.getServicoComunicacao().notificarViaBloqueioTEla(pDialogo);
                 if (recibo == null) {
                     return null;
                 }
@@ -41,4 +42,5 @@ public class MsgDisparoIntranetMenuimpl
         }
         return null;
     }
+
 }

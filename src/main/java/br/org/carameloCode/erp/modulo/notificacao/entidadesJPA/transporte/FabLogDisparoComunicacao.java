@@ -4,7 +4,7 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte;
 
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 
@@ -64,9 +64,9 @@ public enum FabLogDisparoComunicacao {
             case SMS:
                 return tipoNotificacao.isNotificarViaEmail();
             case INTRANET_MENU:
-                return tipoNotificacao.isNotificarViaIntranet();
+                return tipoNotificacao.isNotificarViaMenu();
             case INTRANET_MODAL:
-                return tipoNotificacao.isNotificarViaIntranet();
+                return tipoNotificacao.isNotificarViaTelaDeBLoqueio();
             case API_PERSONALIZADA:
                 return tipoNotificacao.isNotificarViaApiPersonalizada();
             case WHATZAUP:

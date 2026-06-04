@@ -9,19 +9,21 @@ import com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoDoSistema;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMNormal;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ItfEntidadeExtensivel;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
+import com.super_bits.modulosSB.SBCore.modulos.Mensagens.FabTipoAgenteDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.modeloDocumento.ComoModeloDocumento;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -95,11 +97,11 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via Intranet")
     @InfoCampoVerdadeiroOuFalso
-    private boolean notificarViaIntranet;
+    private boolean notificarViaMenu;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via Tela Bloqueio")
     @InfoCampoVerdadeiroOuFalso
-    private boolean notificarViaTelaDeBLoqueio;
+    private boolean notificarViaTelaDeBLoqueio = false;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via APP")
     @InfoCampoVerdadeiroOuFalso
@@ -121,6 +123,10 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     @InfoCampoVerdadeiroOuFalso
     private boolean notificarViaEmail = true;
 
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampoVerdadeiroOuFalso
+    private boolean remetenteAguardaResposta = false;
+
     @InfoCampo(tipo = FabTipoAtributoObjeto.QUANTIDADE)
     private int minutosRenotificacao;
 
@@ -133,7 +139,9 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
 
     private String nomeEntidadeReferencia;
 
-    private String destinatarios = FabTipoEstrategiaMidiaNotificacao._ESTRATEGIA_DESTINATARIO;
+    @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA)
+    @Enumerated(EnumType.STRING)
+    private FabTipoAgenteDoSistema tipoAgente;
 
     @Transient
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, caminhoParaLista = "entidadesDisponiveis")
@@ -143,6 +151,13 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     @InfoCampoValorLogico(nomeCalculo = "EStruturas disponiveis")
     @Transient
     private List<EstruturaDeEntidade> entidadesDisponiveis;
+
+    @Enumerated(EnumType.STRING)
+    private FabTipoEstrategiaMidiaNotificacao estrategia = FabTipoEstrategiaMidiaNotificacao.PROGRESSIVA;
+
+    public TipoNotificacaoUsrComUsr getComoTiponotificacaoUsrToUsr() {
+        return (TipoNotificacaoUsrComUsr) this;
+    }
 
     public Long getId() {
         return id;
@@ -209,12 +224,12 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
         this.notifificarViaMatrix = notifificarViaMatrix;
     }
 
-    public boolean isNotificarViaIntranet() {
-        return notificarViaIntranet;
+    public boolean isNotificarViaMenu() {
+        return notificarViaMenu;
     }
 
-    public void setNotificarViaIntranet(boolean notificarViaIntranet) {
-        this.notificarViaIntranet = notificarViaIntranet;
+    public void setNotificarViaMenu(boolean notificarViaMenu) {
+        this.notificarViaMenu = notificarViaMenu;
     }
 
     public boolean isNotificarViaTelaDeBLoqueio() {
@@ -359,29 +374,33 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
         this.entidadesDisponiveis = entidadesDisponiveis;
     }
 
-    /**
-     *
-     * Especificica o usuário, ou lista de usuários que devem ser notificados, a
-     * partir do caminho relativo à entidade relacionada: exemplo:
-     * [responsaveis] ou [equipeRelacionada.responsaveis] ou [usuarioCriou]
-     *
-     * *Obrigatório para definição ação de gatilho, nos casos de cadastro de
-     * notificações personalizadadas
-     *
-     * @return USUARIO_LOGADO ou
-     * CAMINHO_RELATIVO_ENTIDADE_RELACIONADO_PARA_USUARIO_OU_LISTA DE USUÁRIOS
-     */
-    public String getDestinatarios() {
-        return destinatarios;
-    }
-
-    public void setDestinatarios(String destinatarios) {
-        this.destinatarios = destinatarios;
-    }
-
     @Override
     public String getEntidadePrincipalPalavraChave() {
         return nomeEntidadeReferencia;
+    }
+
+    public boolean isRemetenteAguardaResposta() {
+        return remetenteAguardaResposta;
+    }
+
+    public void setRemetenteAguardaResposta(boolean remetenteAguardaResposta) {
+        this.remetenteAguardaResposta = remetenteAguardaResposta;
+    }
+
+    public FabTipoAgenteDoSistema getTipoAgente() {
+        return tipoAgente;
+    }
+
+    public void setTipoAgente(FabTipoAgenteDoSistema tipoAgente) {
+        this.tipoAgente = tipoAgente;
+    }
+
+    public FabTipoEstrategiaMidiaNotificacao getEstrategia() {
+        return estrategia;
+    }
+
+    public void setEstrategia(FabTipoEstrategiaMidiaNotificacao estrategia) {
+        this.estrategia = estrategia;
     }
 
 }

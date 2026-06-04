@@ -2,7 +2,9 @@ package br.org.carameloCode.erp.modulo.notificacao.api;
 
 import br.org.carameloCode.erp.modulo.notificacao.api.model.tiponotificacao.CPTipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
 import com.super_bits.modulos.SBAcessosModel.controller.FabModulosSistemaSB;
 import com.super_bits.modulos.SBAcessosModel.fabricas.ComoFabricaDeAcoesPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.acoesAutomatizadas.FabTipoAutoExecucaoAcao;
@@ -24,6 +26,8 @@ public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia
     @InfoTipoAcaoController
     NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO,
     @InfoTipoAcaoController
+    NOTIFICACAO_CTR_ATUALIZAR_REPOSITORIO_LOCAL,
+    @InfoTipoAcaoController
     NOTIFICACAO_CTR_ENVIAR_NOTIFICACAO_REGISTRADA,
     @InfoTipoAcaoController(autoExecucao = FabTipoAutoExecucaoAcao.MINUTOS_A_CADA_1)
     NOTIFICACAO_CTR_PROCESSAR_NOTIFICACOES_AGUARDANDO_ENVIO_AUTO_EXEC,
@@ -41,7 +45,7 @@ public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia
         "[separador: Estratégia de notificação]",
         CPTipoNotificacao.notificacaounica, CPTipoNotificacao.ativo, CPTipoNotificacao.exigirrecibodeentrega, CPTipoNotificacao.exigirreciboleitura,
         "[separador: Mídias de notificação]",
-        CPTipoNotificacao.notificarviaapipersonalizada, CPTipoNotificacao.notificarviaemail, CPTipoNotificacao.notificarviaintranet, CPTipoNotificacao.notificarviamobile, CPTipoNotificacao.notificarviasms,
+        CPTipoNotificacao.notificarviaapipersonalizada, CPTipoNotificacao.notificarviaemail, "notificarViaMenu", CPTipoNotificacao.notificarviamobile, CPTipoNotificacao.notificarviasms,
         CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviawhatsapp, CPTipoNotificacao.notifificarviamatrix
 
     }
@@ -49,7 +53,14 @@ public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia
     TIPO_NOTIFICACAO_FRM_EDITAR,
     @InfoTipoAcaoFormulario()
     TIPO_NOTIFICACAO_FRM_VISUALIZAR,
-    @InfoTipoAcaoController()
+    @InfoTipoAcaoController(icone = "fa fa-paper-plane-o")
     TIPO_NOTIFICACAO_CTR_SALVAR_MERGE,
+    @InfoTipoAcaoGestaoEntidade(entidade = LogDisparoNotificacao.class, icone = "fa fa-paper-plane-o")
+    DISPAROS_MB_GESTAO,
+    DISPAROS_FRM_LISTAR_POR_TIPO_CANAL,
+    @InfoTipoAcaoGestaoEntidade(entidade = ReciboLeitura.class, icone = "fa fa-paper-plane-o")
+    RECIBO_MB_GESTAO,
+    @InfoTipoAcaoController(icone = "fa fa-paper-plane-o")
+    RECIBO_CTR_SALVAR_MERGE;
 
 }

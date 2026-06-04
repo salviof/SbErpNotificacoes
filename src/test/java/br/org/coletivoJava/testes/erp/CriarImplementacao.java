@@ -5,7 +5,7 @@
 package br.org.coletivoJava.testes.erp;
 
 import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import org.apache.logging.log4j.LogManager;
 import org.coletivojava.fw.api.objetoNativo.log.LogPadraoSB;
@@ -14,7 +14,6 @@ import testes.geradorCodigo.erp.GeradorERPImplementacaoContexto;
 import testes.geradorCodigo.erp.dto.GeradorDTOInterface;
 import testes.geradorCodigo.erp.dto.GeradorDTOPojo;
 import testes.geradorCodigo.erp.dto.GeradorDTOProcessador;
-import testesFW.ConfigCoreJunitPadraoDevAcaoPermissao;
 
 /**
  *
@@ -41,8 +40,9 @@ public class CriarImplementacao {
 
     }
 
-    private void implementacaoTransporteModal() {
-        //new GeradorERPImplementacaoContexto(ERPTipoCanalComunicacao.INTRANET_BLOQUEIO_TELA).salvarEmDiretorioPadraCASO_NAO_EXISTA();
+    private void implementacaoTransporteBLoqueio() {
+        new GeradorERPImplementacaoContexto(ERPTipoCanalComunicacao.INTRANET_BLOQUEIO_TELA).salvarEmDiretorioPadraCASO_NAO_EXISTA();
+
     }
 
     @Test
@@ -51,8 +51,9 @@ public class CriarImplementacao {
             SBCore.configurar(new ConfigCoreApiNotificacaoSBTestes(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
             new GeradorERPImplementacaoContexto(ERPNotificacoes.NOTIFICACAO_PADRAO).salvarEmDiretorioPadraCASO_NAO_EXISTA();
 
-            implementacaoParao();
+            //  implementacaoParao();
             implementacaoTransporteMenu();
+            implementacaoTransporteBLoqueio();
         } catch (Throwable t) {
             LogManager.getLogger(LogPadraoSB.class).error("Erro Criando anotações", t);
         }

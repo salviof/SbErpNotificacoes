@@ -6,6 +6,7 @@ package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao;
 
 import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
 import br.org.carameloCode.erp.modulo.notificacao.api.ErroGerandoDialogo;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.estrategiaNotificacao.FabTipoEstrategiaMidiaNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.StatusNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
@@ -14,6 +15,7 @@ import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimple
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import java.util.Date;
@@ -23,6 +25,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -49,7 +53,6 @@ import org.hibernate.annotations.GenericGenerator;
 public class NotificacaoSB extends EntidadeSimplesORM {
 
     @Id
-
     @GeneratedValue(generator = "geradorIdNotificacao")
     private Long id;
 
@@ -98,6 +101,14 @@ public class NotificacaoSB extends EntidadeSimplesORM {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
     private String codigoEntidadeRelacionada;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampoVerdadeiroOuFalso()
+    private boolean respostaPostiva;
+
+    public NotificacaoUsrParaUsr getComoNotificacaoUsuarioParaUsuario() {
+        return (NotificacaoUsrParaUsr) this;
+    }
 
     @Transient
     private DialogoNotificacao dialogo;
@@ -217,6 +228,14 @@ public class NotificacaoSB extends EntidadeSimplesORM {
 
     public void setCodigoEntidadeRelacionada(String codigoEntidadeRelacionada) {
         this.codigoEntidadeRelacionada = codigoEntidadeRelacionada;
+    }
+
+    public boolean isRespostaPostiva() {
+        return respostaPostiva;
+    }
+
+    public void setRespostaPostiva(boolean respostaPostiva) {
+        this.respostaPostiva = respostaPostiva;
     }
 
 }

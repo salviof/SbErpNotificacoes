@@ -4,7 +4,7 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte;
 
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.entrega.ReciboEntrega;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura;
@@ -42,6 +42,7 @@ public class LogDisparoNotificacao extends EntidadeSimplesORM {
     private NotificacaoSB notificacao;
 
     @Enumerated(EnumType.STRING)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA)
     private ERPTipoCanalComunicacao tipoTransporte;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)

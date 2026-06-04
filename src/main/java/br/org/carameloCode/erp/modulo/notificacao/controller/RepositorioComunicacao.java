@@ -1,25 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.org.carameloCode.erp.modulo.notificacao.controller;
 
 import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
+import br.org.carameloCode.erp.modulo.notificacao.api.ErroGerandoDialogo;
+import br.org.carameloCode.erp.modulo.notificacao.api.ItfERPNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.api.model.notificacaosb.CPNotificacaoSB;
-import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.DialogoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.FabStatusNotificacao;
-import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
+import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ArmazenamentoComunicacaoTransient;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import javax.persistence.EntityManager;
+import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**
  *
@@ -30,6 +29,7 @@ public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
     @Override
     protected Map<String, ItfDialogo> getComunicacoesAtivas() {
         Map<String, ItfDialogo> comunicacoesAtivas = super.getComunicacoesAtivas();
+        ItfERPNotificacao servicoNotificacao = CarameloCode.getServicoERP(ERPNotificacoes.NOTIFICACAO_PADRAO);
         if (comunicacoesAtivas.isEmpty()) {
             EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
             try {
@@ -38,12 +38,12 @@ public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
                 List<NotificacaoSB> notificacoes = consulta.gerarResultados();
 
                 for (NotificacaoSB ntf : notificacoes) {
-                    if (ntf.getDisparos().stream().filter(dp -> dp.getTipoTransporte().equals(ERPTipoCanalComunicacao.INTRANET_MENU)).findFirst().isPresent()) {
-                        DialogoNotificacao dialogo = new DialogoNotificacao(ntf);
-                        dialogo.setCodigoSelo(String.valueOf(ntf.getCodigoSeloComunicacao()));
-                        comunicacoesAtivas.put(ntf.getCodigoSeloComunicacao(), dialogo);
-
+                    try {
+                        comunicacoesAtivas.put(ntf.getCodigoSeloComunicacao(), servicoNotificacao.gerarDialogoByNotificacao(ntf));
+                    } catch (ErroGerandoDialogo ex) {
+                        SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha criando notificação inválida", ex);
                     }
+
                 }
             } finally {
                 UtilSBPersistencia.fecharEM(em);
@@ -52,9 +52,34 @@ public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
         return super.getComunicacoesAtivas();
     }
 
+    protected List<ItfDialogo> getComunicacoesAtivas(UsuarioSB pUsuario, ERPTipoCanalComunicacao pTipoComunicacao) {
+        //TODO: Não precisa consultar o banco, se esse método for frequente, usar um for em comunicações ativas vale mais a Pena
+        List<ItfDialogo> dialogos = new ArrayList<>();
+        getComunicacoesAtivas().values().stream().filter(cm -> cm.getDestinatario() != null && cm.getDestinatario().getUsuario().equals(pUsuario))
+                .filter(dlgtp -> dlgtp.getCanais().contains(pTipoComunicacao))
+                .forEach(dialogos::add);
+
+//
+        //   String jpql = "SELECT DISTINCT n.id         "
+        //            + "FROM NotificacaoSB n     JOIN n.disparos d   "
+        //            + "WHERE n.id IN :ids  AND d.tipoTransporte = :tipoTransporte AND n.status_id = " + FabStatusNotificacao.ENVIADA.getRegistro().getId()
+        //            + " AND n.usuario = :usuario";
+        //    EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
+        //     TypedQuery<Long> query = em.createQuery(jpql, Long.class);
+//        query.setParameter("ids", codigosDecomunicao);
+        //      query.setParameter("tipoTransporte", pTipoComunicacao);
+        //       query.setParameter("usuario", pUsuario);
+        //      List<NotificacaoSB> notificacoesDoTipo = (List) query.getResultList();
+        //      for (NotificacaoSB ntf : notificacoesDoTipo) {
+        //         comunicacaoAtivaComFiltro.put(ntf.getCodigoSeloComunicacao(), ntf.getDialogo());
+        //           registrarDialogoAtivo(ntf.getDialogo());
+        //     }
+        return dialogos;
+    }
+
     @Override
-    public ItfDialogo getDialogoByCodigoSelo(String pCodigoSelo) {
-        ItfDialogo dialogo = super.getDialogoByCodigoSelo(pCodigoSelo);
+    public ItfDialogo getDialogoAtivoByCodigoSelo(String pCodigoSelo) {
+        ItfDialogo dialogo = super.getDialogoAtivoByCodigoSelo(pCodigoSelo);
         if (dialogo != null) {
             return dialogo;
         }
@@ -71,7 +96,7 @@ public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
                 /// PROBLEMA NO GETdIALOGO CHAMA  getDialogoByCodigoSelo NOVAMENTE, GERANDO LOOP
                 /// nt.getDialogo();
                 ///
-                //dialogo = SBCore.getServicoComunicacao().registrarDialogo(nt.getCodigoSeloComunicacao(), nt.getDialogo());
+                //dialogo = SBCore.getServicoComunicacao().registrarDialogoAtivo(nt.getCodigoSeloComunicacao(), nt.getDialogo());
 
                 return dialogo;
 
@@ -87,44 +112,9 @@ public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
     }
 
     @Override
-    public boolean registrarDialogo(ItfDialogo pComunicacao) {
+    public boolean registrarDialogoAtivo(ItfDialogo pComunicacao) {
 
-        EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
-        try {
-            ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(NotificacaoSB.class, em);
-            consulta.addcondicaoCampoIgualA(CPNotificacaoSB.codigoselocomunicacao, pComunicacao.getCodigoSelo());
-            consulta.getPrimeiroRegistro();
-
-            NotificacaoSB nt = consulta.getPrimeiroRegistro();
-            if (nt != null) {
-                if (nt.getDisparos() != null) {
-                    Optional<LogDisparoNotificacao> disparoMenu = nt.getDisparos().stream().filter(dp -> dp.getTipoTransporte().equals(ERPTipoCanalComunicacao.INTRANET_MENU.getRegistro())).findFirst();
-
-                    if (disparoMenu.isPresent()) {
-
-                    } else {
-
-                    }
-                }
-            }
-        } finally {
-
-        }
-        return super.registrarDialogo(pComunicacao);
-    }
-
-    @Override
-
-    public List<ItfDialogo> getComunicacoesAguardandoRespostaDoDestinatario(ComoUsuario pDestinatario
-    ) {
-
-        return super.getComunicacoesAguardandoRespostaDoDestinatario(pDestinatario); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
-    @Override
-    public List<ItfDialogo> getComunicacoesAguardandoRespostaDoRemetente(ComoUsuario pRemetente
-    ) {
-        return super.getComunicacoesAguardandoRespostaDoRemetente(pRemetente); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        return super.registrarDialogoAtivo(pComunicacao);
     }
 
 }

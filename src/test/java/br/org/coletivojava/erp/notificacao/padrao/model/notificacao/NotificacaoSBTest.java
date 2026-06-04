@@ -9,7 +9,7 @@ import br.org.coletivoJava.testes.erp.ConfigCoreApiNotificacaoSBTestes;
 import br.org.coletivoJava.testes.erp.ConfigPersistenciaTestesNotificacao;
 import br.org.coletivoJava.testes.erp.FabTipoNotificacaoTeste;
 import br.org.coletivoJava.testes.erp.FabUsuariosTestesNotificacao;
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
 import br.org.carameloCode.erp.modulo.notificacao.api.ErroGerandoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.api.ItfERPNotificacao;
@@ -48,8 +48,7 @@ public class NotificacaoSBTest extends TesteJunitSBPersistencia {
         itemPessoaTeste.setId(1l);
         NotificacaoSB notificacao;
         try {
-            notificacao = notificacaoSrv.
-                    getNotificacao(FabTipoNotificacaoTeste.NOTIFICACAO_TESTE.getRegistro(),
+            notificacao = notificacaoSrv.gerarNotificacao(FabTipoNotificacaoTeste.NOTIFICACAO_TESTE.getRegistro(),
                             usuarioTeste, itemPessoaTeste);
             notificacao.getCPinst(CPNotificacaoSB.conteudohtml).getValor();
             ModuloNotificacao.notificacaoRegistrar(notificacao);
