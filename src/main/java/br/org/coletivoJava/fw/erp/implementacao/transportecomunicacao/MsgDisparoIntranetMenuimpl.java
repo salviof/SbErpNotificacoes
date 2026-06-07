@@ -30,12 +30,20 @@ public class MsgDisparoIntranetMenuimpl
             String recibo = pDialogo.getCodigoSelo();
             if (CarameloCode.getServicoComunicacao().getArmazenamento().registrarDialogoAtivo(pDialogo)) {
 
-                CarameloCode.getServicoComunicacao().notificarViaMenu(pDialogo);
+                if (!CarameloCode.getServicoComunicacao().notificarViaMenu(pDialogo)) {
+                    // Usuário não estava online, não houve confirmaçao de notificação mas foi registrado para
+                    // aparecer no menu
+                    return recibo;
+                }
                 if (recibo == null) {
                     return null;
                 }
+                return recibo;
+            } else {
+                // falha registrando dialogo no menu
+                return null;
             }
-            return recibo;
+
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha notificando via menu", t);
         }
