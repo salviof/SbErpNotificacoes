@@ -1,5 +1,6 @@
 package br.org.carameloCode.erp.modulo.notificacao.api;
 
+import br.org.carameloCode.erp.modulo.notificacao.api.model.notificacaosb.CPNotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.api.model.tiponotificacao.CPTipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura;
@@ -21,6 +22,8 @@ public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia
 
     @InfoTipoAcaoGestaoEntidade(entidade = NotificacaoSB.class, icone = "fa fa-paper-plane-o")
     NOTIFICACAO_MB_GESTAO,
+    @InfoTipoAcaoFormulario(nomeAcao = "Nova notificação", campos = {CPNotificacaoSB.tiponotificacao, CPNotificacaoSB.usuario}, icone = "fa fa-bullhorn")
+    NOTIFICACAO_FRM_NOVA,
     @InfoTipoAcaoFormulario(nomeAcao = "Listar notificações", icone = "fa fa-paper-plane-o")
     NOTIFICACAO_FRM_LISTAR,
     @InfoTipoAcaoController

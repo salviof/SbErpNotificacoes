@@ -4,8 +4,6 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.controller;
 
-import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringGerador;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoRespostaComunicacao;
