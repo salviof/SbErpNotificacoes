@@ -21,7 +21,7 @@ public interface ItfERPNotificacao {
 
     public NotificacaoSB gerarNotificacao(TipoNotificacao pNotificcao, ComoUsuario pUsuario, ComoEntidadeSimples pObjeto) throws ErroGerandoNotificacao;
 
-    public List<NotificacaoSB> gerarNotificacoes(TipoNotificacao tipo, ComoEntidadeSimples pItem, FabTipoAgenteOrganizacao... pTipoAgentes) throws ErroGerandoNotificacao;
+    public List<NotificacaoSB> gerarNotificacoes(TipoNotificacao tipo, ComoEntidadeSimples pItem) throws ErroGerandoNotificacao;
 
     public default NotificacaoSB gerarNotificacao(TipoNotificacao pNotificcao, ComoUsuario pUsuario) throws ErroGerandoNotificacao {
         return gerarNotificacao(pNotificcao, pUsuario, (ComoEntidadeSimples) null);

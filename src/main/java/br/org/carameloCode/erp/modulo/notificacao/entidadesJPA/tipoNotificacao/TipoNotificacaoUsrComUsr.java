@@ -18,6 +18,9 @@ import javax.persistence.Entity;
 @InfoObjetoSB(tags = {"Tipo de Notificação"}, plural = "Tipos de Notificação", icone = "fa fa-bullhorn")
 public class TipoNotificacaoUsrComUsr extends TipoNotificacao {
 
+    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, label = "Caminho usuario rementente ", descricao = "Ex: Pedido.criador")
+    private String caminhoUsuarioRemetente;
+
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
     @InfoCampoVerdadeiroOuFalso()
     private boolean notificarDestinatario;
@@ -50,6 +53,14 @@ public class TipoNotificacaoUsrComUsr extends TipoNotificacao {
 
     public void setTextoRespostaNegativo(String textoRespostaNegativo) {
         this.textoRespostaNegativo = textoRespostaNegativo;
+    }
+
+    public String getCaminhoUsuarioRemetente() {
+        return caminhoUsuarioRemetente;
+    }
+
+    public void setCaminhoUsuarioRemetente(String caminhoUsuarioRemetente) {
+        this.caminhoUsuarioRemetente = caminhoUsuarioRemetente;
     }
 
 }

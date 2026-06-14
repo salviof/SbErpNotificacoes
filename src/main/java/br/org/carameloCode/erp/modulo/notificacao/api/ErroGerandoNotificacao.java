@@ -4,11 +4,13 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.api;
 
+import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroCRCCoreFW;
+
 /**
  *
  * @author salvio
  */
-public class ErroGerandoNotificacao extends Exception {
+public class ErroGerandoNotificacao extends ErroCRCCoreFW {
 
     public ErroGerandoNotificacao(String pDescricao) {
         super(pDescricao);

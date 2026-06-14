@@ -8,6 +8,7 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.T
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
 import com.super_bits.modulos.SBAcessosModel.controller.FabModulosSistemaSB;
 import com.super_bits.modulos.SBAcessosModel.fabricas.ComoFabricaDeAcoesPersistencia;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.estadoFormulario.FabEstadoFormulario;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.acoesAutomatizadas.FabTipoAutoExecucaoAcao;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.anotacoes.InfoTipoAcaoController;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.anotacoes.InfoTipoAcaoFormulario;
@@ -22,8 +23,8 @@ public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia
 
     @InfoTipoAcaoGestaoEntidade(entidade = NotificacaoSB.class, icone = "fa fa-paper-plane-o")
     NOTIFICACAO_MB_GESTAO,
-    @InfoTipoAcaoFormulario(nomeAcao = "Nova notificação", campos = {CPNotificacaoSB.tiponotificacao, CPNotificacaoSB.usuario}, icone = "fa fa-bullhorn")
-    NOTIFICACAO_FRM_NOVA,
+    @InfoTipoAcaoFormulario(nomeAcao = "Nova notificação", campos = {CPNotificacaoSB.tiponotificacao, CPNotificacaoSB.usuario}, icone = "fa fa-bullhorn", estadoFormulario = FabEstadoFormulario.NOVO)
+    NOTIFICACAO_FRM_NOVO,
     @InfoTipoAcaoFormulario(nomeAcao = "Listar notificações", icone = "fa fa-paper-plane-o")
     NOTIFICACAO_FRM_LISTAR,
     @InfoTipoAcaoController
@@ -40,10 +41,14 @@ public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia
     NOTIFICACAO_CTR_PROCESSAR_NOTIFICACOES_AGUARDANDO_LIMPEZA_AUTO_EXEC,
     @InfoTipoAcaoGestaoEntidade(nomeAcao = "Tipos de Notificação", icone = "fa fa-bullhorn", entidade = TipoNotificacao.class)
     TIPO_NOTIFICACAO_MB_GESTAO,
-    @InfoTipoAcaoFormulario(nomeAcao = "Listar Tipos de Notificação", icone = "fa fa-paper-plane-o")
+    @InfoTipoAcaoFormulario(nomeAcao = "Listar Tipos de Notificação", icone = "fa fa-paper-plane-o",
+            campos = {CPTipoNotificacao.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.tipoagente, CPTipoNotificacao.notificarviaemail, CPTipoNotificacao.notificarviamenu,
+                CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviasms, CPTipoNotificacao.notifificarviamatrix, CPTipoNotificacao.notificarviawhatsapp})
     TIPO_NOTIFICACAO_FRM_LISTAR,
     @InfoTipoAcaoFormulario(campos = {"[separador: Identificação]", CPTipoNotificacao.nome, "[separador: Conteúdo]",
         CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml,
+        "[separador: Destinatário]", "tipoAgente", CPTipoNotificacao.caminhousuariodestinatario,
+        "[separador: Gatilho de disparo]", CPTipoNotificacao.acaogatilhonotificacao,
         "[separador: Entidade Relacionada]", CPTipoNotificacao.estruturaentidade,
         "[separador: Estratégia de notificação]",
         CPTipoNotificacao.notificacaounica, CPTipoNotificacao.ativo, CPTipoNotificacao.exigirrecibodeentrega, CPTipoNotificacao.exigirreciboleitura,
@@ -51,8 +56,18 @@ public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia
         CPTipoNotificacao.notificarviaapipersonalizada, CPTipoNotificacao.notificarviaemail, "notificarViaMenu", CPTipoNotificacao.notificarviamobile, CPTipoNotificacao.notificarviasms,
         CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviawhatsapp, CPTipoNotificacao.notifificarviamatrix
 
-    }
-    )
+    }, estadoFormulario = FabEstadoFormulario.NOVO)
+    TIPO_NOTIFICACAO_FRM_NOVO,
+    @InfoTipoAcaoFormulario(campos = {"[separador: Identificação]", CPTipoNotificacao.nome, "[separador: Conteúdo]",
+        CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml,
+        "[separador: Entidade Relacionada]", CPTipoNotificacao.estruturaentidade,
+        "[separador: Estratégia de notificação]",
+        CPTipoNotificacao.notificacaounica, CPTipoNotificacao.ativo, CPTipoNotificacao.exigirrecibodeentrega, CPTipoNotificacao.exigirreciboleitura, "tipoAgente",
+        "[separador: Mídias de notificação]",
+        CPTipoNotificacao.notificarviaapipersonalizada, CPTipoNotificacao.notificarviaemail, "notificarViaMenu", CPTipoNotificacao.notificarviamobile, CPTipoNotificacao.notificarviasms,
+        CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviawhatsapp, CPTipoNotificacao.notifificarviamatrix
+
+    })
     TIPO_NOTIFICACAO_FRM_EDITAR,
     @InfoTipoAcaoFormulario()
     TIPO_NOTIFICACAO_FRM_VISUALIZAR,

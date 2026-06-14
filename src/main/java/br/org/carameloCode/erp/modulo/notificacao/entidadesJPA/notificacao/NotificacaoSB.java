@@ -6,7 +6,6 @@ package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao;
 
 import br.org.carameloCode.erp.modulo.notificacao.api.ERPNotificacoes;
 import br.org.carameloCode.erp.modulo.notificacao.api.ErroGerandoDialogo;
-import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.estrategiaNotificacao.FabTipoEstrategiaMidiaNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.StatusNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
@@ -25,8 +24,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -75,6 +72,10 @@ public class NotificacaoSB extends EntidadeSimplesORM {
     @ManyToOne(targetEntity = UsuarioSB.class)
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
     private UsuarioSB usuario;
+
+    @Transient
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
+    private UsuarioSB destinatario;
 
     @ManyToOne(targetEntity = TipoNotificacao.class)
     @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
@@ -236,6 +237,11 @@ public class NotificacaoSB extends EntidadeSimplesORM {
 
     public void setRespostaPostiva(boolean respostaPostiva) {
         this.respostaPostiva = respostaPostiva;
+    }
+
+    public UsuarioSB getDestinatario() {
+        destinatario = usuario;
+        return destinatario;
     }
 
 }

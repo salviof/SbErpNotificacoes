@@ -14,14 +14,19 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.Dialo
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.FabStatusNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
 import com.google.common.collect.Lists;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
+import com.super_bits.modulosSB.Persistencia.dao.UtilCRCPersistenciaJDBC;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexaoEntidade;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexaoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
+import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
@@ -31,6 +36,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 @NotificaNotificacaoPadrao
@@ -78,41 +85,97 @@ public class NotificaNotificacaoPadraoimpl extends RepositorioLinkEntidadesGener
 
     }
 
+    private List<ComoUsuario> getDestinatarios(TipoNotificacao pTipo, ComoEntidadeSimples pItem) throws ErroEntidade {
+        boolean temDestinoExplicito = false;
+        List<ComoUsuario> destinatarios = new ArrayList<>();
+        if (pTipo.getCaminhoUsuarioDestinatario() != null && !pTipo.getCaminhoUsuarioDestinatario().isEmpty()) {
+            String caminho = pTipo.getCaminhoUsuarioDestinatario();
+            ItfCampoInstanciado campo = UtilCRCReflexaoEntidade.getCampoInstanciadoByCaminho(pItem, caminho);
+            if (campo.isUmValorComLista()) {
+                List lista = (List) campo.getValor();
+                for (Object usuario : lista) {
+                    if (campo.getValor() instanceof ComoUsuario) {
+                        destinatarios.add((ComoUsuario) campo.getValor());
+                    }
+                }
+            } else {
+                if (campo.getValor() instanceof ComoUsuario) {
+                    destinatarios.add((ComoUsuario) campo.getValor());
+                }
+            }
+
+        } else {
+            if (pTipo.getTipoAgente() != null) {
+                FabTipoAgenteOrganizacao tipoAgenteDisparo = pTipo.getTipoAgente();
+                for (ItfCampoInstanciado cp : pItem.getCamposInstanciados()) {
+                    if (cp.getValor() instanceof ComoUsuario) {
+                        FabTipoAgenteOrganizacao agente = CarameloCode.getServicoPermissao().getTipoAgente((ComoUsuario) cp.getValor());
+                        if (tipoAgenteDisparo.equals(agente)) {
+                            destinatarios.add((ComoUsuario) cp.getValor());
+                        }
+                    }
+                    if (cp.isUmValorEmLista()) {
+                        Class classeEntidade = MapaObjetosProjetoAtual.getClasseDoObjetoByNome(cp.getNomeClasseAtributoDeclarado());
+                        if (classeEntidade != null) {
+                            if (ComoUsuario.class.isAssignableFrom(classeEntidade)) {
+                                List<ComoUsuario> usuariosListAtributo = (List) cp.getValor();
+                                for (ComoUsuario usr : usuariosListAtributo) {
+                                    FabTipoAgenteOrganizacao tipoAgenteUsr = CarameloCode.getServicoPermissao().getTipoAgente((ComoUsuario) cp.getValor());
+                                    if (tipoAgenteDisparo.equals(tipoAgenteUsr)) {
+                                        destinatarios.add((ComoUsuario) usr);
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+        return destinatarios;
+
+    }
+
+    public static ComoUsuario getRmetente(TipoNotificacao pTipo, ComoEntidadeSimples pItem) {
+        if ((pTipo instanceof TipoNotificacaoUsrComUsr)) {
+            return null;
+        }
+        if (pItem == null) {
+            return null;
+        }
+        TipoNotificacaoUsrComUsr tp = (TipoNotificacaoUsrComUsr) pTipo;
+
+        if (tp.getCaminhoUsuarioRemetente() == null || tp.getCaminhoUsuarioRemetente().trim().isEmpty()) {
+            return null;
+        }
+        ItfCampoInstanciado cpInstanciado = pItem.getCPinst(tp.getCaminhoUsuarioRemetente());
+
+        if (cpInstanciado.getValor() instanceof ComoUsuario) {
+            return (ComoUsuario) cpInstanciado.getValor();
+        }
+        return null;
+
+    }
+
     @Override
-    public List<NotificacaoSB> gerarNotificacoes(TipoNotificacao tipo, ComoEntidadeSimples pItem, FabTipoAgenteOrganizacao... pTipoAgentes) throws ErroGerandoNotificacao {
+    public List<NotificacaoSB> gerarNotificacoes(TipoNotificacao pTipo, ComoEntidadeSimples pItem) throws ErroGerandoNotificacao {
         if (pItem == null) {
             throw new ErroGerandoNotificacao("Impossível notificar sobre item nulo");
         }
+
         List<NotificacaoSB> notificacoes = new ArrayList<>();
-        List<ComoUsuario> usuarios = new ArrayList<>();
-        final List<FabTipoAgenteOrganizacao> tipoAgentes = Lists.newArrayList(pTipoAgentes);
-
-        for (ItfCampoInstanciado cp : pItem.getCamposInstanciados()) {
-            if (cp.getValor() instanceof ComoUsuario) {
-                FabTipoAgenteOrganizacao agente = CarameloCode.getServicoPermissao().getTipoAgente((ComoUsuario) cp.getValor());
-                if (tipoAgentes.contains(agente)) {
-                    NotificacaoSB nt = gerarNotificacao(tipo, (ComoUsuario) cp.getValor(), pItem);
-                    notificacoes.add(nt);
-                }
-            }
-            if (cp.isUmValorEmLista()) {
-                Class classeEntidade = MapaObjetosProjetoAtual.getClasseDoObjetoByNome(cp.getNomeClasseAtributoDeclarado());
-                if (classeEntidade != null) {
-                    if (ComoUsuario.class.isAssignableFrom(classeEntidade)) {
-                        List<ComoUsuario> usuariosListAtributo = (List) cp.getValor();
-                        for (ComoUsuario usr : usuariosListAtributo) {
-                            FabTipoAgenteOrganizacao tipoAgenteUsr = CarameloCode.getServicoPermissao().getTipoAgente((ComoUsuario) cp.getValor());
-                            if (tipoAgentes.contains(tipoAgenteUsr)) {
-                                NotificacaoSB nt = gerarNotificacao(tipo, usr, pItem);
-                                notificacoes.add(nt);
-                            }
-                        }
-                    }
-                }
-
-            }
+        List<ComoUsuario> usuarios;
+        try {
+            usuarios = getDestinatarios(pTipo, pItem);
+        } catch (ErroEntidade ex) {
+            SBCore.RelatarErro(ex);
+            usuarios = new ArrayList<>();
         }
-
+        for (ComoUsuario usr : usuarios) {
+            NotificacaoSB nt = gerarNotificacao(pTipo, usr, pItem);
+            notificacoes.add(nt);
+        }
         return notificacoes;
     }
 

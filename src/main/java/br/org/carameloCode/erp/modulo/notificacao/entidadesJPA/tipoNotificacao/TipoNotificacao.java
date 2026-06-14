@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao;
 
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.estrategiaNotificacao.FabTipoEstrategiaMidiaNotificacao;
@@ -9,13 +5,15 @@ import com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoDoSistema;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMNormal;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ItfEntidadeExtensivel;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
-import com.super_bits.modulosSB.SBCore.modulos.Mensagens.FabTipoAgenteDoSistema;
+import com.super_bits.modulosSB.SBCore.modulos.erp.FabTipoAgenteOrganizacao;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValidadorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.InfoGrupoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.modeloDocumento.ComoModeloDocumento;
 import java.util.List;
 import javax.persistence.Column;
@@ -28,8 +26,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -53,7 +51,9 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     @Column(nullable = false, updatable = false, insertable = false)
     private String tipoEntidade;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, somenteLeitura = true)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, somenteLeitura = false)
+    @InfoCampoValidadorLogico()
+    @InfoCampoValorLogico(nomeCalculo = "Nome")
     private String nome;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
@@ -64,20 +64,47 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     @Column(columnDefinition = "VARCHAR(8000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String conteudoHTML;
 
-    @ManyToOne(targetEntity = AcaoDoSistema.class)
-    @InfoCampo(label = "Gatilho de Notificação", descricao = "Solicita que o sistema ative a notificação, toda vez que a ação escolhida seja executada com sucesso. Ex: Ao salvar um novo cliente, notifique o gerente")
+    @InfoCampo(label = "Gatilho de Notificação", descricao = "Solicita que o sistema ative a notificação, toda vez que a ação escolhida seja executada COM SUCESSO. Ex: Ao salvar um novo cliente, notifique o gerente",
+            somenteLeitura = false,
+            tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA,
+            caminhoParaLista = "acaoesGatilhoDisponiveis"
+    )
+    @InfoCampoValidadorLogico()
+    @InfoCampoValorLogico(nomeCalculo = "Ação gatilho notificação", somenteLeitura = false)
+    @Transient
     private AcaoDoSistema acaoGatilhoNotificacao;
 
-    @ManyToOne(targetEntity = AcaoDoSistema.class)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
+    private String nomeFabricaGatilhoNoticao;
+
+    @InfoCampo(label = "Gatilho após confirmação de envio da notificação", descricao = "Solicita que o sistema dispare outra notificação, assim que ouver um disparo SEM confirmação de entregua",
+            somenteLeitura = false,
+            caminhoParaLista = "acaoesGatilhoDisponiveis")
+    @InfoCampoValorLogico(nomeCalculo = "Ação gatilho Disparo", somenteLeitura = false)
+    @Transient
     private AcaoDoSistema acaoAutoExecucaoEnvio;
 
-    @ManyToOne(targetEntity = AcaoDoSistema.class)
-    @InfoCampo(label = "Ação após Entrega")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
+    private String nomeFabricaGatilhoAcaoEnviada;
+
+    @InfoCampo(label = "Gatilho após confirmação de entrega", descricao = "Solicita que o sistema dispare outra notificação, assim que uma notificação tiver uma confirmação de ENTREGA (antes de ser lida)",
+            somenteLeitura = false,
+            caminhoParaLista = "acaoesGatilhoDisponiveis")
+    @InfoCampoValorLogico(nomeCalculo = "Ação gatilho Entrega", somenteLeitura = false)
+    @Transient
     private AcaoDoSistema acaoAutoExecucaoEntrega;
 
-    @ManyToOne(targetEntity = AcaoDoSistema.class)
-    @InfoCampo(label = "Ação após Leitura")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
+    private String nomeFabricaGatilhoAcaoEntrega;
+
+    @InfoCampo(label = "Gatilho após confirmação de Leitura", descricao = "Solicita que o sistema dispare outra notificação, assim que uma notificação tiver uma confirmação de LEITURA",
+            somenteLeitura = false,
+            caminhoParaLista = "acaoesGatilhoDisponiveis")
+    @InfoCampoValorLogico(nomeCalculo = "Ação gatilho Leitura", somenteLeitura = false)
+    @Transient
     private AcaoDoSistema acaoAutoExecucaoLeitura;
+    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
+    private String nomeFabricaGatilhoAcaoLeitura;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
     @InfoCampoVerdadeiroOuFalso
@@ -93,35 +120,43 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via Matrix")
     @InfoCampoVerdadeiroOuFalso
-    private boolean notifificarViaMatrix;
+    @InfoCampoValidadorLogico()
+    private boolean notifificarViaMatrix = false;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via Intranet")
     @InfoCampoVerdadeiroOuFalso
-    private boolean notificarViaMenu;
+    @InfoCampoValidadorLogico()
+    private boolean notificarViaMenu = true;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via Tela Bloqueio")
     @InfoCampoVerdadeiroOuFalso
+    @InfoCampoValidadorLogico()
     private boolean notificarViaTelaDeBLoqueio = false;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via APP")
     @InfoCampoVerdadeiroOuFalso
-    private boolean notificarViaMobile;
+    @InfoCampoValidadorLogico()
+    private boolean notificarViaMobile = false;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via Msg Whatsapp")
     @InfoCampoVerdadeiroOuFalso
-    private boolean notificarViaWhatsapp;
+    @InfoCampoValidadorLogico()
+    private boolean notificarViaWhatsapp = false;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
     @InfoCampoVerdadeiroOuFalso
-    private boolean notificarViaApiPersonalizada;
+    @InfoCampoValidadorLogico()
+    private boolean notificarViaApiPersonalizada = false;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
     @InfoCampoVerdadeiroOuFalso
-    private boolean notificarViaSMS;
+    @InfoCampoValidadorLogico()
+    private boolean notificarViaSMS = false;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
     @InfoCampoVerdadeiroOuFalso
-    private boolean notificarViaEmail = true;
+    @InfoCampoValidadorLogico()
+    private boolean notificarViaEmail = false;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
     @InfoCampoVerdadeiroOuFalso
@@ -139,13 +174,25 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
 
     private String nomeEntidadeReferencia;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA)
+    @InfoCampo(label = "Origem usuário Destinatário", descricao = "Caminho relativo entidade vinculada para Usuario destinatario, ou para lista de usuários destinatarios ex: Orcamento.cliente.usuarioResonsável ou Orcamento.cliente.funcionarios[] *O nome da entidade não é obrigatŕio")
+    @InfoCampoValidadorLogico()
+    private String caminhoUsuarioDestinatario;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA, fabricaDeOpcoes = FabTipoAgenteOrganizacao.class)
     @Enumerated(EnumType.STRING)
-    private FabTipoAgenteDoSistema tipoAgente;
+    private FabTipoAgenteOrganizacao tipoAgente;
 
     @Transient
-    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, caminhoParaLista = "entidadesDisponiveis")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA, caminhoParaLista = "entidadesDisponiveis", entidadeOpcoesDisponiveis = EstruturaDeEntidade.class)
+    @InfoGrupoCampo(camposDeclarados = {"icone", "nomeEntidade"})
+    @InfoCampoValorLogico(nomeCalculo = "Entidade", somenteLeitura = false)
+    @InfoCampoValidadorLogico()
     private EstruturaDeEntidade estruturaEntidade;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
+    @InfoCampoValorLogico(nomeCalculo = "Açoes disponiveis")
+    @Transient
+    private List<AcaoDoSistema> acaoesGatilhoDisponiveis;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
     @InfoCampoValorLogico(nomeCalculo = "EStruturas disponiveis")
@@ -154,6 +201,15 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
 
     @Enumerated(EnumType.STRING)
     private FabTipoEstrategiaMidiaNotificacao estrategia = FabTipoEstrategiaMidiaNotificacao.PROGRESSIVA;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO)
+    @InfoCampoVerdadeiroOuFalso()
+    private boolean tipoNotificacaoNativa = true;
+
+    @Override
+    public void prepararNovoObjeto(Object... parametros) throws ErroPreparandoObjeto {
+        tipoNotificacaoNativa = false;
+    }
 
     public TipoNotificacaoUsrComUsr getComoTiponotificacaoUsrToUsr() {
         return (TipoNotificacaoUsrComUsr) this;
@@ -387,11 +443,11 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
         this.remetenteAguardaResposta = remetenteAguardaResposta;
     }
 
-    public FabTipoAgenteDoSistema getTipoAgente() {
+    public FabTipoAgenteOrganizacao getTipoAgente() {
         return tipoAgente;
     }
 
-    public void setTipoAgente(FabTipoAgenteDoSistema tipoAgente) {
+    public void setTipoAgente(FabTipoAgenteOrganizacao tipoAgente) {
         this.tipoAgente = tipoAgente;
     }
 
@@ -401,6 +457,62 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
 
     public void setEstrategia(FabTipoEstrategiaMidiaNotificacao estrategia) {
         this.estrategia = estrategia;
+    }
+
+    public boolean isTipoNotificacaoNativa() {
+        return tipoNotificacaoNativa;
+    }
+
+    public void setTipoNotificacaoNativa(boolean tipoNotificacaoNativa) {
+        this.tipoNotificacaoNativa = tipoNotificacaoNativa;
+    }
+
+    public List<AcaoDoSistema> getAcaoesGatilhoDisponiveis() {
+        return acaoesGatilhoDisponiveis;
+    }
+
+    public void setAcaoesGatilhoDisponiveis(List<AcaoDoSistema> acaoesGatilhoDisponiveis) {
+        this.acaoesGatilhoDisponiveis = acaoesGatilhoDisponiveis;
+    }
+
+    public String getNomeFabricaGatilhoNoticao() {
+        return nomeFabricaGatilhoNoticao;
+    }
+
+    public void setNomeFabricaGatilhoNoticao(String nomeFabricaGatilhoNoticao) {
+        this.nomeFabricaGatilhoNoticao = nomeFabricaGatilhoNoticao;
+    }
+
+    public String getNomeFabricaGatilhoAcaoEnviada() {
+        return nomeFabricaGatilhoAcaoEnviada;
+    }
+
+    public void setNomeFabricaGatilhoAcaoEnviada(String nomeFabricaGatilhoAcaoEnviada) {
+        this.nomeFabricaGatilhoAcaoEnviada = nomeFabricaGatilhoAcaoEnviada;
+    }
+
+    public String getNomeFabricaGatilhoAcaoEntrega() {
+        return nomeFabricaGatilhoAcaoEntrega;
+    }
+
+    public void setNomeFabricaGatilhoAcaoEntrega(String nomeFabricaGatilhoAcaoEntrega) {
+        this.nomeFabricaGatilhoAcaoEntrega = nomeFabricaGatilhoAcaoEntrega;
+    }
+
+    public String getNomeFabricaGatilhoAcaoLeitura() {
+        return nomeFabricaGatilhoAcaoLeitura;
+    }
+
+    public void setNomeFabricaGatilhoAcaoLeitura(String nomeFabricaGatilhoAcaoLeitura) {
+        this.nomeFabricaGatilhoAcaoLeitura = nomeFabricaGatilhoAcaoLeitura;
+    }
+
+    public String getCaminhoUsuarioDestinatario() {
+        return caminhoUsuarioDestinatario;
+    }
+
+    public void setCaminhoUsuarioDestinatario(String caminhoUsuarioDestinatario) {
+        this.caminhoUsuarioDestinatario = caminhoUsuarioDestinatario;
     }
 
 }

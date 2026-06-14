@@ -17,7 +17,7 @@ public class ConfigPersistenciaTestesNotificacao extends ConfigPersistenciaPadra
 
     @Override
     public String bancoPrincipal() {
-        return "SbErpNotificacoesModel";
+        return "carameloCodeNotificacoesDemo";
     }
 
     @Override

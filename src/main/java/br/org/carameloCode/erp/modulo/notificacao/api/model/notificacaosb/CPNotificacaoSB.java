@@ -5,7 +5,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = NotificacaoSB.class)
 public enum CPNotificacaoSB {
-	_ID, _NOME, _TIPOENTIDADE, _ASSUNTO, _CONTEUDOHTML, _USUARIO, _TIPONOTIFICACAO, _STATUS, _DATAREGISTRONOTIFICACAO, _DATAEXPIRANOTIFICACAO, _DISPAROS, _CODIGOSELOCOMUNICACAO, _CODIGOENTIDADERELACIONADA, _DIALOGO;
+	_ID, _NOME, _TIPOENTIDADE, _ASSUNTO, _CONTEUDOHTML, _USUARIO, _DESTINATARIO, _TIPONOTIFICACAO, _STATUS, _DATAREGISTRONOTIFICACAO, _DATAEXPIRANOTIFICACAO, _DISPAROS, _CODIGOSELOCOMUNICACAO, _CODIGOENTIDADERELACIONADA, _RESPOSTAPOSTIVA, _DIALOGO;
 
 	public static final String id = "id";
 	public static final String nome = "nome";
@@ -13,6 +13,7 @@ public enum CPNotificacaoSB {
 	public static final String assunto = "assunto";
 	public static final String conteudohtml = "conteudoHtml";
 	public static final String usuario = "usuario";
+	public static final String destinatario = "destinatario";
 	public static final String tiponotificacao = "tipoNotificacao";
 	public static final String status = "status";
 	public static final String dataregistronotificacao = "dataRegistroNotificacao";
@@ -20,5 +21,6 @@ public enum CPNotificacaoSB {
 	public static final String disparos = "disparos";
 	public static final String codigoselocomunicacao = "codigoSeloComunicacao";
 	public static final String codigoentidaderelacionada = "codigoEntidadeRelacionada";
+	public static final String respostapostiva = "respostaPostiva";
 	public static final String dialogo = "dialogo";
 }

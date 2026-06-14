@@ -4,12 +4,15 @@
  */
 package br.org.coletivojava.erp.notificacao.padrao.model.notificacao;
 
+import br.org.carameloCode.erp.modulo.notificacao.api.model.tiponotificacao.CPTipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import br.org.coletivoJava.testes.erp.ConfigCoreApiNotificacaoSBTestes;
 import br.org.coletivoJava.testes.erp.ConfigPersistenciaTestesNotificacao;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import org.junit.Test;
 import testesFW.TesteJunitJPAModuloERP;
@@ -24,7 +27,11 @@ public class TesteConformidade extends TesteJunitJPAModuloERP {
     protected void configAmbienteDesevolvimento() {
         SBCore.configurar(new ConfigCoreApiNotificacaoSBTestes(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
         SBPersistencia.configuraJPA(new ConfigPersistenciaTestesNotificacao(), true, true);
-
+        TipoNotificacao tipo = new TipoNotificacao();
+        ItfCampoInstanciado campoInstanciado = tipo.getCPinst(CPTipoNotificacao.estruturaentidade);
+        campoInstanciado.getGrupoCampoExibicao();
+        campoInstanciado.getComoCampoSeltorItem().getSeletor().filtrarPorAutoComplet("Client");
+        EstruturaDeEntidade es = (EstruturaDeEntidade) campoInstanciado.getValor();
     }
 
     @Test

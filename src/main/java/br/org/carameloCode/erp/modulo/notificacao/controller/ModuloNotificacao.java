@@ -16,12 +16,14 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.estrategiaNotific
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoRespostaAguardada;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoUsrParaUsr;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.FabLogDisparoComunicacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
 import com.super_bits.modulos.SBAcessosModel.controller.resposta.RespostaComGestaoEMRegraDeNegocioPadrao;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.dao.ControllerAbstratoSBPersistencia;
+import com.super_bits.modulosSB.Persistencia.dao.ErroEmBancoDeDados;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
@@ -283,7 +285,7 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
     }
 
     @InfoAcaoNotificacao(acao = FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_ATUALIZAR_REPOSITORIO_LOCAL)
-    public static synchronized ItfRespostaAcaoDoSistema notificaoAtualizarRepLocal(NotificacaoSB pNotificao) {
+    public static ItfRespostaAcaoDoSistema notificaoAtualizarRepLocal(NotificacaoSB pNotificao) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(new NotificacaoSB()), new NotificacaoSB()) {
 
             @Override
@@ -298,6 +300,22 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                 } else if (ntf.getStatus() != null && ntf.getStatus().equals(FabStatusNotificacao.LIDA.getRegistro())) {
                     CarameloCode.getServicoComunicacao().getArmazenamento().removerDialogoAtivo(pNotificao.getCodigoSeloComunicacao());
                 }
+            }
+
+        };
+    }
+
+    @InfoAcaoNotificacao(acao = FabAcaoNotificacaoPadraoSB.TIPO_NOTIFICACAO_CTR_SALVAR_MERGE)
+    public static synchronized ItfRespostaAcaoDoSistema tipoNotificacaoSalvar(TipoNotificacao pTipoNotificacao) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(new NotificacaoSB()), new NotificacaoSB()) {
+            @Override
+            public void executarAcoesFinais() throws ErroEmBancoDeDados {
+                super.executarAcoesFinais(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+            }
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                atualizarEntidade(pTipoNotificacao, true);
             }
 
         };

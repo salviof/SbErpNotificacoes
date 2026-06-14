@@ -1,5 +1,6 @@
 package br.org.carameloCode.erp.modulo.notificacao.implemetation.model.notificacaosb;
 
+import br.org.carameloCode.erp.modulo.notificacao.api.model.notificacaosb.CPNotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.FabStatusNotificacao;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
@@ -53,24 +54,8 @@ public class ValorLogicoNotificacaoPalavrasChave extends ValorLogicoCalculoGener
                     EntityManager em = UtilSBPersistencia.getEntyManagerPadraoNovo();
                     try {
                         ComoEntidadeSimples item = (ComoEntidadeSimples) UtilSBPersistencia.getRegistroByID(entidade, Long.valueOf(getNotificacao().getCodigoEntidadeRelacionada()), em);
-                        List<Class> classes = UtilCRCReflexao.getClasseESubclassesAteClasseBaseDeEntidade(entidade);
-
-                        List<String> valoresEncontradas = new ArrayList<>();
-                        UtilCRCStringVariaveisEntreCaracteres.extrairVariaveisEntreColchete(mascaraValor);
-
-                        List<String> subitens = new ArrayList<>();
-                        valoresEncontradas.stream().filter(v -> v != null && v.contains(".") && !v.contains("link:")).map(v -> v.replace("[", "").replace("]", "")).forEach(subitens::add);
-                        for (String subatributo : subitens) {
-                            String atributoDeEntidade = subatributo.substring(0, subatributo.indexOf("."));
-                            if (item.getCampoInstanciadoByNomeOuAnotacao(atributoDeEntidade).getPropriedadesRefexao().getFabTipoAtributo().equals(FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)) {
-                                ComoEntidadeSimples subitem = (ComoEntidadeSimples) item.getCampoInstanciadoByNomeOuAnotacao(atributoDeEntidade).getValor();
-                                if (subitem != null) {
-                                    mapaSub.adicionarPalavrasChaveDoObjeto(atributoDeEntidade, subitem);
-                                }
-                            }
-                        }
-                        mapaSub.adicionarPalavrasChaveDoObjeto(item);
-
+                        mapaSub.adicionarPalavrasChavePorTextoModelo(getNotificacao(), "[destinatario],  [" + CPNotificacaoSB.dataregistronotificacao + "] [" + CPNotificacaoSB.dataexpiranotificacao + "]  [" + CPNotificacaoSB.codigoselocomunicacao + "]");
+                        mapaSub.adicionarPalavrasChavePorTextoModelo(item, mascaraValor);
                     } finally {
                         UtilSBPersistencia.fecharEM(em);
                     }
