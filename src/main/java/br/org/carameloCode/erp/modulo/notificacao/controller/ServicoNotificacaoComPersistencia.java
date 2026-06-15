@@ -155,7 +155,7 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
             List<TipoNotificacao> tiposNTF = gatilhosDeNotificacao.get(pAcao.getEnumAcaoDoSistema().getNomeUnico());
             for (TipoNotificacao tipo : tiposNTF) {
 
-                if (pEntidadeRetorno == null) {
+                if (pEntidadeRetorno != null) {
                     Class classeRetorno = (UtilCRCReflexaoObjeto.getClassExtraindoProxy(pEntidadeRetorno.getClass().getSimpleName()));
                     if (classeRetorno.getSimpleName().equals(tipo.getNomeEntidadeReferencia())) {
                         entidadeRelacionda = UtilSBPersistencia.loadEntidade(pEntidadeRetorno, em);
