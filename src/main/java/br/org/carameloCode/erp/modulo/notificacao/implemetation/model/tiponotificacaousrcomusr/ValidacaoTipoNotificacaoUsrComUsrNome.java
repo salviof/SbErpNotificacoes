@@ -1,10 +1,9 @@
 package br.org.carameloCode.erp.modulo.notificacao.implemetation.model.tiponotificacaousrcomusr;
 
-import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ValidacaoGenerica;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
 import br.org.carameloCode.erp.modulo.notificacao.api.model.tiponotificacaousrcomusr.ValidadorTipoNotificacaoUsrComUsr;
 import br.org.carameloCode.erp.modulo.notificacao.api.model.tiponotificacaousrcomusr.ValidadoresTipoNotificacaoUsrComUsr;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import br.org.carameloCode.erp.modulo.notificacao.implemetation.model.tiponotificacao.ValidacaoTipoNotificacaoNome;
 import java.util.ArrayList;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
@@ -13,21 +12,14 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
 
 @ValidadorTipoNotificacaoUsrComUsr(validador = ValidadoresTipoNotificacaoUsrComUsr.NOME)
 public class ValidacaoTipoNotificacaoUsrComUsrNome
-		extends
-			ValidacaoGenerica<TipoNotificacaoUsrComUsr> {
+        extends
+        ValidacaoTipoNotificacaoNome {
 
-	public ValidacaoTipoNotificacaoUsrComUsrNome(ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValidacaoTipoNotificacaoUsrComUsrNome(ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 
-	@Override
-	public List validar(java.lang.Object o) throws ErroValidacao {
-		CarameloCode.getServicoMensagemFireForget().enviarMsgErroAoUsuario(
-				"A Validação do campo  Nome não foi implementada");
-		return new ArrayList<>();
-	}
-
-	public TipoNotificacaoUsrComUsr getTipoNotificacaoUsrComUsr() {
-		return getObjetoDoAtributo();
-	}
+    public TipoNotificacaoUsrComUsr getTipoNotificacaoUsrComUsr() {
+        return (TipoNotificacaoUsrComUsr) getObjetoDoAtributo();
+    }
 }

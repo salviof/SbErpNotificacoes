@@ -107,6 +107,11 @@ public class NotificacaoSB extends EntidadeSimplesORM {
     @InfoCampoVerdadeiroOuFalso()
     private boolean respostaPostiva;
 
+    @Column(length = 1000)
+    private String jsonMapaOldPlaceHolders;
+    @Column(length = 1000)
+    private String jsonMapaNewPLaceHolders;
+
     public NotificacaoUsrParaUsr getComoNotificacaoUsuarioParaUsuario() {
         return (NotificacaoUsrParaUsr) this;
     }
@@ -242,6 +247,22 @@ public class NotificacaoSB extends EntidadeSimplesORM {
     public UsuarioSB getDestinatario() {
         destinatario = usuario;
         return destinatario;
+    }
+
+    public String getJsonMapaOldPlaceHolders() {
+        return jsonMapaOldPlaceHolders;
+    }
+
+    public void setJsonMapaOldPlaceHolders(String jsonMapaOldPlaceHolders) {
+        this.jsonMapaOldPlaceHolders = jsonMapaOldPlaceHolders;
+    }
+
+    public String getJsonMapaNewPLaceHolders() {
+        return jsonMapaNewPLaceHolders;
+    }
+
+    public void setJsonMapaNewPLaceHolders(String jsonMapaNewPLaceHolders) {
+        this.jsonMapaNewPLaceHolders = jsonMapaNewPLaceHolders;
     }
 
 }

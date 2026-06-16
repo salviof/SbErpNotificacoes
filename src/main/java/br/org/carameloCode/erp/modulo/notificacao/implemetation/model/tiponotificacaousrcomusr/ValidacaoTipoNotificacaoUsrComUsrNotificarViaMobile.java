@@ -13,22 +13,15 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
 
 @ValidadorTipoNotificacaoUsrComUsr(validador = ValidadoresTipoNotificacaoUsrComUsr.NOTIFICARVIAMOBILE)
 public class ValidacaoTipoNotificacaoUsrComUsrNotificarViaMobile
-		extends
-			ValidacaoGenerica<TipoNotificacaoUsrComUsr> {
+        extends
+        ValidacaoGenerica<TipoNotificacaoUsrComUsr> {
 
-	public ValidacaoTipoNotificacaoUsrComUsrNotificarViaMobile(
-			ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValidacaoTipoNotificacaoUsrComUsrNotificarViaMobile(
+            ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 
-	@Override
-	public List validar(java.lang.Object o) throws ErroValidacao {
-		CarameloCode.getServicoMensagemFireForget().enviarMsgErroAoUsuario(
-				"A Validação do campo  Via APP não foi implementada");
-		return new ArrayList<>();
-	}
-
-	public TipoNotificacaoUsrComUsr getTipoNotificacaoUsrComUsr() {
-		return getObjetoDoAtributo();
-	}
+    public TipoNotificacaoUsrComUsr getTipoNotificacaoUsrComUsr() {
+        return getObjetoDoAtributo();
+    }
 }

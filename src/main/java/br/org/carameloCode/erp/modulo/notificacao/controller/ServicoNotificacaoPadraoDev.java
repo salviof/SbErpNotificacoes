@@ -4,14 +4,17 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.controller;
 
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoRespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogoEntrePessoas;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItffabricaCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoServicoComunicacao;
+import java.util.List;
 import javax.swing.JOptionPane;
 import org.coletivojava.fw.api.objetoNativo.comunicacao.RespostaComunicacao;
 
@@ -71,6 +74,11 @@ public class ServicoNotificacaoPadraoDev extends
             return responderComunicacao(pDialogo.getCodigoSelo(), new RespostaComunicacao(pDialogo, FabTipoRespostaComunicacao.ENTENDIDO.getRegistro()), ERPTipoCanalComunicacao.INTRANET_BLOQUEIO_TELA);
         }
         return false;
+    }
+
+    @Override
+    public List<ItfDialogoEntrePessoas> getMsgColaboradorAguarandoMinhaResposta() {
+        return getArmazenamento().getMensagemAguardandoMinhaResposta(CarameloCode.getUsuarioLogado(), ERPTipoCanalComunicacao.INTRANET_MENU);
     }
 
 }

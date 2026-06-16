@@ -4,6 +4,7 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao;
 
+import com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdDuploControleIncremental;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
@@ -15,7 +16,7 @@ import javax.persistence.Entity;
  * @author salvio
  */
 @Entity
-@InfoObjetoSB(tags = {"Tipo de Notificação"}, plural = "Tipos de Notificação", icone = "fa fa-bullhorn")
+@InfoObjetoSB(tags = {"Tipo de Notificação "}, plural = "Tipos de Notificação", icone = "fa fa-bullhorn")
 public class TipoNotificacaoUsrComUsr extends TipoNotificacao {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, label = "Caminho usuario rementente ", descricao = "Ex: Pedido.criador")
@@ -32,6 +33,7 @@ public class TipoNotificacaoUsrComUsr extends TipoNotificacao {
     private String textoRespostaNegativo;
 
     public boolean isNotificarDestinatario() {
+
         return notificarDestinatario;
     }
 
@@ -61,6 +63,21 @@ public class TipoNotificacaoUsrComUsr extends TipoNotificacao {
 
     public void setCaminhoUsuarioRemetente(String caminhoUsuarioRemetente) {
         this.caminhoUsuarioRemetente = caminhoUsuarioRemetente;
+    }
+
+    @Override
+    public String nomeSequenciaIdentificacao() {
+        return TipoNotificacao.class.getSimpleName();
+    }
+
+    @Override
+    public Long getIdSequenciaInicial() {
+        return 1l;
+    }
+
+    @Override
+    public boolean isEntidadeExtendida() {
+        return true;
     }
 
 }

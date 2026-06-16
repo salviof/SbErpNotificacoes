@@ -11,14 +11,14 @@ import br.org.carameloCode.erp.modulo.notificacao.api.model.logdisparonotificaca
 import br.org.carameloCode.erp.modulo.notificacao.api.model.notificacaosb.CPNotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.controller.ModuloNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.DialogoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.DialogoNotificacaoUsrToUsr;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoUsrParaUsr;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.FabStatusNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
-import com.google.common.collect.Lists;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
-import com.super_bits.modulosSB.Persistencia.dao.UtilCRCPersistenciaJDBC;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
@@ -36,8 +36,6 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 @NotificaNotificacaoPadrao
@@ -75,7 +73,13 @@ public class NotificaNotificacaoPadraoimpl extends RepositorioLinkEntidadesGener
             if (pNotificacao.getId() == null) {
                 throw new ErroGerandoDialogo("O Id da notificação não foi definido");
             }
-            DialogoNotificacao dialogo = new DialogoNotificacao(pNotificacao);
+            DialogoNotificacao dialogo = null;
+            if (pNotificacao instanceof NotificacaoUsrParaUsr) {
+                dialogo = new DialogoNotificacaoUsrToUsr((NotificacaoUsrParaUsr) pNotificacao);
+
+            } else {
+                dialogo = new DialogoNotificacao(pNotificacao);
+            }
             dialogo.setCodigoSelo(String.valueOf(pNotificacao.getId()));
 
             return dialogo;
@@ -235,6 +239,38 @@ public class NotificaNotificacaoPadraoimpl extends RepositorioLinkEntidadesGener
             UtilSBPersistencia.fecharEM(em);
         }
         return false;
+
+    }
+
+    @Override
+    public NotificacaoUsrParaUsr gerarNotificacaoEntreUsuarios(TipoNotificacaoUsrComUsr pTipoNotfiiccao, ComoUsuario pUsuarioRemetente, ComoUsuario pUsuarioDestinatario, ComoEntidadeSimples pObjeto) throws ErroGerandoNotificacao {
+
+        if (pTipoNotfiiccao == null) {
+            throw new ErroGerandoNotificacao("Tipo de notifcação não pode ser nula");
+        }
+        if (pUsuarioDestinatario == null) {
+            throw new ErroGerandoNotificacao("usuário destinatário  não pode ser nulo");
+        }
+        if (pUsuarioRemetente == null) {
+            throw new ErroGerandoNotificacao("usuário pUsuarioRemetente  não pode ser nulo");
+        }
+
+        NotificacaoUsrParaUsr notificacao = new NotificacaoUsrParaUsr();
+        notificacao.setTipoNotificacao(pTipoNotfiiccao);
+        notificacao.setUsuario((UsuarioSB) pUsuarioDestinatario);
+        notificacao.setUsuarioAguardandoResposta((UsuarioSB) pUsuarioRemetente);
+        notificacao.setStatus(FabStatusNotificacao.REGISTRADA.getRegistro());
+
+        if (pObjeto != null) {
+            notificacao.setTipoEntidade(UtilCRCReflexaoObjeto.getClassExtraindoProxy(pObjeto.getClass().getSimpleName()).getSimpleName());
+            notificacao.setCodigoEntidadeRelacionada(String.valueOf(pObjeto.getId()));
+        }
+
+        ItfRespostaAcaoDoSistema resposta = ModuloNotificacao.notificacaoRegistrar(notificacao);
+        if (!resposta.isSucesso()) {
+            throw new ErroGerandoNotificacao(resposta.getMensagens().get(0).getMenssagem());
+        }
+        return (NotificacaoUsrParaUsr) resposta.getRetorno();
 
     }
 

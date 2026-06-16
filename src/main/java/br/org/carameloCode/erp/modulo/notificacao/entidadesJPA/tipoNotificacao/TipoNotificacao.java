@@ -3,7 +3,6 @@ package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.estrategiaNotificacao.FabTipoEstrategiaMidiaNotificacao;
 import com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoDoSistema;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMNormal;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.ItfEntidadeExtensivel;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
 import com.super_bits.modulosSB.SBCore.modulos.erp.FabTipoAgenteOrganizacao;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
@@ -29,17 +28,18 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Transient;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.hibernate.annotations.GenericGenerator;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.ItfEntidadeExtensivelMultiplasSequencias;
 
 /**
  *
  * @author salvio
  */
 @Entity
-@InfoObjetoSB(tags = {"Tipo de Notificação"}, plural = "Tipos de Notificação", icone = "fa fa-bullhorn")
+@InfoObjetoSB(tags = {"Tipo de Notificação"}, plural = "Tipos de Notificação ", icone = "fa fa-bullhorn")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoEntidade")
 @EntityListeners(ListenerEntidadePadrao.class)
-public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExtensivel, ComoModeloDocumento {
+public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExtensivelMultiplasSequencias, ComoModeloDocumento {
 
     @Id
     @GenericGenerator(

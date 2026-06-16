@@ -5,7 +5,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 
 @InfoReferenciaEntidade(tipoObjeto = NotificacaoSB.class)
 public enum CPNotificacaoSB {
-	_ID, _NOME, _TIPOENTIDADE, _ASSUNTO, _CONTEUDOHTML, _USUARIO, _DESTINATARIO, _TIPONOTIFICACAO, _STATUS, _DATAREGISTRONOTIFICACAO, _DATAEXPIRANOTIFICACAO, _DISPAROS, _CODIGOSELOCOMUNICACAO, _CODIGOENTIDADERELACIONADA, _RESPOSTAPOSTIVA, _DIALOGO;
+	_ID, _NOME, _TIPOENTIDADE, _ASSUNTO, _CONTEUDOHTML, _USUARIO, _DESTINATARIO, _TIPONOTIFICACAO, _STATUS, _DATAREGISTRONOTIFICACAO, _DATAEXPIRANOTIFICACAO, _DISPAROS, _CODIGOSELOCOMUNICACAO, _CODIGOENTIDADERELACIONADA, _RESPOSTAPOSTIVA, _JSONMAPAOLDPLACEHOLDERS, _JSONMAPANEWPLACEHOLDERS, _DIALOGO;
 
 	public static final String id = "id";
 	public static final String nome = "nome";
@@ -22,5 +22,7 @@ public enum CPNotificacaoSB {
 	public static final String codigoselocomunicacao = "codigoSeloComunicacao";
 	public static final String codigoentidaderelacionada = "codigoEntidadeRelacionada";
 	public static final String respostapostiva = "respostaPostiva";
+	public static final String jsonmapaoldplaceholders = "jsonMapaOldPlaceHolders";
+	public static final String jsonmapanewplaceholders = "jsonMapaNewPLaceHolders";
 	public static final String dialogo = "dialogo";
 }

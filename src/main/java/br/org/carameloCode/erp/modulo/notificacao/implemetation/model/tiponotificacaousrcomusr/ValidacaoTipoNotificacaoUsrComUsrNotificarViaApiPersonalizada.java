@@ -4,6 +4,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ValidacaoGeneri
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
 import br.org.carameloCode.erp.modulo.notificacao.api.model.tiponotificacaousrcomusr.ValidadorTipoNotificacaoUsrComUsr;
 import br.org.carameloCode.erp.modulo.notificacao.api.model.tiponotificacaousrcomusr.ValidadoresTipoNotificacaoUsrComUsr;
+import br.org.carameloCode.erp.modulo.notificacao.implemetation.model.tiponotificacao.ValidacaoTipoNotificacaoNotificarViaApiPersonalizada;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import java.util.ArrayList;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
@@ -13,24 +14,15 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
 
 @ValidadorTipoNotificacaoUsrComUsr(validador = ValidadoresTipoNotificacaoUsrComUsr.NOTIFICARVIAAPIPERSONALIZADA)
 public class ValidacaoTipoNotificacaoUsrComUsrNotificarViaApiPersonalizada
-		extends
-			ValidacaoGenerica<TipoNotificacaoUsrComUsr> {
+        extends
+        ValidacaoTipoNotificacaoNotificarViaApiPersonalizada {
 
-	public ValidacaoTipoNotificacaoUsrComUsrNotificarViaApiPersonalizada(
-			ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValidacaoTipoNotificacaoUsrComUsrNotificarViaApiPersonalizada(
+            ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 
-	@Override
-	public List validar(java.lang.Object o) throws ErroValidacao {
-		CarameloCode
-				.getServicoMensagemFireForget()
-				.enviarMsgErroAoUsuario(
-						"A Validação do campo  Notificar Via Api Personalizada não foi implementada");
-		return new ArrayList<>();
-	}
-
-	public TipoNotificacaoUsrComUsr getTipoNotificacaoUsrComUsr() {
-		return getObjetoDoAtributo();
-	}
+    public TipoNotificacaoUsrComUsr getTipoNotificacaoUsrComUsr() {
+        return (TipoNotificacaoUsrComUsr) getObjetoDoAtributo();
+    }
 }

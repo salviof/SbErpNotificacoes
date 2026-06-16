@@ -6,9 +6,10 @@ package br.org.carameloCode.erp.modulo.notificacao.api;
 
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoUsrParaUsr;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
-import com.super_bits.modulosSB.SBCore.modulos.erp.FabTipoAgenteOrganizacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import java.util.List;
@@ -21,10 +22,16 @@ public interface ItfERPNotificacao {
 
     public NotificacaoSB gerarNotificacao(TipoNotificacao pNotificcao, ComoUsuario pUsuario, ComoEntidadeSimples pObjeto) throws ErroGerandoNotificacao;
 
+    public NotificacaoUsrParaUsr gerarNotificacaoEntreUsuarios(TipoNotificacaoUsrComUsr pNotificcao, ComoUsuario pUsuarioRemetente, ComoUsuario pUsuarioDestinatario, ComoEntidadeSimples pObjeto) throws ErroGerandoNotificacao;
+
     public List<NotificacaoSB> gerarNotificacoes(TipoNotificacao tipo, ComoEntidadeSimples pItem) throws ErroGerandoNotificacao;
 
     public default NotificacaoSB gerarNotificacao(TipoNotificacao pNotificcao, ComoUsuario pUsuario) throws ErroGerandoNotificacao {
         return gerarNotificacao(pNotificcao, pUsuario, (ComoEntidadeSimples) null);
+    }
+
+    public default NotificacaoSB gerarNotificacaoEntreUsuarios(TipoNotificacaoUsrComUsr pTipoNotfiiccao, ComoUsuario pUsuarioRemetente, ComoUsuario pUsuarioDestinatrio) throws ErroGerandoNotificacao {
+        return gerarNotificacaoEntreUsuarios(pTipoNotfiiccao, pUsuarioRemetente, pUsuarioDestinatrio, (ComoEntidadeSimples) null);
     }
 
     public ItfDialogo gerarDialogoByNotificacao(NotificacaoSB pNotificacao) throws ErroGerandoDialogo;

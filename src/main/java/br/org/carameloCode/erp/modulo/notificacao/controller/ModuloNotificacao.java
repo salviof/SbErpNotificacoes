@@ -49,6 +49,10 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
     @InfoAcaoNotificacao(acao = FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO)
     public static ItfRespostaAcaoDoSistema notificacaoRegistrar(NotificacaoSB pNotificacao) {
         return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pNotificacao), pNotificacao) {
+            @Override
+            public void executarAcoesFinais() throws ErroEmBancoDeDados {
+                super.executarAcoesFinais(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+            }
 
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
@@ -270,10 +274,11 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                         if (tiponotificacaoUrsToSr.isNotificarDestinatario()) {
                             NotificacaoUsrParaUsr notificacaoOrigem = notificacao.getComoNotificacaoUsuarioParaUsuario();
                             NotificacaoRespostaAguardada novaNotificacao = new NotificacaoRespostaAguardada();
+                            novaNotificacao.setStatus(FabStatusNotificacao.REGISTRADA.getRegistro());
                             novaNotificacao.setNotificacaoOrigem(notificacao);
                             novaNotificacao.setTipoNotificacao(notificacao.getTipoNotificacao());
-                            notificacao.setUsuario(notificacaoOrigem.getUsuarioAguardandoResposta());
-                            notificacao = atualizarEntidade(notificacao);
+                            novaNotificacao.setUsuario(notificacaoOrigem.getUsuarioAguardandoResposta());
+                            novaNotificacao = atualizarEntidade(novaNotificacao);
                             adicionarGatilhoExecucaoFinalComSucesso(FabAcaoNotificacaoPadraoSB.NOTIFICACAO_CTR_REGISTRAR_NOTIFICACAO, novaNotificacao);
                         }
                     }

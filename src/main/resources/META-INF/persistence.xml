@@ -49,6 +49,8 @@
         <class>com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Localizacao</class>
 
         <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB</class>
+        <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoRespostaAguardada</class>
+        <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoUsrParaUsr</class>
         <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.entrega.ReciboEntrega</class>
         <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura</class>
         <class>br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao</class>

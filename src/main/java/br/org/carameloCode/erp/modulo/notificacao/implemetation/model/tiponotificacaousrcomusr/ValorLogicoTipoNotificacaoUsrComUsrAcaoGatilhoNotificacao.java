@@ -4,20 +4,21 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.calculos.ValorLogicoCalcu
 import br.org.carameloCode.erp.modulo.notificacao.api.model.tiponotificacaousrcomusr.ValorLogicoTipoNotificacaoUsrComUsr;
 import br.org.carameloCode.erp.modulo.notificacao.api.model.tiponotificacaousrcomusr.ValoresLogicosTipoNotificacaoUsrComUsr;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
+import br.org.carameloCode.erp.modulo.notificacao.implemetation.model.tiponotificacao.ValorLogicoTipoNotificacaoAcaoGatilhoNotificacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 
 @ValorLogicoTipoNotificacaoUsrComUsr(calculo = ValoresLogicosTipoNotificacaoUsrComUsr.ACAOGATILHONOTIFICACAO)
 public class ValorLogicoTipoNotificacaoUsrComUsrAcaoGatilhoNotificacao
-		extends
-			ValorLogicoCalculoGenerico {
+        extends
+        ValorLogicoTipoNotificacaoAcaoGatilhoNotificacao {
 
-	public ValorLogicoTipoNotificacaoUsrComUsrAcaoGatilhoNotificacao(
-			ItfCampoInstanciado pCampo) {
-		super(pCampo);
-	}
+    public ValorLogicoTipoNotificacaoUsrComUsrAcaoGatilhoNotificacao(
+            ItfCampoInstanciado pCampo) {
+        super(pCampo);
+    }
 
-	public TipoNotificacaoUsrComUsr getTipoNotificacaoUsrComUsr() {
-		return (TipoNotificacaoUsrComUsr) getCampoInst()
-				.getObjetoRaizDoAtributo();
-	}
+    public TipoNotificacaoUsrComUsr getTipoNotificacaoUsrComUsr() {
+        return (TipoNotificacaoUsrComUsr) getCampoInst()
+                .getObjetoRaizDoAtributo();
+    }
 }
