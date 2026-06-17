@@ -15,7 +15,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
  */
 public enum FabTipoNotificacaoTeste implements ComoFabricaComPersistencia {
 
-    @InfoObjetoDaFabrica(classeObjeto = TipoNotificacao.class, nomeObjeto = "Notificação teste")
+    @InfoObjetoDaFabrica(classeObjeto = TipoNotificacao.class, id = 1, nomeObjeto = " Notificação teste")
     NOTIFICACAO_TESTE,;
 
     @Override

@@ -72,13 +72,13 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
     }
 
     @Override
-    public boolean responderComunicacao(String codigoSeloComunicacao, ItfRespostaComunicacao pResposta, final ERPTipoCanalComunicacao pCanal) {
+    public boolean responderComunicacao(String pCodigoSeloComunicacao, ItfRespostaComunicacao pResposta, final ERPTipoCanalComunicacao pCanal) {
 
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
         try {
 
             ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(NotificacaoSB.class, em);
-            consulta.addcondicaoCampoIgualA(CPNotificacaoSB.codigoselocomunicacao, codigoSeloComunicacao);
+            consulta.addcondicaoCampoIgualA(CPNotificacaoSB.codigoselocomunicacao, pCodigoSeloComunicacao);
             NotificacaoSB ntf = consulta.getPrimeiroRegistro();
             if (ntf != null) {
                 if (ntf.getId() != null) {
@@ -89,9 +89,11 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
                         return ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().registrarReciboLeitura(disparo.getCodigoRegistroEnvio(), UtilCRCStringGerador.getStringRandomicaUUID());
                     }
                 }
+            } else {
+
+                return getArmazenamento().removerDialogoAtivo(pCodigoSeloComunicacao);
             }
             return true;
-
         } finally {
             UtilSBPersistencia.fecharEM(em);
         }

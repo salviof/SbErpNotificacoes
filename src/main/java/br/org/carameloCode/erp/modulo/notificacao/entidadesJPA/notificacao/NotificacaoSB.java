@@ -41,7 +41,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author salvio
  */
 @Entity
-@InfoObjetoSB(tags = "Notificação ", plural = "Notifcações ", icone = "fa fa-paper-plane-o", generoFeminino = false)
+@InfoObjetoSB(tags = "Notificação ", plural = "Notifcações", icone = "fa fa-paper-plane-o", generoFeminino = false)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoEntidade")
 @EntityListeners(ListenerEntidadePadrao.class)
