@@ -8,15 +8,15 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoRespostaComunicacao;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogoEntrePessoas;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogoEntrePessoas;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItffabricaCanalComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.dialogo.resposta.RespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoServicoComunicacao;
 import java.util.List;
 import javax.swing.JOptionPane;
-import org.coletivojava.fw.api.objetoNativo.comunicacao.RespostaComunicacao;
 
 /**
  *
@@ -31,7 +31,7 @@ public class ServicoNotificacaoPadraoDev extends
 
     @Override
     public FabTipoRespostaComunicacao aguardarRespostaComunicacao(ItfTipoCanalComunicacao pTransporte,
-            ItfDialogo pComunicacao, int tempoAguardar, FabTipoRespostaComunicacao pTipoRespostaTempoFinal) {
+            ComoDialogo pComunicacao, int tempoAguardar, FabTipoRespostaComunicacao pTipoRespostaTempoFinal) {
         FabTipoComunicacao tipocomunicacao = pComunicacao.getTipoComunicacao().getFabTipoComunicacao();
 
         int dialogResult
@@ -58,7 +58,7 @@ public class ServicoNotificacaoPadraoDev extends
     }
 
     @Override
-    public boolean notificarViaMenu(ItfDialogo pDialogo) {
+    public boolean notificarViaMenu(ComoDialogo pDialogo) {
 
         System.out.println("Aicionado notificacao no menu");
         System.out.println(pDialogo.getMensagem());
@@ -67,7 +67,7 @@ public class ServicoNotificacaoPadraoDev extends
     }
 
     @Override
-    public boolean notificarViaBloqueioTEla(ItfDialogo pDialogo) {
+    public boolean notificarViaBloqueioTEla(ComoDialogo pDialogo) {
         if (JOptionPane.showConfirmDialog(null, pDialogo.getMensagem(),
                 "Deseja continuar?", JOptionPane.YES_OPTION) == 0) {
 
@@ -77,7 +77,7 @@ public class ServicoNotificacaoPadraoDev extends
     }
 
     @Override
-    public List<ItfDialogoEntrePessoas> getMsgColaboradorAguarandoMinhaResposta() {
+    public List<ComoDialogoEntrePessoas> getMsgColaboradorAguarandoMinhaResposta() {
         return getArmazenamento().getMensagemAguardandoMinhaResposta(CarameloCode.getUsuarioLogado(), ERPTipoCanalComunicacao.INTRANET_MENU);
     }
 

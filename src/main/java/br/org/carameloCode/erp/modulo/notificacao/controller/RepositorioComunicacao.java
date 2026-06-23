@@ -13,7 +13,7 @@ import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinami
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ArmazenamentoComunicacaoTransient;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +27,8 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
 public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
 
     @Override
-    protected Map<String, ItfDialogo> getComunicacoesAtivas() {
-        Map<String, ItfDialogo> comunicacoesAtivas = super.getComunicacoesAtivas();
+    protected Map<String, ComoDialogo> getComunicacoesAtivas() {
+        Map<String, ComoDialogo> comunicacoesAtivas = super.getComunicacoesAtivas();
         ItfERPNotificacao servicoNotificacao = CarameloCode.getServicoERP(ERPNotificacoes.NOTIFICACAO_PADRAO);
         if (comunicacoesAtivas.isEmpty()) {
             EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
@@ -52,9 +52,9 @@ public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
         return super.getComunicacoesAtivas();
     }
 
-    protected List<ItfDialogo> getComunicacoesAtivas(UsuarioSB pUsuario, ERPTipoCanalComunicacao pTipoComunicacao) {
+    protected List<ComoDialogo> getComunicacoesAtivas(UsuarioSB pUsuario, ERPTipoCanalComunicacao pTipoComunicacao) {
         //TODO: Não precisa consultar o banco, se esse método for frequente, usar um for em comunicações ativas vale mais a Pena
-        List<ItfDialogo> dialogos = new ArrayList<>();
+        List<ComoDialogo> dialogos = new ArrayList<>();
         getComunicacoesAtivas().values().stream().filter(cm -> cm.getDestinatario() != null && cm.getDestinatario().getUsuario().equals(pUsuario))
                 .filter(dlgtp -> dlgtp.getCanais().contains(pTipoComunicacao))
                 .forEach(dialogos::add);
@@ -78,8 +78,8 @@ public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
     }
 
     @Override
-    public ItfDialogo getDialogoAtivoByCodigoSelo(String pCodigoSelo) {
-        ItfDialogo dialogo = super.getDialogoAtivoByCodigoSelo(pCodigoSelo);
+    public ComoDialogo getDialogoAtivoByCodigoSelo(String pCodigoSelo) {
+        ComoDialogo dialogo = super.getDialogoAtivoByCodigoSelo(pCodigoSelo);
         if (dialogo != null) {
             return dialogo;
         }
@@ -112,7 +112,7 @@ public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
     }
 
     @Override
-    public boolean registrarDialogoAtivo(ItfDialogo pComunicacao) {
+    public boolean registrarDialogoAtivo(ComoDialogo pComunicacao) {
 
         return super.registrarDialogoAtivo(pComunicacao);
     }

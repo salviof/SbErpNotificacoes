@@ -4,14 +4,14 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao;
 
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogoEntrePessoas;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogoEntrePessoas;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 
 /**
  *
  * @author salvio
  */
-public class DialogoNotificacaoUsrToUsr extends DialogoNotificacao implements ItfDialogoEntrePessoas {
+public class DialogoNotificacaoUsrToUsr extends DialogoNotificacao implements ComoDialogoEntrePessoas {
 
     private ComoUsuario usuarioRemetente;
     private boolean remetenteAguardandoResposta;

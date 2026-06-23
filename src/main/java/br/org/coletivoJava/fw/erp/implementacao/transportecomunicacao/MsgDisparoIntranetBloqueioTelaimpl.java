@@ -1,6 +1,6 @@
 package br.org.coletivoJava.fw.erp.implementacao.transportecomunicacao;
 
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.repositorioLinkEntidades.RepositorioLinkEntidadesGenerico;
 import br.org.coletivoJava.fw.api.erp.transportecomunicacao.MsgDisparoIntranetBloqueioTela;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
@@ -16,7 +16,7 @@ public class MsgDisparoIntranetBloqueioTelaimpl
         ItfDisparoComunicacao {
 
     @Override
-    public boolean validarDadosDisparo(ItfDialogo pDialogo) {
+    public boolean validarDadosDisparo(ComoDialogo pDialogo) {
         if (pDialogo.getAssunto() == null) {
             return false;
         }
@@ -26,7 +26,7 @@ public class MsgDisparoIntranetBloqueioTelaimpl
 
     @Override
     public String dispararInicioComunicacao(
-            com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo pDialogo) {
+            com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo pDialogo) {
         try {
             String recibo = pDialogo.getCodigoSelo();
             if (CarameloCode.getServicoComunicacao().getArmazenamento().registrarDialogoAtivo(pDialogo)) {

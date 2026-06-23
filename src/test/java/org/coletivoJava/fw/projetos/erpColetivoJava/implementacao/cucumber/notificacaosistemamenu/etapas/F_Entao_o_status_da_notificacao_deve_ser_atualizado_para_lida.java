@@ -3,7 +3,7 @@ package org.coletivoJava.fw.projetos.erpColetivoJava.implementacao.cucumber.noti
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.FabStatusNotificacao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
 import org.coletivoJava.fw.projetos.erpColetivoJava.api.cucumber.notificacaosistemamenu.EtapasNotificacaoSistemaMenu;
 import cucumber.api.java.pt.Entao;
 import java.util.List;

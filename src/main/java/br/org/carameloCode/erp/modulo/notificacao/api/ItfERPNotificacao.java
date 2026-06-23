@@ -9,7 +9,7 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.Notif
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoUsrParaUsr;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import java.util.List;
@@ -34,7 +34,7 @@ public interface ItfERPNotificacao {
         return gerarNotificacaoEntreUsuarios(pTipoNotfiiccao, pUsuarioRemetente, pUsuarioDestinatrio, (ComoEntidadeSimples) null);
     }
 
-    public ItfDialogo gerarDialogoByNotificacao(NotificacaoSB pNotificacao) throws ErroGerandoDialogo;
+    public ComoDialogo gerarDialogoByNotificacao(NotificacaoSB pNotificacao) throws ErroGerandoDialogo;
 
     public boolean registrarReciboLeitura(String codigoDisparo, String codigoLeitura);
 

@@ -60,12 +60,14 @@ public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia
     TIPO_NOTIFICACAO_FRM_NOVO,
     @InfoTipoAcaoFormulario(campos = {"[separador: Identificação]", CPTipoNotificacao.nome, "[separador: Conteúdo]",
         CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml,
+        "[Gatilhos de notificação]", CPTipoNotificacao.acaogatilhonotificacao,
         "[separador: Entidade Relacionada]", CPTipoNotificacao.estruturaentidade,
         "[separador: Estratégia de notificação]",
         CPTipoNotificacao.notificacaounica, CPTipoNotificacao.ativo, CPTipoNotificacao.exigirrecibodeentrega, CPTipoNotificacao.exigirreciboleitura, "tipoAgente",
         "[separador: Mídias de notificação]",
         CPTipoNotificacao.notificarviaapipersonalizada, CPTipoNotificacao.notificarviaemail, "notificarViaMenu", CPTipoNotificacao.notificarviamobile, CPTipoNotificacao.notificarviasms,
-        CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviawhatsapp, CPTipoNotificacao.notifificarviamatrix
+        CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviawhatsapp, CPTipoNotificacao.notifificarviamatrix,
+        "[Gatilhos Pós notificação]", CPTipoNotificacao.acaoautoexecucaoenvio, CPTipoNotificacao.acaoautoexecucaoentrega, CPTipoNotificacao.acaoautoexecucaoleitura
 
     })
     TIPO_NOTIFICACAO_FRM_EDITAR,

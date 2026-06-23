@@ -34,7 +34,7 @@ import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNego
 import java.util.Date;
 import java.util.List;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroAcessandoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroRegistrandoDialogo;
 
@@ -116,7 +116,7 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
 
                     try {
                         LogDisparoNotificacao disparo = tipoLogComunicacao.getRegistro(notificacao);
-                        // ItfDialogo dialogoJaRestistrado = SBCore.getServicoComunicacao().getArmazenamento().getDialogoAtivoByCodigoSelo(disparo.getNotificacao().getCodigoSeloComunicacao());
+                        // ComoDialogo dialogoJaRestistrado = SBCore.getServicoComunicacao().getArmazenamento().getDialogoAtivoByCodigoSelo(disparo.getNotificacao().getCodigoSeloComunicacao());
 
                         try {
 
@@ -218,7 +218,7 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                         if (diferencaUltimaNotificacao > notificacao.getTipoNotificacao().getMinutosRenotificacao()) {
                             FabTipoEstrategiaMidiaNotificacao estrategia = notificacao.getTipoNotificacao().getEstrategia();
                             List<FabLogDisparoComunicacao> medias = estrategia.getMedias(notificacao);
-                            ItfDialogo dialogo = notificacao.getDialogo();
+                            ComoDialogo dialogo = notificacao.getDialogo();
                             for (FabLogDisparoComunicacao logCOmunicacao : medias) {
                                 String codigoDisparo;
                                 try {

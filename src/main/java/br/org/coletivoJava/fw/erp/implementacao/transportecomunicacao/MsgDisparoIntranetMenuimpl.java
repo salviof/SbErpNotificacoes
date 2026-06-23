@@ -15,7 +15,7 @@ public class MsgDisparoIntranetMenuimpl
 
     @Override
     public boolean validarDadosDisparo(
-            com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo pDialogo) {
+            com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo pDialogo) {
         if (pDialogo.getAssunto() == null) {
             return false;
         }
@@ -25,7 +25,7 @@ public class MsgDisparoIntranetMenuimpl
 
     @Override
     public String dispararInicioComunicacao(
-            com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo pDialogo) {
+            com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo pDialogo) {
         try {
             String recibo = pDialogo.getCodigoSelo();
             if (CarameloCode.getServicoComunicacao().getArmazenamento().registrarDialogoAtivo(pDialogo)) {

@@ -22,7 +22,7 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoA
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicaoAbstrato;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.Dialogo;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfRespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
@@ -50,13 +50,13 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
     private Map<String, List<TipoNotificacao>> gatilhosDeNotificacao = null;
 
     @Override
-    public ItfDialogo gerarComunicacaoUsuario_Usuario(FabTipoComunicacao tipocomunicacao, ComoUsuario pUsuarioRemetente, ComoUsuario pUsuarioDestinatario, String pAssunto, String mensagem) {
+    public ComoDialogo gerarComunicacaoUsuario_Usuario(FabTipoComunicacao tipocomunicacao, ComoUsuario pUsuarioRemetente, ComoUsuario pUsuarioDestinatario, String pAssunto, String mensagem) {
 
         return super.gerarComunicacaoUsuario_Usuario(tipocomunicacao, pUsuarioRemetente, pUsuarioDestinatario, pAssunto, mensagem);
     }
 
     @Override
-    public ItfDialogo gerarComunicacaoSistema_Usuario(FabTipoComunicacao tipocomunicacao, ComoUsuario pUsuario, String pAssunto, String mensagem) {
+    public ComoDialogo gerarComunicacaoSistema_Usuario(FabTipoComunicacao tipocomunicacao, ComoUsuario pUsuario, String pAssunto, String mensagem) {
         return super.gerarComunicacaoSistema_Usuario(tipocomunicacao, pUsuario, pAssunto, mensagem);
     }
 
@@ -101,12 +101,12 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
     }
 
     @Override
-    public List<ItfDialogo> getNotificacoesAtivasMenu() {
+    public List<ComoDialogo> getNotificacoesAtivasMenu() {
         return getArmazenamento().getDialogos(CarameloCode.getServicoSessao().getSessaoAtual().getUsuario(), ERPTipoCanalComunicacao.INTRANET_MENU);
     }
 
     @Override
-    public List<ItfDialogo> getNotificacoesAtivasBloqueioTela() {
+    public List<ComoDialogo> getNotificacoesAtivasBloqueioTela() {
         return getArmazenamento().getDialogos(CarameloCode.getServicoSessao().getSessaoAtual().getUsuario(), ERPTipoCanalComunicacao.INTRANET_BLOQUEIO_TELA);
     }
 
@@ -141,7 +141,7 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
     }
 
     @Override
-    public List<ItfDialogo> dispararNotificacaoAcaoSucesso(ComoAcaoDoSistema pAcao, ComoEntidadeSimples pEntidadeRetorno) {
+    public List<ComoDialogo> dispararNotificacaoAcaoSucesso(ComoAcaoDoSistema pAcao, ComoEntidadeSimples pEntidadeRetorno) {
 
         if (gatilhosDeNotificacao == null) {
             atualizarGatilhosDeNotificacaoPorAcao();
@@ -168,7 +168,7 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
                 if (entidadeRelacionda != null) {
                     try {
                         List<NotificacaoSB> notificacoes = ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().gerarNotificacoes(tipo, entidadeRelacionda);
-                        List<ItfDialogo> dialogos = new ArrayList<>();
+                        List<ComoDialogo> dialogos = new ArrayList<>();
                         notificacoes.stream().map(ntf -> ntf.getDialogo()).forEach(dialogos::add);
                         return dialogos;
                     } catch (ErroGerandoNotificacao ex) {
