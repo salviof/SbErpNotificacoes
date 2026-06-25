@@ -7,11 +7,13 @@ package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComunicacaoTransient;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.ItensGenericos.basico.UsuarioAplicacaoEmExecucao;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 
 /**
  *
  * @author salvio
  */
+@InfoObjetoSB(tags = "Dialogo notificaçao", plural = "Dialogos de notificações")
 public class DialogoNotificacao extends ComunicacaoTransient {
 
     public DialogoNotificacao(NotificacaoSB pNotificacao) {

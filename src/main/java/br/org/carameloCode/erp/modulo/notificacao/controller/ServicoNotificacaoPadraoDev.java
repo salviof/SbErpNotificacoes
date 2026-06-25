@@ -5,6 +5,7 @@
 package br.org.carameloCode.erp.modulo.notificacao.controller;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UTILSBCoreDesktopApp;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoRespostaComunicacao;
@@ -68,6 +69,9 @@ public class ServicoNotificacaoPadraoDev extends
 
     @Override
     public boolean notificarViaBloqueioTEla(ComoDialogo pDialogo) {
+        if (true) {
+            return UTILSBCoreDesktopApp.exibirDialogo(pDialogo).getTipoResposta().isRespostasPosiva();
+        }
         if (JOptionPane.showConfirmDialog(null, pDialogo.getMensagem(),
                 "Deseja continuar?", JOptionPane.YES_OPTION) == 0) {
 

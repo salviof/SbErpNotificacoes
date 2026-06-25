@@ -176,12 +176,6 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
                     }
                 }
 
-                switch (tipo.getTipoAgente()) {
-
-                    default:
-                        throw new AssertionError();
-                }
-
             }
         } finally {
             UtilSBPersistencia.fecharEM(em);
