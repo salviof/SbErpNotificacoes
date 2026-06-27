@@ -190,10 +190,11 @@ public class NotificaNotificacaoPadraoimpl extends RepositorioLinkEntidadesGener
         try {
 
             ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(LogDisparoNotificacao.class, em);
-            LogDisparoNotificacao disparo = consulta.addcondicaoCampoIgualA(CPLogDisparoNotificacao.codigoregistroenvio, pCodigoDisparo).getPrimeiroRegistro();
+            List<LogDisparoNotificacao> disparo = consulta.addcondicaoCampoIgualA(CPLogDisparoNotificacao.codigoregistroenvio, pCodigoDisparo).gerarResultados();
             if (disparo != null) {
+
                 ReciboLeitura novoRecibo = new ReciboLeitura();
-                novoRecibo.setDisparo(disparo);
+                novoRecibo.setDisparo(disparo.get(0));
                 novoRecibo.setCodigoLeitura(pCodigoLeitura);
                 return ModuloNotificacao.reciboResposta(novoRecibo).isSucesso();
             } else {
