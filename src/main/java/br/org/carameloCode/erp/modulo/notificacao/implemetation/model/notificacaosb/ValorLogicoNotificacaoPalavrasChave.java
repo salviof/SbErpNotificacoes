@@ -55,7 +55,9 @@ public class ValorLogicoNotificacaoPalavrasChave extends ValorLogicoCalculoGener
                     try {
                         ComoEntidadeSimples item = (ComoEntidadeSimples) UtilSBPersistencia.getRegistroByID(entidade, Long.valueOf(getNotificacao().getCodigoEntidadeRelacionada()), em);
                         mapaSub.adicionarPalavrasChavePorTextoModelo(getNotificacao(), "[destinatario],  [" + CPNotificacaoSB.dataregistronotificacao + "] [" + CPNotificacaoSB.dataexpiranotificacao + "]  [" + CPNotificacaoSB.codigoselocomunicacao + "]");
+                        mapaSub.adicionarComoEntidadeVinculada(item);
                         mapaSub.adicionarPalavrasChavePorTextoModelo(item, mascaraValor);
+
                     } finally {
                         UtilSBPersistencia.fecharEM(em);
                     }

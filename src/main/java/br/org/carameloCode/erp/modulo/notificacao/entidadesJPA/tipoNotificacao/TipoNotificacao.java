@@ -121,7 +121,7 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via Matrix")
     @InfoCampoVerdadeiroOuFalso
     @InfoCampoValidadorLogico()
-    private boolean notifificarViaMatrix = false;
+    private boolean notificarViaMatrix = false;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.VERDADEIRO_FALSO, label = "Via Intranet")
     @InfoCampoVerdadeiroOuFalso
@@ -272,12 +272,12 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
         this.notificacaoUnica = notificacaoUnica;
     }
 
-    public boolean isNotifificarViaMatrix() {
-        return notifificarViaMatrix;
+    public boolean isNotificarViaMatrix() {
+        return notificarViaMatrix;
     }
 
-    public void setNotifificarViaMatrix(boolean notifificarViaMatrix) {
-        this.notifificarViaMatrix = notifificarViaMatrix;
+    public void setNotificarViaMatrix(boolean notificarViaMatrix) {
+        this.notificarViaMatrix = notificarViaMatrix;
     }
 
     public boolean isNotificarViaMenu() {
@@ -512,6 +512,7 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     }
 
     public void setCaminhoUsuarioDestinatario(String caminhoUsuarioDestinatario) {
+
         this.caminhoUsuarioDestinatario = caminhoUsuarioDestinatario;
     }
 

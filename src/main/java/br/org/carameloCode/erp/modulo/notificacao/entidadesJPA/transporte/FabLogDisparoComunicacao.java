@@ -72,7 +72,7 @@ public enum FabLogDisparoComunicacao {
             case WHATZAUP:
                 return tipoNotificacao.isNotificarViaWhatsapp();
             case MATRIX:
-                return tipoNotificacao.isNotifificarViaMatrix();
+                return tipoNotificacao.isNotificarViaMatrix();
             case MOBILE:
                 return tipoNotificacao.isNotificarViaMobile();
             default:

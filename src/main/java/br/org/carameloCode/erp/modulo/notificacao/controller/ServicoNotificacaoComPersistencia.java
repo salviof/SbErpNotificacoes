@@ -22,9 +22,9 @@ import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicaoAbstr
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfRespostaComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItffabricaCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
-import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoArmazenamentoComunicacao;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +44,15 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
 
     private Map<String, List<TipoNotificacao>> gatilhosDeNotificacao = null;
 
+    public ServicoNotificacaoComPersistencia() {
+        super(RepositorioComunicacao.class);
+    }
+
+    @Override
+    public ItffabricaCanalComunicacao getCanalPadrao() {
+        return ERPTipoCanalComunicacao.INTRANET_MENU;
+    }
+
     @Override
     public ComoDialogo gerarComunicacaoUsuario_Usuario(FabTipoComunicacao tipocomunicacao, ComoUsuario pUsuarioRemetente, ComoUsuario pUsuarioDestinatario, String pAssunto, String mensagem) {
 
@@ -53,17 +62,6 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
     @Override
     public ComoDialogo gerarComunicacaoSistema_Usuario(FabTipoComunicacao tipocomunicacao, ComoUsuario pUsuario, String pAssunto, String mensagem) {
         return super.gerarComunicacaoSistema_Usuario(tipocomunicacao, pUsuario, pAssunto, mensagem);
-    }
-
-    protected ComoArmazenamentoComunicacao armazenamento;
-
-    public ServicoNotificacaoComPersistencia() {
-        armazenamento = new RepositorioComunicacao();
-    }
-
-    @Override
-    public ComoArmazenamentoComunicacao getArmazenamento() {
-        return armazenamento;
     }
 
     @Override

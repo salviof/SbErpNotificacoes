@@ -43,7 +43,7 @@ public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia
     TIPO_NOTIFICACAO_MB_GESTAO,
     @InfoTipoAcaoFormulario(nomeAcao = "Listar Tipos de Notificação", icone = "fa fa-paper-plane-o",
             campos = {CPTipoNotificacao.nome, CPTipoNotificacao.assunto, CPTipoNotificacao.tipoagente, CPTipoNotificacao.notificarviaemail, CPTipoNotificacao.notificarviamenu,
-                CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviasms, CPTipoNotificacao.notifificarviamatrix, CPTipoNotificacao.notificarviawhatsapp})
+                CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviasms, CPTipoNotificacao.notificarviamatrix, CPTipoNotificacao.notificarviawhatsapp})
     TIPO_NOTIFICACAO_FRM_LISTAR,
     @InfoTipoAcaoFormulario(campos = {"[separador: Identificação]", CPTipoNotificacao.nome, "[separador: Conteúdo]",
         CPTipoNotificacao.assunto, CPTipoNotificacao.conteudohtml,
@@ -54,7 +54,7 @@ public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia
         CPTipoNotificacao.notificacaounica, CPTipoNotificacao.ativo, CPTipoNotificacao.exigirrecibodeentrega, CPTipoNotificacao.exigirreciboleitura,
         "[separador: Mídias de notificação]",
         CPTipoNotificacao.notificarviaapipersonalizada, CPTipoNotificacao.notificarviaemail, "notificarViaMenu", CPTipoNotificacao.notificarviamobile, CPTipoNotificacao.notificarviasms,
-        CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviawhatsapp, CPTipoNotificacao.notifificarviamatrix
+        CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviawhatsapp, CPTipoNotificacao.notificarviamatrix
 
     }, estadoFormulario = FabEstadoFormulario.NOVO)
     TIPO_NOTIFICACAO_FRM_NOVO,
@@ -66,7 +66,7 @@ public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia
         CPTipoNotificacao.notificacaounica, CPTipoNotificacao.ativo, CPTipoNotificacao.exigirrecibodeentrega, CPTipoNotificacao.exigirreciboleitura, "tipoAgente",
         "[separador: Mídias de notificação]",
         CPTipoNotificacao.notificarviaapipersonalizada, CPTipoNotificacao.notificarviaemail, "notificarViaMenu", CPTipoNotificacao.notificarviamobile, CPTipoNotificacao.notificarviasms,
-        CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviawhatsapp, CPTipoNotificacao.notifificarviamatrix,
+        CPTipoNotificacao.notificarviateladebloqueio, CPTipoNotificacao.notificarviawhatsapp, CPTipoNotificacao.notificarviamatrix,
         "[separador: Gatilhos Pós notificação]", CPTipoNotificacao.acaoautoexecucaoenvio, CPTipoNotificacao.acaoautoexecucaoentrega, CPTipoNotificacao.acaoautoexecucaoleitura
     })
     TIPO_NOTIFICACAO_FRM_EDITAR,
