@@ -21,7 +21,9 @@ public class GeradorIdentificacadorNotificacao implements IdentifierGenerator {
             //* O operador {& Long.MAX_VALUE} é usado para **zerar o bit de sinal**
             //* (bit 63) do valor retornado por {@code getMostSignificantBits()}.
             //* Isso garante que o número sempre seja positivo, mesmo quando o bit mais a esquerda estiver ligado (o que tornaria o long negativo).
-
+            if (notificacao.getCodigoSeloComunicacao() != null) {
+                return Long.valueOf(notificacao.getCodigoSeloComunicacao()) & Long.MAX_VALUE;
+            }
             return UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
 
         } catch (Throwable t) {

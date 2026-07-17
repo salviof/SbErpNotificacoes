@@ -8,12 +8,9 @@ import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMSta
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import javax.annotation.Generated;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -71,6 +68,12 @@ public class StatusNotificacao extends EntidadeORMStatus {
 
     public void setStatusEnum(FabStatusNotificacao statusEnum) {
         this.statusEnum = statusEnum;
+
+    }
+
+    @Override
+    public FabStatusNotificacao getStatusEnum() {
+        return (FabStatusNotificacao) super.getStatusEnum(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
 }

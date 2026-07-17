@@ -12,6 +12,7 @@ import br.org.carameloCode.erp.modulo.notificacao.api.model.notificacaosb.CPNoti
 import br.org.carameloCode.erp.modulo.notificacao.controller.ModuloNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.DialogoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.DialogoNotificacaoUsrToUsr;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.GeradorIdentificacadorNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoSB;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.NotificacaoUsrParaUsr;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura;
@@ -59,12 +60,8 @@ public class NotificaNotificacaoPadraoimpl extends RepositorioLinkEntidadesGener
             notificacao.setTipoEntidade(UtilCRCReflexaoObjeto.getClassExtraindoProxy(pObjeto.getClass().getSimpleName()).getSimpleName());
             notificacao.setCodigoEntidadeRelacionada(String.valueOf(pObjeto.getId()));
         }
-
-        ItfRespostaAcaoDoSistema resposta = ModuloNotificacao.notificacaoRegistrar(notificacao);
-        if (!resposta.isSucesso()) {
-            throw new ErroGerandoNotificacao(resposta.getMensagens().get(0).getMenssagem());
-        }
-        return (NotificacaoSB) resposta.getRetorno();
+        notificacao.setCodigoSeloComunicacao(String.valueOf(new GeradorIdentificacadorNotificacao().generate(null, notificacao)));
+        return notificacao;
     }
 
     @Override

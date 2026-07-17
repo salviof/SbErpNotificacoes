@@ -4,7 +4,9 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao;
 
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.FabStatusNotificacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComunicacaoTransient;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabStatusComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.ItensGenericos.basico.UsuarioAplicacaoEmExecucao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
@@ -22,6 +24,23 @@ public class DialogoNotificacao extends ComunicacaoTransient {
 
         setAssunto(pNotificacao.getAssunto());
         setMensagem(pNotificacao.getConteudoHtml());
+        switch (pNotificacao.getStatus().getStatusEnum()) {
+            case RASCUNHO:
+                // setStatusComunicacao(FabStatusComunicacao.SELADO);
+                break;
+            case REGISTRADA:
+            case ENVIADA:
+            case ENTREGUE:
+                setStatusComunicacao(FabStatusComunicacao.ENVIADO);
+                break;
+            case LIDA:
+            case ENCERRADA_SEM_CONFIRMACAO:
+                setStatusComunicacao(FabStatusComunicacao.RESPONDIDO);
+                break;
+            default:
+                throw new AssertionError(pNotificacao.getStatus().getStatusEnum().name());
+
+        }
 
     }
 
