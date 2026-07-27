@@ -87,6 +87,17 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
     private String nomeFabricaGatilhoAcaoEnviada;
 
+    @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
+    private String nomeFabricaFormNtfPersonalizada;
+
+    @InfoCampo(label = "Gatilho após confirmação de entrega", descricao = "Solicita que o sistema dispare outra notificação, assim que uma notificação tiver uma confirmação de ENTREGA (antes de ser lida)",
+            somenteLeitura = false,
+            caminhoParaLista = "acaoesGatilhoDisponiveis")
+    @InfoCampoValorLogico(nomeCalculo = "Ação gatilho Personalizado", somenteLeitura = false)
+    @InfoCampoValidadorLogico(descricao = "Precisa ser do mesmo tipo da entidade")
+    @Transient
+    private AcaoDoSistema acaoRespostaPersonalizada;
+
     @InfoCampo(label = "Gatilho após confirmação de entrega", descricao = "Solicita que o sistema dispare outra notificação, assim que uma notificação tiver uma confirmação de ENTREGA (antes de ser lida)",
             somenteLeitura = false,
             caminhoParaLista = "acaoesGatilhoDisponiveis")

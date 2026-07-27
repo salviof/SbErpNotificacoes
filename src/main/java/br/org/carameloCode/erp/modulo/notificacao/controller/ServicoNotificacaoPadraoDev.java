@@ -16,6 +16,7 @@ import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItffabricaCanalComuni
 import com.super_bits.modulosSB.SBCore.modulos.objetos.dialogo.resposta.RespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoServicoComunicacao;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -83,6 +84,12 @@ public class ServicoNotificacaoPadraoDev extends
     @Override
     public List<ComoDialogoEntrePessoas> getMsgColaboradorAguarandoMinhaResposta() {
         return getArmazenamento().getMensagemAguardandoMinhaResposta(CarameloCode.getUsuarioLogado(), ERPTipoCanalComunicacao.INTRANET_MENU);
+    }
+
+    @Override
+    public boolean agendarNovoDisparo(String codigoSeloComunicacao, Date pDataAgendamento) {
+        CarameloCode.getServicoMensagemFireForget().enviarMsgAlertaAoUsuario("Agenda de novo disparo não foi implementado em " + this.getClass().getSimpleName());
+        return false;
     }
 
 }

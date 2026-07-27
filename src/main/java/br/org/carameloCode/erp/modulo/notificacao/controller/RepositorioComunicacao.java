@@ -29,25 +29,8 @@ public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
     @Override
     protected Map<String, ComoDialogo> getComunicacoesAtivas() {
         Map<String, ComoDialogo> comunicacoesAtivas = super.getComunicacoesAtivas();
-        ItfERPNotificacao servicoNotificacao = CarameloCode.getServicoERP(ERPNotificacoes.NOTIFICACAO_PADRAO);
         if (comunicacoesAtivas.isEmpty()) {
-            EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
-            try {
-                ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(NotificacaoSB.class, em);
-                consulta.addCondicaoManyToOneIgualA(CPNotificacaoSB.status, FabStatusNotificacao.ENVIADA.getRegistro());
-                List<NotificacaoSB> notificacoes = consulta.gerarResultados();
-
-                for (NotificacaoSB ntf : notificacoes) {
-                    try {
-                        comunicacoesAtivas.put(ntf.getCodigoSeloComunicacao(), servicoNotificacao.gerarDialogoByNotificacao(ntf));
-                    } catch (ErroGerandoDialogo ex) {
-                        SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha criando notificação inválida", ex);
-                    }
-
-                }
-            } finally {
-                UtilSBPersistencia.fecharEM(em);
-            }
+            atualizarNotificacoesAtivas();
         }
         return super.getComunicacoesAtivas();
     }
@@ -115,6 +98,32 @@ public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
     public boolean registrarDialogoAtivo(ComoDialogo pComunicacao) {
 
         return super.registrarDialogoAtivo(pComunicacao);
+    }
+
+    @Override
+    public boolean atualizarNotificacoesAtivas() {
+        Map<String, ComoDialogo> comunicacoesAtivas = super.getComunicacoesAtivas();
+        ItfERPNotificacao servicoNotificacao = CarameloCode.getServicoERP(ERPNotificacoes.NOTIFICACAO_PADRAO);
+        EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
+        try {
+            ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(NotificacaoSB.class, em);
+            consulta.addCondicaoManyToOneIgualA(CPNotificacaoSB.status, FabStatusNotificacao.ENVIADA.getRegistro());
+            List<NotificacaoSB> notificacoes = consulta.gerarResultados();
+
+            for (NotificacaoSB ntf : notificacoes) {
+                try {
+                    comunicacoesAtivas.put(ntf.getCodigoSeloComunicacao(), servicoNotificacao.gerarDialogoByNotificacao(ntf));
+                } catch (ErroGerandoDialogo ex) {
+                    SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha criando notificação inválida", ex);
+                    return false;
+                }
+
+            }
+            return true;
+        } finally {
+            UtilSBPersistencia.fecharEM(em);
+        }
+
     }
 
 }

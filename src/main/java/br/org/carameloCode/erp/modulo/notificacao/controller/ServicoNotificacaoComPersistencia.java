@@ -17,6 +17,7 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.UtilGeral.MapaAcoesSistema;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexaoObjeto;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringGerador;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicaoAbstrato;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
@@ -26,6 +27,7 @@ import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItffabricaCanalComuni
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -162,7 +164,13 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
                     try {
                         List<NotificacaoSB> notificacoes = ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().gerarNotificacoes(tipo, entidadeRelacionda);
                         List<ComoDialogo> dialogos = new ArrayList<>();
-                        notificacoes.stream().map(ntf -> ntf.getDialogo()).forEach(dialogos::add);
+                        for (NotificacaoSB ntf : notificacoes) {
+                            ItfRespostaAcaoDoSistema resp = ModuloNotificacao.notificacaoRegistrar(ntf);
+                            if (resp.isSucesso()) {
+                                dialogos.add(ntf.getDialogo());
+                            }
+                        }
+
                         return dialogos;
                     } catch (ErroGerandoNotificacao ex) {
                         CarameloCode.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha gerando notificação", ex);
@@ -175,6 +183,17 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
         }
         return null;
 
+    }
+
+    @Override
+    public boolean agendarNovoDisparo(String codigoSeloComunicacao, Date pDataAgendamento) {
+        //se for de usuário para usuário avisar que foi prostergada
+        //criar um agendamento para um novo disparo
+
+        ComoDialogo dialogo = getArmazenamento().getDialogoAtivoByCodigoSelo(codigoSeloComunicacao);
+        //  ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().
+        // ModuloNotificacao.notificacaoEnviar(pNotificacao);
+        return false;
     }
 
 }
