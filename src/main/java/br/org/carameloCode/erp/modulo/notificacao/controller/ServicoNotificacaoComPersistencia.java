@@ -15,6 +15,7 @@ import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.UtilGeral.MapaAcoesSistema;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexaoObjeto;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringGerador;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
@@ -26,6 +27,8 @@ import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfRespostaComunicaca
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItffabricaCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.servicosCore.EncGestaoRespostaPersonalizada;
+import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroRegistrandoDialogo;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -67,29 +70,50 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
     }
 
     @Override
-    public boolean responderComunicacao(String pCodigoSeloComunicacao, ItfRespostaComunicacao pResposta, final ERPTipoCanalComunicacao pCanal) {
+    public boolean responderComunicacao(String pCodigoSeloComunicacao, ItfRespostaComunicacao pResposta, final ERPTipoCanalComunicacao pCanal) throws EncGestaoRespostaPersonalizada {
 
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
         try {
 
-            ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(NotificacaoSB.class, em);
-            consulta.addcondicaoCampoIgualA(CPNotificacaoSB.codigoselocomunicacao, pCodigoSeloComunicacao);
-            NotificacaoSB ntf = consulta.getPrimeiroRegistro();
-            if (ntf != null) {
-                if (ntf.getId() != null) {
-                    Optional<LogDisparoNotificacao> pesquisadisparo = ntf.getDisparos().stream()
-                            .filter(dp -> dp.getTipoTransporte().equals(pCanal)).findFirst();
-                    if (pesquisadisparo.isPresent()) {
-                        LogDisparoNotificacao disparo = pesquisadisparo.get();
-                        return ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().registrarReciboLeitura(disparo.getCodigoRegistroEnvio(), UtilCRCStringGerador.getStringRandomicaUUID());
+            if (pResposta.getComunicacao().isUmaComunicacaoPersonalizada()) {
+                if (pResposta.getTipoResposta().isRespostasPosiva()) {
+
+                    //TODO, onde busco a url de resolução?
+                    if (pResposta.getComunicacao().getUrlRespostaPersonalizada() == null) {
+                        CarameloCode.getServicoMensagemFireForget().enviarMsgAlertaAoUsuario("Página de resolução não definida");
                     }
+
+                    CarameloCode.getServicoComunicacao().getArmazenamento().removerBloqueioDeTelaDoDialogo(pResposta.getComunicacao().getCodigoSelo());
+                    throw new EncGestaoRespostaPersonalizada(pResposta.getComunicacao().getUrlRespostaPersonalizada());
+                    //UtilSBWP_JSFTools.executarJavaScript("window.top.location.href='" + getRespostaSelecionada().getComunicacao().getUrlRespostaPersonalizada() + "';");
+                    //UtilSBWP_JSFTools.vaParaPagina(getRespostaSelecionada().getComunicacao().getUrlRespostaPersonalizada());
+                } else {
+                    CarameloCode.getServicoComunicacao().agendarNovoDisparo(pResposta.getComunicacao().getCodigoSelo(), UtilCRCDataHora.incrementaHoras(new Date(), 24));
+                    return super.responderComunicacao(pCodigoSeloComunicacao, pResposta, pCanal);
                 }
+
             } else {
 
-                return getArmazenamento().removerDialogoAtivo(pCodigoSeloComunicacao);
+                ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(NotificacaoSB.class, em);
+                consulta.addcondicaoCampoIgualA(CPNotificacaoSB.codigoselocomunicacao, pCodigoSeloComunicacao);
+                NotificacaoSB ntf = consulta.getPrimeiroRegistro();
+                if (ntf != null) {
+                    if (ntf.getId() != null) {
+                        Optional<LogDisparoNotificacao> pesquisadisparo = ntf.getDisparos().stream()
+                                .filter(dp -> dp.getTipoTransporte().equals(pCanal)).findFirst();
+                        if (pesquisadisparo.isPresent()) {
+                            LogDisparoNotificacao disparo = pesquisadisparo.get();
+                            return ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().registrarReciboLeitura(disparo.getCodigoRegistroEnvio(), UtilCRCStringGerador.getStringRandomicaUUID());
+                        }
+                    }
+
+                    return super.responderComunicacao(pCodigoSeloComunicacao, pResposta, pCanal);
+                }
+
+                return super.responderComunicacao(pCodigoSeloComunicacao, pResposta, pCanal);
             }
-            return true;
         } finally {
+
             UtilSBPersistencia.fecharEM(em);
         }
 
@@ -97,7 +121,8 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
 
     @Override
     public List<ComoDialogo> getNotificacoesAtivasMenu() {
-        return getArmazenamento().getDialogos(CarameloCode.getServicoSessao().getSessaoAtual().getUsuario(), ERPTipoCanalComunicacao.INTRANET_MENU);
+        //Pega qualquer notificação idependente do canal, o menu sempre mostra todas!
+        return getArmazenamento().getDialogos(CarameloCode.getServicoSessao().getSessaoAtual().getUsuario(), null);
     }
 
     @Override
@@ -136,7 +161,7 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
     }
 
     @Override
-    public List<ComoDialogo> dispararNotificacaoAcaoSucesso(ComoAcaoDoSistema pAcao, ComoEntidadeSimples pEntidadeRetorno) {
+    public List<ComoDialogo> dispararNotificacaoAcaoSucesso(ComoAcaoDoSistema pAcao, ComoEntidadeSimples pEntidadeRetorno) throws ErroRegistrandoDialogo {
 
         if (gatilhosDeNotificacao == null) {
             atualizarGatilhosDeNotificacaoPorAcao();
@@ -147,6 +172,7 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
         }
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
         try {
+            boolean houveramFalhas = false;
             ComoEntidadeSimples entidadeRelacionda = null;
 
             List<TipoNotificacao> tiposNTF = gatilhosDeNotificacao.get(pAcao.getEnumAcaoDoSistema().getNomeUnico());
@@ -168,29 +194,38 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
                             ItfRespostaAcaoDoSistema resp = ModuloNotificacao.notificacaoRegistrar(ntf);
                             if (resp.isSucesso()) {
                                 dialogos.add(ntf.getDialogo());
+                            } else {
+                                houveramFalhas = true;
                             }
                         }
-
+                        if (houveramFalhas) {
+                            throw new ErroGerandoNotificacao("Houveram erros gerando notificação ");
+                        }
                         return dialogos;
                     } catch (ErroGerandoNotificacao ex) {
                         CarameloCode.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha gerando notificação", ex);
+                        houveramFalhas = true;
                     }
                 }
 
             }
+
         } finally {
             UtilSBPersistencia.fecharEM(em);
         }
+
         return null;
 
     }
 
     @Override
-    public boolean agendarNovoDisparo(String codigoSeloComunicacao, Date pDataAgendamento) {
+    public boolean agendarNovoDisparo(String codigoSeloComunicacao, Date pDataAgendamento
+    ) {
         //se for de usuário para usuário avisar que foi prostergada
         //criar um agendamento para um novo disparo
 
         ComoDialogo dialogo = getArmazenamento().getDialogoAtivoByCodigoSelo(codigoSeloComunicacao);
+        CarameloCode.getServicoMensagemFireForget().enviarMsgAlertaAoUsuario("Serviço de agendamento de mensagem não implementado");
         //  ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().
         // ModuloNotificacao.notificacaoEnviar(pNotificacao);
         return false;

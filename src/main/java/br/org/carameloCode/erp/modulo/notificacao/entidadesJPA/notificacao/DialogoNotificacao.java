@@ -4,12 +4,18 @@
  */
 package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao;
 
-import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.statusNotificacao.FabStatusNotificacao;
+import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
+import com.super_bits.modulosSB.SBCore.UtilGeral.MapaAcoesSistema;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComunicacaoTransient;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabStatusComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.ItensGenericos.basico.UsuarioAplicacaoEmExecucao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.EntidadeSimples;
 
 /**
  *
@@ -19,8 +25,26 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 public class DialogoNotificacao extends ComunicacaoTransient {
 
     public DialogoNotificacao(NotificacaoSB pNotificacao) {
+
         super(new UsuarioAplicacaoEmExecucao(), pNotificacao.getUsuario(),
-                FabTipoComunicacao.NOTIFICAR.getRegistro());
+                pNotificacao.getTipoNotificacao().getNomeFabricaAcaoRespostaPersonalizada() == null
+                ? FabTipoComunicacao.NOTIFICAR.getRegistro()
+                : FabTipoComunicacao.PERSONALIZADA.getRegistro()
+        );
+
+        setUmaComunicacaoPersonalizada(pNotificacao.getTipoNotificacao().getNomeFabricaAcaoRespostaPersonalizada() != null);
+        String url;
+
+        if (isUmaComunicacaoPersonalizada()) {
+            ComoAcaoDoSistema acao = MapaAcoesSistema.getAcaoDoSistemaByNomeUnico(pNotificacao.getTipoNotificacao().getNomeFabricaAcaoRespostaPersonalizada());
+            if (pNotificacao.getTipoNotificacao().getNomeEntidadeReferencia() != null) {
+                EntidadeSimplesORM entidade = (EntidadeSimplesORM) UtilSBPersistencia.getRegistroByID(MapaObjetosProjetoAtual.getClasseDoObjetoByNome(pNotificacao.getTipoNotificacao().getNomeEntidadeReferencia()), Long.valueOf(pNotificacao.getCodigoEntidadeRelacionada()));
+                url = CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(acao.getEnumAcaoDoSistema(), entidade);
+            } else {
+                url = CarameloCode.getServicoVisualizacao().getEndrRemotoFormulario(acao.getEnumAcaoDoSistema());
+            }
+            setUrlRespostaPersonalizada(url);
+        }
 
         setAssunto(pNotificacao.getAssunto());
         setMensagem(pNotificacao.getConteudoHtml());

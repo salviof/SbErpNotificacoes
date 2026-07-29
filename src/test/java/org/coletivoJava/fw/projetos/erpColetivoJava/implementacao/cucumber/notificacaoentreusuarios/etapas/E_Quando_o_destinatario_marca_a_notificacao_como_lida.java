@@ -4,9 +4,12 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogoEntrePessoas;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItfRespostaComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.servicosCore.EncGestaoRespostaPersonalizada;
 import org.coletivoJava.fw.projetos.erpColetivoJava.api.cucumber.notificacaoentreusuarios.EtapasNotificacaoEntreUsuarios;
 import cucumber.api.java.pt.Quando;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class E_Quando_o_destinatario_marca_a_notificacao_como_lida {
 
@@ -16,7 +19,11 @@ public class E_Quando_o_destinatario_marca_a_notificacao_como_lida {
         List<ComoDialogoEntrePessoas> mensgens = CarameloCode.getServicoComunicacao().getMsgColaboradorAguarandoMinhaResposta();
         ComoDialogoEntrePessoas dialogo = mensgens.get(0);
         ItfRespostaComunicacao respostaPositiva = dialogo.getRepostasPossiveis().stream().filter(rp -> rp.getTipoResposta().isRespostasPosiva()).findFirst().get();
-        CarameloCode.getServicoComunicacao().responderComunicacao(dialogo.getCodigoSelo(),
-                respostaPositiva, ERPTipoCanalComunicacao.INTRANET_MENU);
+        try {
+            CarameloCode.getServicoComunicacao().responderComunicacao(dialogo.getCodigoSelo(),
+                    respostaPositiva, ERPTipoCanalComunicacao.INTRANET_MENU);
+        } catch (EncGestaoRespostaPersonalizada ex) {
+            Logger.getLogger(E_Quando_o_destinatario_marca_a_notificacao_como_lida.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

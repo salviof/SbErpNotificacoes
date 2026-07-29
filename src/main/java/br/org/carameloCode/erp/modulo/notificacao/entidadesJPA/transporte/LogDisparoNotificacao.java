@@ -5,13 +5,17 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.Notif
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.entrega.ReciboEntrega;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import java.util.Date;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -28,6 +32,8 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @InfoObjetoSB(tags = "Disparo de Notificação", plural = "Disparos")
+@DiscriminatorColumn(name = "tipoEntidade")
+@EntityListeners(ListenerEntidadePadrao.class)
 public class LogDisparoNotificacao extends EntidadeSimplesORM {
 
     @Id
@@ -60,6 +66,9 @@ public class LogDisparoNotificacao extends EntidadeSimplesORM {
 
     @OneToOne(targetEntity = ReciboLeitura.class, mappedBy = "disparo", cascade = CascadeType.ALL, optional = true)
     private ReciboLeitura reciboLeitura;
+
+    @Column(nullable = false, updatable = false, insertable = false)
+    private String tipoEntidade;
 
     public LogDisparoNotificacao() {
         System.out.println("");

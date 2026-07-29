@@ -16,8 +16,11 @@ import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ItffabricaCanalComuni
 import com.super_bits.modulosSB.SBCore.modulos.objetos.dialogo.resposta.RespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoServicoComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.servicosCore.EncGestaoRespostaPersonalizada;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -76,7 +79,11 @@ public class ServicoNotificacaoPadraoDev extends
         if (JOptionPane.showConfirmDialog(null, pDialogo.getMensagem(),
                 "Deseja continuar?", JOptionPane.YES_OPTION) == 0) {
 
-            return responderComunicacao(pDialogo.getCodigoSelo(), new RespostaComunicacao(pDialogo, FabTipoRespostaComunicacao.ENTENDIDO.getRegistro()), ERPTipoCanalComunicacao.INTRANET_BLOQUEIO_TELA);
+            try {
+                return responderComunicacao(pDialogo.getCodigoSelo(), new RespostaComunicacao(pDialogo, FabTipoRespostaComunicacao.ENTENDIDO.getRegistro()), ERPTipoCanalComunicacao.INTRANET_BLOQUEIO_TELA);
+            } catch (EncGestaoRespostaPersonalizada ex) {
+                return UTILSBCoreDesktopApp.exibirDialogo(pDialogo).getTipoResposta().isRespostasPosiva();
+            }
         }
         return false;
     }

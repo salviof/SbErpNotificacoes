@@ -20,6 +20,8 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.T
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.FabLogDisparoComunicacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.ProgDisparoNotificacao;
+import br.org.coletivojava.fw.utils.agendador.UtilSBAgendadorTarefas;
 import com.super_bits.modulos.SBAcessosModel.controller.resposta.RespostaComGestaoEMRegraDeNegocioPadrao;
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.dao.ControllerAbstratoSBPersistencia;
@@ -35,8 +37,11 @@ import java.util.Date;
 import java.util.List;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroAcessandoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroRegistrandoDialogo;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -321,6 +326,60 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
             @Override
             public void regraDeNegocio() throws ErroRegraDeNegocio {
                 atualizarEntidade(pTipoNotificacao, true);
+            }
+
+        };
+    }
+
+    @InfoAcaoNotificacao(acao = FabAcaoNotificacaoPadraoSB.DISPAROS_CTR_PROGRAMAR)
+    public static synchronized ItfRespostaAcaoDoSistema tipoNotificacaoSalvar(ProgDisparoNotificacao pDisparoProgramado) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pDisparoProgramado), new NotificacaoSB()) {
+            @Override
+            public void executarAcoesFinais() throws ErroEmBancoDeDados {
+                super.executarAcoesFinais(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+            }
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+
+                if (pDisparoProgramado.getDataHoraProgramada() == null) {
+                    throw new ErroRegraDeNegocio("Informe a data de disparo");
+                }
+                ProgDisparoNotificacao programacao = atualizarEntidade(pDisparoProgramado, true);
+
+                UtilSBAgendadorTarefas.agendarTarefa(FabAcaoNotificacaoPadraoSB.DISPAROS_CTR_DISPARAR_PROGRAMADO, pDisparoProgramado.getDataHoraProgramada(), programacao);
+            }
+
+        };
+    }
+
+    @InfoAcaoNotificacao(acao = FabAcaoNotificacaoPadraoSB.DISPAROS_CTR_DISPARAR_PROGRAMADO)
+    public static synchronized ItfRespostaAcaoDoSistema disparoProgramadoEnviar(ProgDisparoNotificacao pDisparoProgramado) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(pDisparoProgramado), new NotificacaoSB()) {
+            @Override
+            public void executarAcoesFinais() throws ErroEmBancoDeDados {
+                super.executarAcoesFinais();
+            }
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                atualizarEntidade(pDisparoProgramado, true);
+
+                try {
+                    String codigoEnvio = SBCore.getServicoComunicacao().dispararComunicacao(pDisparoProgramado.getNotificacao().getDialogo(), pDisparoProgramado.getTipoTransporte());
+
+                    if (codigoEnvio != null) {
+
+                        pDisparoProgramado.setCodigoRegistroEnvio(codigoEnvio);
+                        pDisparoProgramado.setReciboEntrega(new ReciboEntrega());
+                        pDisparoProgramado.getReciboEntrega().setDisparo(pDisparoProgramado);
+                        pDisparoProgramado.getReciboEntrega().setCodigoEntrega(codigoEnvio);
+                        //Ao adicionar em um persistencebag, com transação ativa, o disparo será persistido no banco de dados
+                    }
+                    atualizarEntidade(pDisparoProgramado);
+                } catch (ErroAcessandoCanalComunicacao ex) {
+
+                }
             }
 
         };

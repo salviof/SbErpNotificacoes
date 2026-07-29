@@ -8,12 +8,12 @@ import com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.UtilGeral.MapaAcoesSistema;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 
-@ValorLogicoTipoNotificacao(calculo = ValoresLogicosTipoNotificacao.ACAOAUTOEXECUCAOENTREGA)
-public class ValorLogicoTipoNotificacaoAcaoAutoExecucaoEntrega
+@ValorLogicoTipoNotificacao(calculo = ValoresLogicosTipoNotificacao.ACAORESPOSTAPERSONALIZADA)
+public class ValorLogicoTipoNotificacaoAcaoRespostaPersonalizada
         extends
         ValorLogicoCalculoGenerico {
 
-    public ValorLogicoTipoNotificacaoAcaoAutoExecucaoEntrega(
+    public ValorLogicoTipoNotificacaoAcaoRespostaPersonalizada(
             ItfCampoInstanciado pCampo) {
         super(pCampo);
     }
@@ -25,10 +25,10 @@ public class ValorLogicoTipoNotificacaoAcaoAutoExecucaoEntrega
 
         }
 
-        if (getTipoNotificacao().getNomeFabricaGatilhoAcaoEntrega() != null && !getTipoNotificacao().getNomeFabricaGatilhoAcaoEntrega().isEmpty()) {
-            getTipoNotificacao().setAcaoGatilhoNotificacao((AcaoDoSistema) MapaAcoesSistema.getAcaoDoSistemaByNomeUnico(getTipoNotificacao().getNomeFabricaGatilhoAcaoEntrega()));
+        if (getTipoNotificacao().getNomeFabricaAcaoRespostaPersonalizada() != null && !getTipoNotificacao().getNomeFabricaAcaoRespostaPersonalizada().isEmpty()) {
+            getTipoNotificacao().setAcaoGatilhoNotificacao((AcaoDoSistema) MapaAcoesSistema.getAcaoDoSistemaByNomeUnico(getTipoNotificacao().getNomeFabricaAcaoRespostaPersonalizada()));
         }
-        return getTipoNotificacao().getAcaoAutoExecucaoEntrega();
+        return getTipoNotificacao().getAcaoRespostaPersonalizada();
     }
 
     public TipoNotificacao getTipoNotificacao() {

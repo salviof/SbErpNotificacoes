@@ -2,6 +2,7 @@ package br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao;
 
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.estrategiaNotificacao.FabTipoEstrategiaMidiaNotificacao;
 import com.super_bits.modulos.SBAcessosModel.model.acoes.AcaoDoSistema;
+import com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdDuploControleIncremental;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMNormal;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
 import com.super_bits.modulosSB.SBCore.modulos.erp.FabTipoAgenteOrganizacao;
@@ -29,17 +30,17 @@ import javax.persistence.Transient;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.hibernate.annotations.GenericGenerator;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ItfEntidadeExtensivelMultiplasSequencias;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoTipoComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoTipoRespostaComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
+import org.coletivojava.fw.utilCoreBase.UtilCRCComunicacao;
 
-/**
- *
- * @author salvio
- */
 @Entity
 @InfoObjetoSB(tags = {"Tipo de Notificação"}, plural = "Tipos de Notificação ", icone = "fa fa-bullhorn")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoEntidade")
 @EntityListeners(ListenerEntidadePadrao.class)
-public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExtensivelMultiplasSequencias, ComoModeloDocumento {
+public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExtensivelMultiplasSequencias, ComoModeloDocumento, ComoTipoComunicacao {
 
     @Id
     @GenericGenerator(
@@ -49,7 +50,11 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     private Long id;
 
     @Column(nullable = false, updatable = false, insertable = false)
+
     private String tipoEntidade;
+
+    @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA)
+    private FabTipoComunicacao fabTipoComunicacao = FabTipoComunicacao.NOTIFICAR;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, somenteLeitura = false)
     @InfoCampoValidadorLogico()
@@ -67,8 +72,7 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     @InfoCampo(label = "Gatilho de Notificação", descricao = "Solicita que o sistema ative a notificação, toda vez que a ação escolhida seja executada COM SUCESSO. Ex: Ao salvar um novo cliente, notifique o gerente",
             somenteLeitura = false,
             tipo = FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA,
-            caminhoParaLista = "acaoesGatilhoDisponiveis"
-    )
+            caminhoParaLista = "acaoesGatilhoDisponiveis")
     @InfoCampoValidadorLogico()
     @InfoCampoValorLogico(nomeCalculo = "Ação gatilho notificação", somenteLeitura = false)
     @Transient
@@ -88,7 +92,7 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     private String nomeFabricaGatilhoAcaoEnviada;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES)
-    private String nomeFabricaFormNtfPersonalizada;
+    private String nomeFabricaAcaoRespostaPersonalizada;
 
     @InfoCampo(label = "Gatilho após confirmação de entrega", descricao = "Solicita que o sistema dispare outra notificação, assim que uma notificação tiver uma confirmação de ENTREGA (antes de ser lida)",
             somenteLeitura = false,
@@ -525,6 +529,55 @@ public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExt
     public void setCaminhoUsuarioDestinatario(String caminhoUsuarioDestinatario) {
 
         this.caminhoUsuarioDestinatario = caminhoUsuarioDestinatario;
+    }
+
+    public String getNomeFabricaAcaoRespostaPersonalizada() {
+        return nomeFabricaAcaoRespostaPersonalizada;
+    }
+
+    public void setNomeFabricaAcaoRespostaPersonalizada(String nomeFabricaAcaoRespostaPersonalizada) {
+        this.nomeFabricaAcaoRespostaPersonalizada = nomeFabricaAcaoRespostaPersonalizada;
+    }
+
+    public AcaoDoSistema getAcaoRespostaPersonalizada() {
+        return acaoRespostaPersonalizada;
+    }
+
+    public void setAcaoRespostaPersonalizada(AcaoDoSistema acaoRespostaPersonalizada) {
+        this.acaoRespostaPersonalizada = acaoRespostaPersonalizada;
+    }
+
+    @Override
+    public FabTipoComunicacao getFabTipoComunicacao() {
+        return fabTipoComunicacao;
+    }
+
+    @Override
+    public String getMensagemModeloPredefinida() {
+        return getConteudoHTML();
+    }
+
+    @Override
+    public String getAssuntoModeloPredefinido() {
+        return getAssunto();
+    }
+
+    @Override
+    public void setMensagemPersonalizada(String pMensagemPersonalizada) {
+        setConteudoHTML(conteudoHTML);
+    }
+
+    @Override
+    public List<ComoTipoRespostaComunicacao> getTipoRespostasPossiveis() {
+        return UtilCRCComunicacao.getTipoRespostas(fabTipoComunicacao);
+    }
+
+    @Override
+    public String getIcone() {
+        if (fabTipoComunicacao == null) {
+            return "fa fa-question";
+        }
+        return fabTipoComunicacao.getRegistro().getIcone();
     }
 
 }

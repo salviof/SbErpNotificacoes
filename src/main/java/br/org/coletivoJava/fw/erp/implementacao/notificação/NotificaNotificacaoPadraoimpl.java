@@ -56,12 +56,42 @@ public class NotificaNotificacaoPadraoimpl extends RepositorioLinkEntidadesGener
         notificacao.setTipoNotificacao(pTipoNoticacao);
         notificacao.setUsuario((UsuarioSB) pUsuario);
         notificacao.setStatus(FabStatusNotificacao.REGISTRADA.getRegistro());
+
         if (pObjeto != null) {
             notificacao.setTipoEntidade(UtilCRCReflexaoObjeto.getClassExtraindoProxy(pObjeto.getClass().getSimpleName()).getSimpleName());
             notificacao.setCodigoEntidadeRelacionada(String.valueOf(pObjeto.getId()));
         }
         notificacao.setCodigoSeloComunicacao(String.valueOf(new GeradorIdentificacadorNotificacao().generate(null, notificacao)));
         return notificacao;
+    }
+
+    @Override
+    public NotificacaoUsrParaUsr gerarNotificacaoEntreUsuarios(TipoNotificacaoUsrComUsr pTipoNotfiiccao, ComoUsuario pUsuarioRemetente, ComoUsuario pUsuarioDestinatario, ComoEntidadeSimples pObjeto) throws ErroGerandoNotificacao {
+
+        if (pTipoNotfiiccao == null) {
+            throw new ErroGerandoNotificacao("Tipo de notifcação não pode ser nula");
+        }
+        if (pUsuarioDestinatario == null) {
+            throw new ErroGerandoNotificacao("usuário destinatário  não pode ser nulo");
+        }
+        if (pUsuarioRemetente == null) {
+            throw new ErroGerandoNotificacao("usuário pUsuarioRemetente  não pode ser nulo");
+        }
+
+        NotificacaoUsrParaUsr notificacao = new NotificacaoUsrParaUsr();
+        notificacao.setTipoNotificacao(pTipoNotfiiccao);
+        notificacao.setUsuario((UsuarioSB) pUsuarioDestinatario);
+        notificacao.setUsuarioAguardandoResposta((UsuarioSB) pUsuarioRemetente);
+        notificacao.setStatus(FabStatusNotificacao.REGISTRADA.getRegistro());
+
+        if (pObjeto != null) {
+            notificacao.setTipoEntidade(UtilCRCReflexaoObjeto.getClassExtraindoProxy(pObjeto.getClass().getSimpleName()).getSimpleName());
+            notificacao.setCodigoEntidadeRelacionada(String.valueOf(pObjeto.getId()));
+        }
+        notificacao.setCodigoSeloComunicacao(String.valueOf(new GeradorIdentificacadorNotificacao().generate(null, notificacao)));
+
+        return notificacao;
+
     }
 
     @Override
@@ -237,38 +267,6 @@ public class NotificaNotificacaoPadraoimpl extends RepositorioLinkEntidadesGener
             UtilSBPersistencia.fecharEM(em);
         }
         return false;
-
-    }
-
-    @Override
-    public NotificacaoUsrParaUsr gerarNotificacaoEntreUsuarios(TipoNotificacaoUsrComUsr pTipoNotfiiccao, ComoUsuario pUsuarioRemetente, ComoUsuario pUsuarioDestinatario, ComoEntidadeSimples pObjeto) throws ErroGerandoNotificacao {
-
-        if (pTipoNotfiiccao == null) {
-            throw new ErroGerandoNotificacao("Tipo de notifcação não pode ser nula");
-        }
-        if (pUsuarioDestinatario == null) {
-            throw new ErroGerandoNotificacao("usuário destinatário  não pode ser nulo");
-        }
-        if (pUsuarioRemetente == null) {
-            throw new ErroGerandoNotificacao("usuário pUsuarioRemetente  não pode ser nulo");
-        }
-
-        NotificacaoUsrParaUsr notificacao = new NotificacaoUsrParaUsr();
-        notificacao.setTipoNotificacao(pTipoNotfiiccao);
-        notificacao.setUsuario((UsuarioSB) pUsuarioDestinatario);
-        notificacao.setUsuarioAguardandoResposta((UsuarioSB) pUsuarioRemetente);
-        notificacao.setStatus(FabStatusNotificacao.REGISTRADA.getRegistro());
-
-        if (pObjeto != null) {
-            notificacao.setTipoEntidade(UtilCRCReflexaoObjeto.getClassExtraindoProxy(pObjeto.getClass().getSimpleName()).getSimpleName());
-            notificacao.setCodigoEntidadeRelacionada(String.valueOf(pObjeto.getId()));
-        }
-
-        ItfRespostaAcaoDoSistema resposta = ModuloNotificacao.notificacaoRegistrar(notificacao);
-        if (!resposta.isSucesso()) {
-            throw new ErroGerandoNotificacao(resposta.getMensagens().get(0).getMenssagem());
-        }
-        return (NotificacaoUsrParaUsr) resposta.getRetorno();
 
     }
 

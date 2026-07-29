@@ -6,6 +6,7 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.Notif
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.recibos.leitura.ReciboLeitura;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDisparoNotificacao;
+import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.ProgDisparoNotificacao;
 import com.super_bits.modulos.SBAcessosModel.controller.FabModulosSistemaSB;
 import com.super_bits.modulos.SBAcessosModel.fabricas.ComoFabricaDeAcoesPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.estadoFormulario.FabEstadoFormulario;
@@ -77,6 +78,10 @@ public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia
     @InfoTipoAcaoGestaoEntidade(entidade = LogDisparoNotificacao.class, icone = "fa fa-paper-plane-o")
     DISPAROS_MB_GESTAO,
     DISPAROS_FRM_LISTAR_POR_TIPO_CANAL,
+    @InfoTipoAcaoController(icone = "fa fa-paper-plane-o", entidade = ProgDisparoNotificacao.class)
+    DISPAROS_CTR_PROGRAMAR,
+    @InfoTipoAcaoController(icone = "fa fa-paper-plane-o", entidade = ProgDisparoNotificacao.class)
+    DISPAROS_CTR_DISPARAR_PROGRAMADO,
     @InfoTipoAcaoGestaoEntidade(entidade = ReciboLeitura.class, icone = "fa fa-paper-plane-o")
     RECIBO_MB_GESTAO,
     @InfoTipoAcaoController(icone = "fa fa-paper-plane-o")
