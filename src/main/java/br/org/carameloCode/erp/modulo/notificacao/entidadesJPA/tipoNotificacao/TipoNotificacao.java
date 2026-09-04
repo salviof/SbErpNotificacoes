@@ -31,6 +31,7 @@ import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.hibernate.annotations.GenericGenerator;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ItfEntidadeExtensivelMultiplasSequencias;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoTipoComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoTipoNotificacaoRegistrada;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoTipoRespostaComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import org.coletivojava.fw.utilCoreBase.UtilCRCComunicacao;
@@ -40,7 +41,7 @@ import org.coletivojava.fw.utilCoreBase.UtilCRCComunicacao;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoEntidade")
 @EntityListeners(ListenerEntidadePadrao.class)
-public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExtensivelMultiplasSequencias, ComoModeloDocumento, ComoTipoComunicacao {
+public class TipoNotificacao extends EntidadeORMNormal implements ItfEntidadeExtensivelMultiplasSequencias, ComoModeloDocumento, ComoTipoNotificacaoRegistrada {
 
     @Id
     @GenericGenerator(

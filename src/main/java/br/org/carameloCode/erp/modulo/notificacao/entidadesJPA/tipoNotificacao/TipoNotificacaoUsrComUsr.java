@@ -72,7 +72,7 @@ public class TipoNotificacaoUsrComUsr extends TipoNotificacao {
 
     @Override
     public Long getIdSequenciaInicial() {
-        return 1l;
+        return 1000000l;
     }
 
     @Override

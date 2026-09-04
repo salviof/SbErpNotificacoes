@@ -75,6 +75,8 @@ public enum FabAcaoNotificacaoPadraoSB implements ComoFabricaDeAcoesPersistencia
     TIPO_NOTIFICACAO_FRM_VISUALIZAR,
     @InfoTipoAcaoController(icone = "fa fa-paper-plane-o")
     TIPO_NOTIFICACAO_CTR_SALVAR_MERGE,
+    @InfoTipoAcaoController(icone = "fa-solid fa-rotate-left", nomeAcao = "Restaurar Configuração de Fábrica", exibirModalConfirmacao = true, fraseComunicação = "Deseja Excluir o conteúdo atual para [nome], restaurando as configurações de fábrica? ")
+    TIPO_NOTIFICACAO_CTR_RESTAURAR_CONFIGURACAO_DE_FABRICA,
     @InfoTipoAcaoGestaoEntidade(entidade = LogDisparoNotificacao.class, icone = "fa fa-paper-plane-o")
     DISPAROS_MB_GESTAO,
     DISPAROS_FRM_LISTAR_POR_TIPO_CANAL,

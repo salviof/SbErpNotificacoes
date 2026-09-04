@@ -10,6 +10,7 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.Notif
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacao;
 import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.tipoNotificacao.TipoNotificacaoUsrComUsr;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import java.util.List;
@@ -39,5 +40,9 @@ public interface ItfERPNotificacao {
     public boolean registrarReciboLeitura(String codigoDisparo, String codigoLeitura);
 
     public boolean registrarReciboLeitura(ERPTipoCanalComunicacao pTipoCanal, String pCodigoNotificacao, String codigoLeitura);
+
+    public ComoFabrica getFabricaPorTipoNotificacao(TipoNotificacao pTipo);
+
+    public void registrarFabrica(Class<? extends ComoFabrica> pFabrica);
 
 }

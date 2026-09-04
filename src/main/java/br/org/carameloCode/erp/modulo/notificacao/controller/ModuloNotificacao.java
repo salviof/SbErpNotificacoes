@@ -37,11 +37,9 @@ import java.util.Date;
 import java.util.List;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroAcessandoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ErroRegistrandoDialogo;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -310,6 +308,27 @@ public class ModuloNotificacao extends ControllerAbstratoSBPersistencia {
                 } else if (ntf.getStatus() != null && ntf.getStatus().equals(FabStatusNotificacao.LIDA.getRegistro())) {
                     CarameloCode.getServicoComunicacao().getArmazenamento().removerDialogoAtivo(pNotificao.getCodigoSeloComunicacao());
                 }
+            }
+
+        };
+    }
+
+    @InfoAcaoNotificacao(acao = FabAcaoNotificacaoPadraoSB.TIPO_NOTIFICACAO_CTR_RESTAURAR_CONFIGURACAO_DE_FABRICA)
+    public static synchronized ItfRespostaAcaoDoSistema tipoNotificacaoRestaurar(TipoNotificacao pTipoNotificacao) {
+        return new RespostaComGestaoEMRegraDeNegocioPadrao(getNovaRespostaAutorizaChecaNulo(new NotificacaoSB()), new NotificacaoSB()) {
+            @Override
+            public void executarAcoesFinais() throws ErroEmBancoDeDados {
+                super.executarAcoesFinais(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+            }
+
+            @Override
+            public void regraDeNegocio() throws ErroRegraDeNegocio {
+                TipoNotificacao tipo = loadEntidade(pTipoNotificacao);
+                ComoFabrica fabrica = ERPNotificacoes.NOTIFICACAO_PADRAO.getImplementacaoDoContexto().getFabricaPorTipoNotificacao(tipo);
+                TipoNotificacao tipoFabrica = (TipoNotificacao) fabrica.getRegistro();
+                tipo.setConteudoHTML(tipoFabrica.getConteudoHTML());
+                tipo.setAssunto(tipoFabrica.getAssunto());
+                atualizarEntidade(tipo);
             }
 
         };

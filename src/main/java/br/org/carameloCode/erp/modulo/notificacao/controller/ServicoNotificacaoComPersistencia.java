@@ -122,11 +122,13 @@ public abstract class ServicoNotificacaoComPersistencia extends CentralComunicao
     @Override
     public List<ComoDialogo> getNotificacoesAtivasMenu() {
         //Pega qualquer notificação idependente do canal, o menu sempre mostra todas!
+
         return getArmazenamento().getDialogos(CarameloCode.getServicoSessao().getSessaoAtual().getUsuario(), null);
     }
 
     @Override
     public List<ComoDialogo> getNotificacoesAtivasBloqueioTela() {
+
         return getArmazenamento().getDialogos(CarameloCode.getServicoSessao().getSessaoAtual().getUsuario(), ERPTipoCanalComunicacao.INTRANET_BLOQUEIO_TELA);
     }
 

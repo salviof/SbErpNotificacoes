@@ -12,6 +12,7 @@ import br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.transporte.LogDis
 import com.super_bits.modulos.SBAcessosModel.model.UsuarioSB;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoNotificacaoRegistrada;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
@@ -47,7 +48,7 @@ import org.hibernate.annotations.GenericGenerator;
 @EntityListeners(ListenerEntidadePadrao.class)
 @GenericGenerator(name = "geradorIdNotificacao",
         strategy = "br.org.carameloCode.erp.modulo.notificacao.entidadesJPA.notificacao.GeradorIdentificacadorNotificacao")
-public class NotificacaoSB extends EntidadeSimplesORM {
+public class NotificacaoSB extends EntidadeSimplesORM implements ComoNotificacaoRegistrada {
 
     @Id
     @GeneratedValue(generator = "geradorIdNotificacao")
@@ -156,6 +157,7 @@ public class NotificacaoSB extends EntidadeSimplesORM {
         this.usuario = usuario;
     }
 
+    @Override
     public TipoNotificacao getTipoNotificacao() {
         return tipoNotificacao;
     }

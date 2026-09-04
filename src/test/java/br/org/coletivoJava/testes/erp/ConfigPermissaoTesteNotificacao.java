@@ -8,6 +8,7 @@ import br.org.carameloCode.erp.modulo.notificacao.controller.ModuloNotificacao;
 import com.super_bits.modulos.SBAcessosModel.ConfigPermissoesAcessoModelAbstrato;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ErroDadosDeContatoUsuarioNaoEncontrado;
 import com.super_bits.modulosSB.SBCore.modulos.erp.FabTipoAgenteOrganizacao;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.ItensGenericos.basico.UsuarioAnonimo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoGrupoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.contato.ComoContatoHumano;
@@ -38,6 +39,13 @@ public class ConfigPermissaoTesteNotificacao extends ConfigPermissoesAcessoModel
     @Override
     public ComoContatoHumano getContatoDoUsuario(ComoUsuario pUsuairo) throws ErroDadosDeContatoUsuarioNaoEncontrado {
         return null;
+    }
+
+    @Override
+    public ComoUsuario gerarUsuarioConvidado(String pNome, String pTelefone) {
+        UsuarioAnonimo usrAnonomi = new UsuarioAnonimo();
+        usrAnonomi.setNome(pNome);
+        return usrAnonomi;
     }
 
 }

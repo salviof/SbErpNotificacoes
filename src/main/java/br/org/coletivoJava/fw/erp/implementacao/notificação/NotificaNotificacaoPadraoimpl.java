@@ -26,12 +26,12 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexaoEntidade;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexaoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
 import com.super_bits.modulosSB.SBCore.modulos.erp.FabTipoAgenteOrganizacao;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import java.util.ArrayList;
@@ -42,6 +42,8 @@ import javax.persistence.EntityManager;
 @NotificaNotificacaoPadrao
 public class NotificaNotificacaoPadraoimpl extends RepositorioLinkEntidadesGenerico
         implements ItfERPNotificacao {
+
+    private List<Class<? extends ComoFabrica>> fabricas = new ArrayList<>();
 
     @Override
     public NotificacaoSB gerarNotificacao(TipoNotificacao pTipoNoticacao, ComoUsuario pUsuario, ComoEntidadeSimples pObjeto) throws ErroGerandoNotificacao {
@@ -268,6 +270,28 @@ public class NotificaNotificacaoPadraoimpl extends RepositorioLinkEntidadesGener
         }
         return false;
 
+    }
+
+    @Override
+    public ComoFabrica getFabricaPorTipoNotificacao(TipoNotificacao pTipo) {
+        for (Class<? extends ComoFabrica> fab : fabricas) {
+            for (ComoFabrica fabItem : fab.getEnumConstants()) {
+                ComoEntidadeSimples item = (ComoEntidadeSimples) fabItem.getRegistro();
+                if (item instanceof TipoNotificacao) {
+                    if (pTipo.getId() == item.getId()) {
+                        return fabItem;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void registrarFabrica(Class<? extends ComoFabrica> pFabrica) {
+        if (!fabricas.contains(pFabrica)) {
+            fabricas.add(pFabrica);
+        }
     }
 
 }

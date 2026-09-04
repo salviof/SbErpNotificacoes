@@ -14,9 +14,15 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ArmazenamentoComunicacaoTransient;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoDialogo;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.ComoTipoComunicacao;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
@@ -120,6 +126,40 @@ public class RepositorioComunicacao extends ArmazenamentoComunicacaoTransient {
 
             }
             return true;
+        } finally {
+            UtilSBPersistencia.fecharEM(em);
+        }
+
+    }
+
+    @Override
+    public boolean isNotificacaoExiste(ComoTipoComunicacao pTipoNotificacao, ComoUsuario pUsuario, ComoEntidadeSimples pEntidade, ERPTipoCanalComunicacao... pCanais) {
+        EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
+
+        try {
+
+            List<NotificacaoSB> notificacoes = UtilSBPersistencia.getListaRegistrosByHQL(
+                    "SELECT ntf FROM " + NotificacaoSB.class.getSimpleName() + " ntf WHERE "
+                    + "ntf.tipoNotificacao.id = " + pTipoNotificacao.getId()
+                    + " AND ntf.codigoEntidadeRelacionada = '" + pEntidade.getId() + "'"
+                    + " AND ntf.usuario.id = " + pUsuario.getId(),
+                    -1,
+                    em
+            );
+
+            if (notificacoes == null || notificacoes.isEmpty()) {
+                return false;
+            } else {
+                if ((pCanais == null) || pCanais.length == 0) {
+                    return true;
+                }
+                Set<ERPTipoCanalComunicacao> canais = EnumSet.noneOf(ERPTipoCanalComunicacao.class);
+                Collections.addAll(canais, pCanais);
+                return notificacoes.stream()
+                        .anyMatch(ntf -> ntf.getDisparos().stream()
+                        .anyMatch(dsp -> canais.contains(dsp.getTipoTransporte())));
+            }
+
         } finally {
             UtilSBPersistencia.fecharEM(em);
         }
